@@ -1,0 +1,5 @@
+header {
+  /* grid-area: <name> | <row-start> / <column-start> / <row-end> / <column-end>; */
+  grid-area: header;
+  background-color: lightcoral;
+}

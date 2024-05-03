@@ -1,0 +1,24 @@
+.app {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-areas:
+    'header header header'
+    'contact work work'
+    'education work work'
+    'skills references references';
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr min-content;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Miscellaneous */
+/* Create separate style sheet as needed  */
+.cv_edit,
+.cv_submit {
+  position: absolute;
+  right: 0;
+}
