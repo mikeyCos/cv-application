@@ -13,18 +13,18 @@ export default function App() {
   const [isEditing, setIsEditing] = useState(false);
   const editHandler = () => setIsEditing(!isEditing);
   const buttonProps = isEditing
-    ? { type: 'submit', className: 'cv_submit', text: 'Submit CV' }
-    : { type: 'button', className: 'cv_edit', text: 'Edit CV' };
+    ? { type: 'submit', className: 'cv-submit', text: 'Submit CV' }
+    : { type: 'button', className: 'cv-edit', text: 'Edit CV' };
 
   return (
     <div className="app">
       <Button {...buttonProps} clickHandler={editHandler} />
       <Header isEditing={isEditing} />
-      {/* <Contact />
-      <Education />
-      <Skills />
-      <Work />
-      <References /> */}
+      <Contact isEditing={isEditing} />
+      <Education isEditing={isEditing} />
+      <Skills isEditing={isEditing} />
+      {/* <Work /> */}
+      {/* <References /> */}
     </div>
   );
 }

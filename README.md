@@ -156,8 +156,8 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
+- [x] Initiate a skeleton
+- [ ] Allow users to add and remove items in education, skills, work, and references sections.
 - [ ] Feature 3
     - [ ] Nested Feature
 

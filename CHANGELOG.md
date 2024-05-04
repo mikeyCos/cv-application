@@ -1,7 +1,12 @@
 # Changelog
 ---
-### 03 MAY 2024
+### 04 MAY 2024
 - 
+---
+### 03 MAY 2024
+- Commit before creating a branch.
+- Created `setInputEventHandler` utility module; accepts a `data` object, a `callback` function, and a `isDefault` boolean. Inputs `onChange` event is handled by the `callback` function.
+- User can add and remove skills.
 ---
 ### 02 MAY 2024
 - Created `setInputProps` utility module; returns an array of property objects for input elements. For example:

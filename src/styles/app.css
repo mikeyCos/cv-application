@@ -8,7 +8,7 @@
     'education work work'
     'skills references references';
   grid-template-columns: 1fr 2fr;
-  grid-template-rows: 1fr min-content;
+  /* grid-template-rows: 1fr min-content; */
 }
 
 ul {
@@ -17,8 +17,8 @@ ul {
 
 /* Miscellaneous */
 /* Create separate style sheet as needed  */
-.cv_edit,
-.cv_submit {
+.cv-edit,
+.cv-submit {
   position: absolute;
   right: 0;
 }

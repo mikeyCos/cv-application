@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Form from './Form';
 import concatenateNames from '../utilities/concatenateNames';
 import setInputProps from '../utilities/setInputProps';
+import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/header.css';
 
 export default function Header({ isEditing }) {
@@ -12,20 +13,13 @@ export default function Header({ isEditing }) {
   });
 
   const fullName = concatenateNames(headerData.firstName.value, headerData.lastName.value);
-
-  const onChangeHandler = (e) => {
-    setHeaderData({
-      ...headerData,
-      [e.target.name]: { ...headerData[e.target.name], value: e.target.value },
-    });
-  };
-
+  const onChangeHandler = setInputEventHandler(headerData, setHeaderData, true);
   const propsForInputs = isEditing && setInputProps(headerData);
-
+  console.log(propsForInputs);
   return (
     <header>
       {isEditing ? (
-        <Form inputs={propsForInputs} onChangeHandler={onChangeHandler} />
+        <Form props={[{ inputs: propsForInputs, onChangeHandler: onChangeHandler }]} />
       ) : (
         <div>
           <h1>{fullName}</h1>

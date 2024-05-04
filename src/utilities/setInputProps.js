@@ -9,7 +9,7 @@ export default function setInputProps(data, options) {
       ...info,
       label: keyToSentenceCase(key),
       name: key,
-      type: 'text',
+      type: !info.type ? 'text' : info.type,
       ...(options && options[key]),
     };
   });
