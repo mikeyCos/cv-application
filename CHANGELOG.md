@@ -1,7 +1,13 @@
 # Changelog
 ---
-### 04 MAY 2024
+### 05 MAY 2024
 - 
+---
+### 04 MAY 2024
+- Created two properties for the `formProps` object, `default` is for the inputs adding new data and `set` is for existing data that can change or be deleted.
+- Set up boilerplate event handlers in a variety of components; they do not currently update any state.
+- Renamed `setInputProps` to `createInputsProps` and rewrote function body to map through entries instead of keys.
+- Created `form-input` branch.
 ---
 ### 03 MAY 2024
 - Commit before creating a branch.

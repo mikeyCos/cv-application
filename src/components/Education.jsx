@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Form from './Form';
-import setInputProps from '../utilities/setInputProps';
+import createInputsProps from '../utilities/createInputsProps';
 import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/education.css';
 
-let nextId = 1;
+let nextId = 8;
 export default function Education({ isEditing }) {
   const [educationData, setEducationData] = useState({
     school: {
@@ -15,102 +15,120 @@ export default function Education({ isEditing }) {
     },
     schools: [
       {
-        id: 0,
-        major: { id: 0, value: 'major placeholder' },
-        schoolName: { id: 1, value: 'School name' },
-        dateFrom: { id: 2, value: 'date from' },
-        dateTo: { id: 3, value: 'date to' },
+        major: { id: 4, value: 'major placeholder' },
+        schoolName: { id: 5, value: 'School name' },
+        dateFrom: { id: 6, value: 'date from' },
+        dateTo: { id: 7, value: 'date to' },
       },
     ],
   });
 
-  const onChangeHandler = setInputEventHandler(educationData, setEducationData, true);
-  const onChangeHandlerUpdate = setInputEventHandler(educationData, (id, value) => {
-    const newSchools = Object.values(educationData.schools).map((school) => {
-      return school.id === +id ? { id: +id, value } : school;
-    });
+  const onChangeHandler = (e) => {
+    console.log(`onChangeHandler firing!`);
+  };
 
-    setEducationData({
-      ...setEducationData,
-      schools: newSchools,
-    });
-  });
+  const changeEducationHandler = (e) => {
+    console.log(`changeEducationHandler firing!`);
+  };
 
-  const addEducationHandler = () => {
-    setEducationData({
-      school: {
-        ...educationData.school,
-        value: '',
-      },
-      schools: [...educationData.schools, { id: nextId++, value: setEducationData.school.value }],
-    });
+  const addEducationHandler = (e) => {
+    console.log(`addEducationHandler firing!`);
   };
 
   const deleteEducationHandler = (e) => {
-    setEducationData({
-      ...educationData,
-      schools: [
-        ...educationData.skills.filter((school) => school.id !== +e.currentTarget.dataset.id),
-      ],
-    });
+    console.log(`deleteEducationHandler firing!`);
   };
 
-  const propsForInputs = isEditing && setInputProps({ school: { ...educationData.school } });
-  const propsForSchools =
-    isEditing &&
-    setInputProps(
-      Object.values(educationData.schools).reduce((accumulator, currentValue) => {
-        return {
-          ...accumulator,
-          [`school${currentValue.id}`]: { ...currentValue },
-        };
-      }, {}),
-    );
+  const formProps = isEditing && {
+    default: {
+      inputs: [
+        ...createInputsProps(
+          { ...educationData.school },
+          {
+            onChangeHandler,
+          },
+        ),
+      ],
+      button: {
+        text: 'Add',
+        className: 'btn education-add',
+        clickHandler: addEducationHandler,
+      },
+    },
+    set: {
+      inputs: [
+        ...createInputsProps(...educationData.schools, {
+          className: 'visually-hidden',
+          name: 'school',
+          onChangeHandler: changeEducationHandler,
+        }),
+      ],
+      button: {
+        text: 'Delete',
+        className: 'btn education-delete',
+        clickHandler: deleteEducationHandler,
+      },
+    },
+  };
 
-  console.log(propsForInputs);
-  console.log(propsForSchools);
+  console.log(formProps);
 
   return (
     <section className="education">
       <div>
         <h2>Education</h2>
-        {isEditing ? (
-          <Form
-            props={[
-              {
-                id: 0,
-                inputs: propsForInputs,
-                onChangeHandler: onChangeHandler,
-                button: {
-                  text: 'Add',
-                  className: 'education-add',
-                  clickHandler: addEducationHandler,
-                },
-              },
-              {
-                id: 1,
-                inputs: propsForSchools,
-                onChangeHandler: onChangeHandlerUpdate,
-                button: {
-                  text: 'Delete',
-                  className: 'education-delete',
-                  clickHandler: deleteEducationHandler,
-                },
-              },
-            ]}
-          />
-        ) : (
-          <div>
-            {/* <article>
-              <h3>{educationData.major.value}</h3>
-              <h4>{educationData.schoolName.value}</h4>
-              <h4>
-                {educationData.dateFrom.value} - {educationData.dateTo.value}
-              </h4>
-            </article> */}
-          </div>
-        )}
+        {isEditing ? <Form className="form_education" props={formProps} /> : <div>Loading...</div>}
       </div>
     </section>
   );
 }
+
+/*
+<form>
+  <ul>
+    <li class='form-item'>
+      <label>Major:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>School name:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Date From:</label>
+      <input type='month'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Date To:</label>
+      <input type='month'></input>
+    </li>
+    <button>Add</button>
+  </ul>
+
+  <ul>
+    <li class='form-item'>
+      <label>Major0:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>School name0:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Date From0:</label>
+      <input type='month'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Date To0:</label>
+      <input type='month'></input>
+    </li>
+    <button>Delete</button>
+  </ul>
+</form>
+*/

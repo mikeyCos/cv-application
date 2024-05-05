@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Form from './Form';
 import concatenateNames from '../utilities/concatenateNames';
-import setInputProps from '../utilities/setInputProps';
+import createInputsProps from '../utilities/createInputsProps';
 import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/header.css';
 
@@ -12,20 +12,41 @@ export default function Header({ isEditing }) {
     jobTitle: { id: 2, value: '' },
   });
 
-  const fullName = concatenateNames(headerData.firstName.value, headerData.lastName.value);
-  const onChangeHandler = setInputEventHandler(headerData, setHeaderData, true);
-  const propsForInputs = isEditing && setInputProps(headerData);
-  console.log(propsForInputs);
+  const onChangeHandler = (e) => {
+    console.log('onChangeHandler firing!');
+    console.log(e.currentTarget);
+  };
+
+  const formProps = isEditing && {
+    default: {
+      inputs: [...createInputsProps(headerData, { onChangeHandler })],
+    },
+  };
+
   return (
     <header>
-      {isEditing ? (
-        <Form props={[{ inputs: propsForInputs, onChangeHandler: onChangeHandler }]} />
-      ) : (
-        <div>
-          <h1>{fullName}</h1>
-          <h3>{headerData.jobTitle.value}</h3>
-        </div>
-      )}
+      {isEditing ? <Form className="form_header" props={formProps} /> : <div>Loading...</div>}
     </header>
   );
 }
+
+/*
+<form>
+  <ul>
+    <li class='form-item'>
+      <label>First name:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>last name:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Job title:</label>
+      <input type='text'></input>
+    </li>
+  </ul>
+</form>
+*/

@@ -23,8 +23,8 @@ export default function App() {
       <Contact isEditing={isEditing} />
       <Education isEditing={isEditing} />
       <Skills isEditing={isEditing} />
-      {/* <Work /> */}
-      {/* <References /> */}
+      <Work isEditing={isEditing} />
+      {/* <References isEditing={isEditing} /> */}
     </div>
   );
 }

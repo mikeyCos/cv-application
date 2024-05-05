@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Form from './Form';
-import setInputProps from '../utilities/setInputProps';
+import createInputsProps from '../utilities/createInputsProps';
 import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/contact.css';
 
@@ -11,15 +11,23 @@ export default function Contact({ isEditing }) {
     address: { id: 2, value: '' },
   });
 
-  const onChangeHandler = setInputEventHandler(contactData, setContactData, true);
-  const propsForInputs = isEditing && setInputProps(contactData);
+  const onChangeHandler = (e) => {
+    console.log('onChangeHandler firing!');
+    console.log(e.currentTarget);
+  };
+
+  const formProps = isEditing && {
+    default: {
+      inputs: [...createInputsProps(contactData, { onChangeHandler })],
+    },
+  };
 
   return (
     <section className="contact">
       <div>
         <h2>Contact</h2>
         {isEditing ? (
-          <Form props={[{ inputs: propsForInputs, onChangeHandler: onChangeHandler }]} />
+          <Form className="form_contact" props={formProps} />
         ) : (
           <ul>
             <li>Email: {contactData.email.value}</li>
