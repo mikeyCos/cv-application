@@ -1,7 +1,13 @@
 # Changelog
 ---
-### 05 MAY 2024
+### 06 MAY 2024
 - 
+---
+### 05 MAY 2024
+- Rewrote `createInputsProps` to reduce and call itself if the `root` parameter is an array.
+- If `set` property exists from `props` parameter for the `Form` component, the `set` will be mapped over to create one or more `FormItemList` components.
+- Disabled the majority of sections.
+- Disabled the `setInputEventHandler`.
 ---
 ### 04 MAY 2024
 - Created two properties for the `formProps` object, `default` is for the inputs adding new data and `set` is for existing data that can change or be deleted.

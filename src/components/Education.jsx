@@ -8,27 +8,42 @@ let nextId = 8;
 export default function Education({ isEditing }) {
   const [educationData, setEducationData] = useState({
     school: {
-      major: { id: 0, value: '' },
-      schoolName: { id: 1, value: '' },
-      dateFrom: { id: 2, value: '', type: 'month' },
-      dateTo: { id: 3, value: '', type: 'month' },
+      // id: 0,
+      major: { value: '' },
+      schoolName: { value: '' },
+      dateFrom: { value: '', type: 'month' },
+      dateTo: { value: '', type: 'month' },
     },
     schools: [
       {
-        major: { id: 4, value: 'major placeholder' },
-        schoolName: { id: 5, value: 'School name' },
-        dateFrom: { id: 6, value: 'date from' },
-        dateTo: { id: 7, value: 'date to' },
+        id: 0,
+        major: { value: 'major placeholder 0' },
+        schoolName: { value: 'School name 0' },
+        dateFrom: { value: 'date from', type: 'month' },
+        dateTo: { value: 'date to', type: 'month' },
+      },
+      {
+        id: 1,
+        major: { value: 'major placeholder 1' },
+        schoolName: { value: 'School name 1' },
+        dateFrom: { value: 'date from', type: 'month' },
+        dateTo: { value: 'date to', type: 'month' },
       },
     ],
   });
 
   const onChangeHandler = (e) => {
-    console.log(`onChangeHandler firing!`);
+    const key = e.currentTarget.id;
+    const value = e.currentTarget.value;
+    setEducationData({
+      ...educationData,
+      school: { ...educationData.school, [key]: { ...educationData.school[key], value } },
+    });
   };
 
   const changeEducationHandler = (e) => {
     console.log(`changeEducationHandler firing!`);
+    console.log(e.currentTarget);
   };
 
   const addEducationHandler = (e) => {
@@ -42,12 +57,9 @@ export default function Education({ isEditing }) {
   const formProps = isEditing && {
     default: {
       inputs: [
-        ...createInputsProps(
-          { ...educationData.school },
-          {
-            onChangeHandler,
-          },
-        ),
+        ...createInputsProps(educationData.school, {
+          onChangeHandler,
+        }),
       ],
       button: {
         text: 'Add',
@@ -56,13 +68,18 @@ export default function Education({ isEditing }) {
       },
     },
     set: {
-      inputs: [
-        ...createInputsProps(...educationData.schools, {
-          className: 'visually-hidden',
-          name: 'school',
-          onChangeHandler: changeEducationHandler,
-        }),
-      ],
+      // inputs: [
+      //   ...createInputsProps(educationData.schools, {
+      //     className: 'visually-hidden',
+      //     name: 'school',
+      //     onChangeHandler: changeEducationHandler,
+      //   }),
+      // ],
+      inputs: createInputsProps(educationData.schools, {
+        className: 'visually-hidden',
+        name: 'school',
+        onChangeHandler: changeEducationHandler,
+      }),
       button: {
         text: 'Delete',
         className: 'btn education-delete',
@@ -126,6 +143,29 @@ export default function Education({ isEditing }) {
 
     <li class='form-item'>
       <label>Date To0:</label>
+      <input type='month'></input>
+    </li>
+    <button>Delete</button>
+  </ul>
+
+  <ul>
+    <li class='form-item'>
+      <label>Major1:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>School name1:</label>
+      <input type='text'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Date From1:</label>
+      <input type='month'></input>
+    </li>
+
+    <li class='form-item'>
+      <label>Date To1:</label>
       <input type='month'></input>
     </li>
     <button>Delete</button>

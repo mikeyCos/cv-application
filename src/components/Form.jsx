@@ -21,9 +21,10 @@ function FormItemList({ inputs, button }) {
   console.log(inputs);
   return (
     <ul>
-      {inputs.map((input) => {
+      {inputs.map((input, index) => {
         return (
-          <li key={input.id}>
+          <li key={index}>
+            {/* Is it safe to use index for key since the children of an ul will be static? */}
             <Input input={input} onChangeHandler={input.onChangeHandler} />
           </li>
         );
@@ -34,13 +35,14 @@ function FormItemList({ inputs, button }) {
 }
 
 export default function Form({ props, className }) {
-  console.log(props);
-  console.log(Object.entries(props));
+  const { default: defaultProps, set: setProps } = props;
   return (
     <form className={className}>
-      {Object.entries(props).map(([key, set]) => {
-        return <FormItemList key={key} inputs={set.inputs} button={set.button} />;
-      })}
+      <FormItemList inputs={defaultProps.inputs} button={defaultProps.button} />
+      {setProps &&
+        [...setProps.inputs].map((set) => {
+          return <FormItemList key={set.id} inputs={set.inputs} button={setProps.button} />;
+        })}
     </form>
   );
 }

@@ -19,10 +19,11 @@ export default function Header({ isEditing }) {
 
   const formProps = isEditing && {
     default: {
-      inputs: [...createInputsProps(headerData, { onChangeHandler })],
+      inputs: createInputsProps(headerData, { onChangeHandler }),
     },
   };
 
+  console.log(formProps);
   return (
     <header>
       {isEditing ? <Form className="form_header" props={formProps} /> : <div>Loading...</div>}
