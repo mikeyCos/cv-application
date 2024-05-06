@@ -18,7 +18,6 @@ function Input({ input, onChangeHandler }) {
 }
 
 function FormItemList({ inputs, button }) {
-  console.log(inputs);
   return (
     <ul>
       {inputs.map((input, index) => {
@@ -41,7 +40,13 @@ export default function Form({ props, className }) {
       <FormItemList inputs={defaultProps.inputs} button={defaultProps.button} />
       {setProps &&
         [...setProps.inputs].map((set) => {
-          return <FormItemList key={set.id} inputs={set.inputs} button={setProps.button} />;
+          return (
+            <FormItemList
+              key={set.id}
+              inputs={set.inputs}
+              button={{ id: set.id, ...setProps.button }}
+            />
+          );
         })}
     </form>
   );

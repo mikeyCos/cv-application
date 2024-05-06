@@ -18,7 +18,7 @@ export default function Contact({ isEditing }) {
 
   const formProps = isEditing && {
     default: {
-      inputs: [...createInputsProps(contactData, { onChangeHandler })],
+      inputs: createInputsProps(contactData, { onChangeHandler }),
     },
   };
 

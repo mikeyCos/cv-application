@@ -1,7 +1,8 @@
 # Changelog
 ---
 ### 06 MAY 2024
-- 
+- Re-enabled some sections.
+- Commit before creating another branch.
 ---
 ### 05 MAY 2024
 - Rewrote `createInputsProps` to reduce and call itself if the `root` parameter is an array.

@@ -48,19 +48,19 @@ export default function Education({ isEditing }) {
 
   const addEducationHandler = (e) => {
     console.log(`addEducationHandler firing!`);
+    console.log(e.currentTarget);
   };
 
   const deleteEducationHandler = (e) => {
     console.log(`deleteEducationHandler firing!`);
+    console.log(e.currentTarget);
   };
 
   const formProps = isEditing && {
     default: {
-      inputs: [
-        ...createInputsProps(educationData.school, {
-          onChangeHandler,
-        }),
-      ],
+      inputs: createInputsProps(educationData.school, {
+        onChangeHandler,
+      }),
       button: {
         text: 'Add',
         className: 'btn education-add',
@@ -68,13 +68,6 @@ export default function Education({ isEditing }) {
       },
     },
     set: {
-      // inputs: [
-      //   ...createInputsProps(educationData.schools, {
-      //     className: 'visually-hidden',
-      //     name: 'school',
-      //     onChangeHandler: changeEducationHandler,
-      //   }),
-      // ],
       inputs: createInputsProps(educationData.schools, {
         className: 'visually-hidden',
         name: 'school',

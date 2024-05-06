@@ -14,8 +14,10 @@ export default function Skills({ isEditing }) {
       value: '',
     },
     skills: [
-      { id: 1, value: 'test' },
-      { id: 2, value: 'test again' },
+      { id: 0, skill: { value: 'test' } },
+      { id: 1, skill: { value: 'test again' } },
+      // { id: 0, value: 'test' },
+      // { id: 1, value: 'test again' },
     ],
   });
 
@@ -39,39 +41,30 @@ export default function Skills({ isEditing }) {
 
   const formProps = isEditing && {
     default: {
-      inputs: [
-        ...createInputsProps(
-          { skill: { ...skillsData.skill } },
-          {
-            onChangeHandler,
-            button: {
-              text: 'Add',
-              className: 'btn skill-add',
-              clickHandler: addSkillHandler,
-            },
-          },
-        ),
-      ],
+      inputs: createInputsProps(skillsData.skill, {
+        onChangeHandler,
+      }),
+      button: {
+        text: 'Add',
+        className: 'btn skill-add',
+        clickHandler: addSkillHandler,
+      },
     },
-
     set: {
-      inputs: [
-        ...createInputsProps(
-          { ...skillsData.skills },
-          {
-            className: 'visually-hidden',
-            name: 'skill',
-            onChangeHandler: changeSkillHandler,
-            button: {
-              text: 'Delete',
-              className: 'btn skill-delete',
-              clickHandler: deleteSkillHandler,
-            },
-          },
-        ),
-      ],
+      inputs: createInputsProps(skillsData.skills, {
+        className: 'visually-hidden',
+        name: 'skill',
+        onChangeHandler: changeSkillHandler,
+      }),
+      button: {
+        text: 'Delete',
+        className: 'btn skill-delete',
+        clickHandler: deleteSkillHandler,
+      },
     },
   };
+
+  console.log(formProps);
 
   return (
     <section className="skills">

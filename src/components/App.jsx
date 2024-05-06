@@ -22,7 +22,7 @@ export default function App() {
       <Header isEditing={isEditing} />
       {/* <Contact isEditing={isEditing} /> */}
       <Education isEditing={isEditing} />
-      {/* <Skills isEditing={isEditing} /> */}
+      <Skills isEditing={isEditing} />
       {/* <Work isEditing={isEditing} /> */}
       {/* <References isEditing={isEditing} /> */}
     </div>
