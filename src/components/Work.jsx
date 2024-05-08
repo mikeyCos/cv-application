@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import Form from './Form';
-import createInputsProps from '../utilities/createInputsProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/work.css';
 
 let nextId = 1;
@@ -47,7 +44,6 @@ export default function Work({ isEditing }) {
   });
 
   const onChangeHandler = (e) => {
-    console.log('onChangeHandler firing!');
     const input = e.currentTarget;
     const value = input.value;
     const { id, key, prop } = { prop: input.name, ...input.dataset };
@@ -64,7 +60,6 @@ export default function Work({ isEditing }) {
   };
 
   const addWorkHandler = (e) => {
-    console.log(`addWorkHandler firing!`);
     const newWork = { ...workData.work, id: ++nextId };
     setWorkData({
       work: {
@@ -92,7 +87,6 @@ export default function Work({ isEditing }) {
   };
 
   const resetWorkHandler = () => {
-    console.log(`resetWorkHandler firing!`);
     setWorkData({
       work: {
         jobTitle: '',
@@ -143,15 +137,9 @@ export default function Work({ isEditing }) {
   };
 
   const addDescriptionHandler = (e) => {
-    console.log(`addDescriptionHandler firing!`);
-    console.log(e.currentTarget);
     const btn = e.currentTarget;
     const { workId, rootKey, key } = btn.dataset;
     const data = workData[rootKey];
-    console.log(rootKey);
-    console.log(key);
-    console.log(workId);
-    console.log(workData[rootKey]);
 
     setWorkData({
       ...workData,
@@ -161,6 +149,7 @@ export default function Work({ isEditing }) {
               return {
                 ...work,
                 nextId: ++work.nextId,
+                description: '',
                 descriptions: [...work.descriptions, { id: work.nextId, text: work.description }],
               };
             } else {
@@ -170,11 +159,12 @@ export default function Work({ isEditing }) {
         : {
             ...data,
             nextId: ++data.nextId,
+            description: '',
             descriptions: [...data.descriptions, { id: data.nextId, text: data.description }],
           },
     });
   };
-  console.log(workData);
+
   const deleteDescriptionHandler = (e) => {
     const btn = e.currentTarget;
     const { rootId, id, rootKey } = btn.dataset;
@@ -339,7 +329,7 @@ export default function Work({ isEditing }) {
                       <input
                         id={`dateFrom_${work.id}`}
                         value={work.dateFrom}
-                        type="text"
+                        type="month"
                         name="dateFrom"
                         onChange={onChangeHandler}
                         data-id={work.id}
@@ -419,7 +409,24 @@ export default function Work({ isEditing }) {
               })}
             </form>
           ) : (
-            <div>Loading...</div>
+            <>
+              {workData.works.map((work) => {
+                return (
+                  <article key={work.id}>
+                    <h3>{work.jobTitle}</h3>
+                    <h3>{work.companyName}</h3>
+                    <p>
+                      {work.dateFrom} - {work.dateTo}
+                    </p>
+                    <ul>
+                      {work.descriptions.map((description) => {
+                        <li key={description.id}>{description.text}</li>;
+                      })}
+                    </ul>
+                  </article>
+                );
+              })}
+            </>
           )}
         </div>
       </div>

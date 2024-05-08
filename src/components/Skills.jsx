@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import Form from './Form';
-import createInputsProps from '../utilities/createInputsProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/skills.css';
 // https://codesandbox.io/p/sandbox/react-dev-64n8l5?file=%2Fsrc%2FTaskList.js&utm_medium=sandpack
 // https://www.w3.org/WAI/tutorials/forms/labels/

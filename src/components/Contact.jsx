@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import Form from './Form';
-import createInputsProps from '../utilities/createInputsProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
@@ -63,9 +60,9 @@ export default function Contact({ isEditing }) {
           </form>
         ) : (
           <ul>
-            <li>Email: {contactData.email.value}</li>
-            <li>Phone: {contactData.phone.value}</li>
-            <li>Address: {contactData.address.value}</li>
+            <li>Email: {contactData.email}</li>
+            <li>Phone: {contactData.phone}</li>
+            <li>Address: {contactData.address}</li>
           </ul>
         )}
       </div>

@@ -1,5 +1,9 @@
 # Changelog
 ---
+### 08 MAY 2024
+- The `module-form` branch accepts inputs without form validation and renders appropriately; little to no props usage.
+- Sections involving an add button have the ability to edit and delete their children.
+---
 ### 07 MAY 2024
 - Job descriptions can be added and deleted; inputs are not cleared when job descriptions are added.
 - Added `nextId` property to work objects to create new id's when adding descriptions; no memoization used. 
