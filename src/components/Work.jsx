@@ -4,72 +4,198 @@ import createInputsProps from '../utilities/createInputsProps';
 import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/work.css';
 
+let nextId = 1;
 export default function Work({ isEditing }) {
   const [workData, setWorkData] = useState({
     work: {
-      jobTitle: { id: 0, value: '' },
-      companyName: { id: 1, value: '' },
-      dateFrom: { id: 2, value: '', type: 'month' },
-      dateTo: { id: 3, value: '', type: 'month' },
+      jobTitle: '',
+      companyName: '',
+      dateFrom: '',
+      dateTo: '',
+      description: '',
+      descriptions: [{ id: 0, text: 'TESTING' }],
+      nextId: 0,
     },
     works: [
       {
-        jobTitle: { id: 4, value: 'job title placeholder' },
-        companyName: { id: 5, value: 'Company name' },
-        dateFrom: { id: 6, value: 'date from' },
-        dateTo: { id: 7, value: 'date to' },
+        id: 0,
+        jobTitle: 'Unemployed',
+        companyName: 'Unemployment Inc.',
+        dateFrom: '',
+        dateTo: '',
+        description: '',
+        descriptions: [
+          { id: 0, text: 'Staring at walls.' },
+          { id: 1, text: 'Sleeping' },
+        ],
+        nextId: 1,
+      },
+      {
+        id: 1,
+        jobTitle: 'Lifeguard',
+        companyName: 'Lifeguard Inc.',
+        dateFrom: '',
+        dateTo: '',
+        description: '',
+        descriptions: [
+          { id: 0, text: 'Swimming' },
+          { id: 1, text: 'Monitors swimmers' },
+        ],
+        nextId: 1,
       },
     ],
   });
 
   const onChangeHandler = (e) => {
     console.log('onChangeHandler firing!');
-    console.log(e.currentTarget);
-  };
-
-  const changeWorkHandler = (e) => {
-    console.log(`changeWorkHandler is firing!`);
-    console.log(e.currentTarget);
+    const input = e.currentTarget;
+    const value = input.value;
+    const { id, key, prop } = { prop: input.name, ...input.dataset };
+    const data = workData[key];
+    const newData = Array.isArray(data)
+      ? data.map((item) => {
+          return item.id === +id ? { ...item, [prop]: value } : item;
+        })
+      : { ...data, [prop]: value };
+    setWorkData({
+      ...workData,
+      [key]: newData,
+    });
   };
 
   const addWorkHandler = (e) => {
     console.log(`addWorkHandler firing!`);
+    const newWork = { ...workData.work, id: ++nextId };
+    setWorkData({
+      work: {
+        jobTitle: '',
+        companyName: '',
+        dateFrom: '',
+        dateTo: '',
+        description: '',
+        descriptions: [],
+        nextId: 0,
+      },
+      works: [...workData.works, newWork],
+    });
   };
 
   const deleteWorkHandler = (e) => {
-    console.log(`deleteWorkHandler`);
+    const btn = e.currentTarget;
+    const { id } = btn.dataset;
+    setWorkData({
+      ...workData,
+      works: workData.works.filter((work) => {
+        return work.id !== +id && work;
+      }),
+    });
   };
 
-  const formProps = isEditing && {
-    default: {
-      inputs: [
-        ...createInputsProps(
-          { ...workData.work },
-          {
-            onChangeHandler,
+  const resetWorkHandler = () => {
+    console.log(`resetWorkHandler firing!`);
+    setWorkData({
+      work: {
+        jobTitle: '',
+        companyName: '',
+        dateFrom: '',
+        dateTo: '',
+        description: '',
+        descriptions: [],
+      },
+      works: [...workData.works],
+    });
+  };
+
+  const onChangeHandlerDescription = (e) => {
+    const input = e.currentTarget;
+    const value = input.value;
+    const { rootId, id, rootKey, key } = { ...input.dataset };
+    const data = workData[rootKey];
+
+    let newData;
+    if (Array.isArray(data)) {
+      // This is gross :(
+      newData = data.map((work) => {
+        if (work.id === +rootId) {
+          return {
+            ...work,
+            [key]: Array.isArray(work[key])
+              ? work[key].map((description) => {
+                  return description.id === +id ? { ...description, text: value } : description;
+                })
+              : value,
+          };
+        } else {
+          return work;
+        }
+      });
+    } else {
+      newData = {
+        ...data,
+        [key]: Array.isArray(data[key])
+          ? data[key].map((description) => {
+              return description.id === +id ? { ...description, text: value } : description;
+            })
+          : value,
+      };
+    }
+    setWorkData({ ...workData, [rootKey]: newData });
+  };
+
+  const addDescriptionHandler = (e) => {
+    console.log(`addDescriptionHandler firing!`);
+    console.log(e.currentTarget);
+    const btn = e.currentTarget;
+    const { workId, rootKey, key } = btn.dataset;
+    const data = workData[rootKey];
+    console.log(rootKey);
+    console.log(key);
+    console.log(workId);
+    console.log(workData[rootKey]);
+
+    setWorkData({
+      ...workData,
+      [rootKey]: Array.isArray(data)
+        ? data.map((work) => {
+            if (work.id === +workId) {
+              return {
+                ...work,
+                nextId: ++work.nextId,
+                descriptions: [...work.descriptions, { id: work.nextId, text: work.description }],
+              };
+            } else {
+              return work;
+            }
+          })
+        : {
+            ...data,
+            nextId: ++data.nextId,
+            descriptions: [...data.descriptions, { id: data.nextId, text: data.description }],
           },
-        ),
-      ],
-      button: {
-        text: 'Add',
-        className: 'btn education-add',
-        clickHandler: addWorkHandler,
-      },
-    },
-    set: {
-      inputs: [
-        ...createInputsProps(...workData.works, {
-          className: 'visually-hidden',
-          name: 'school',
-          onChangeHandler: changeWorkHandler,
-        }),
-      ],
-      button: {
-        text: 'Delete',
-        className: 'btn education-delete',
-        clickHandler: deleteWorkHandler,
-      },
-    },
+    });
+  };
+  console.log(workData);
+  const deleteDescriptionHandler = (e) => {
+    const btn = e.currentTarget;
+    const { rootId, id, rootKey } = btn.dataset;
+    const data = workData[rootKey];
+
+    setWorkData({
+      ...workData,
+      [rootKey]: Array.isArray(data)
+        ? data.map((work) =>
+            work.id === +rootId
+              ? {
+                  ...work,
+                  descriptions: work.descriptions.filter((description) => description.id !== +id),
+                }
+              : work,
+          )
+        : {
+            ...data,
+            descriptions: data.descriptions.filter((description) => description.id !== +id),
+          },
+    });
   };
 
   return (
@@ -77,36 +203,226 @@ export default function Work({ isEditing }) {
       <div>
         <h2>Work Experience</h2>
         <div>
-          {isEditing ? <Form className="form_work" props={formProps} /> : <div>Loading...</div>}
+          {isEditing ? (
+            <form>
+              <ul>
+                <li className="form-item">
+                  <label htmlFor="jobTitle">Job title:</label>
+                  <input
+                    id="jobTitle"
+                    value={workData.work.jobTitle}
+                    type="text"
+                    name="jobTitle"
+                    onChange={onChangeHandler}
+                    data-key="work"
+                  />
+                </li>
+                <li className="form-item">
+                  <label htmlFor="companyName">Company name:</label>
+                  <input
+                    id="companyName"
+                    value={workData.work.companyName}
+                    type="text"
+                    name="companyName"
+                    onChange={onChangeHandler}
+                    data-key="work"
+                  />
+                </li>
+                <li className="form-item">
+                  <label htmlFor="dateFrom">Date from:</label>
+                  <input
+                    id="dateFrom"
+                    value={workData.work.dateFrom}
+                    type="month"
+                    name="dateFrom"
+                    onChange={onChangeHandler}
+                    data-key="work"
+                  />
+                </li>
+                <li className="form-item">
+                  <label htmlFor="dateTo">Date to:</label>
+                  <input
+                    id="dateTo"
+                    value={workData.work.dateTo}
+                    type="month"
+                    name="dateTo"
+                    onChange={onChangeHandler}
+                    data-key="work"
+                  />
+                </li>
+                <li>
+                  <label htmlFor="description">Descriptions:</label>
+                  <input
+                    id="description"
+                    value={workData.work.description}
+                    type="text"
+                    name="description"
+                    onChange={onChangeHandlerDescription}
+                    data-root-key="work"
+                    data-key="description"
+                  />
+                  <button
+                    type="button"
+                    data-key="descriptions"
+                    data-root-key="work"
+                    onClick={addDescriptionHandler}
+                  >
+                    Add Description
+                  </button>
+                  {workData.work.descriptions.length > 0 && (
+                    <ul>
+                      {workData.work.descriptions.map((description) => {
+                        return (
+                          <li key={description.id}>
+                            <label htmlFor={`description_${description.id}`}></label>
+                            <input
+                              id={`description_${description.id}`}
+                              value={description.text}
+                              type="text"
+                              name="description"
+                              onChange={onChangeHandlerDescription}
+                              data-id={description.id}
+                              data-root-key="work"
+                              data-key="descriptions"
+                            />
+                            <button
+                              type="button"
+                              data-id={description.id}
+                              data-root-key="work"
+                              onClick={deleteDescriptionHandler}
+                            >
+                              Delete
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+                <button type="button" onClick={addWorkHandler}>
+                  Add
+                </button>
+                <button type="button" onClick={resetWorkHandler}>
+                  Reset
+                </button>
+              </ul>
+
+              {workData.works.map((work) => {
+                return (
+                  <ul key={work.id}>
+                    <li data-id={work.id} className="form-item">
+                      <label htmlFor={`jobTitle_${work.id}`}>Job title:</label>
+                      <input
+                        id={`jobTitle_${work.id}`}
+                        value={work.jobTitle}
+                        type="text"
+                        name="jobTitle"
+                        onChange={onChangeHandler}
+                        data-id={work.id}
+                        data-key="works"
+                      />
+                    </li>
+                    <li data-id={work.id} className="form-item">
+                      <label htmlFor={`companyName_${work.id}`}>Company name:</label>
+                      <input
+                        id={`companyName_${work.id}`}
+                        value={work.companyName}
+                        type="text"
+                        name="companyName"
+                        onChange={onChangeHandler}
+                        data-id={work.id}
+                        data-key="works"
+                      />
+                    </li>
+                    <li data-id={work.id} className="form-item">
+                      <label htmlFor={`dateFrom_${work.id}`}>Date from:</label>
+                      <input
+                        id={`dateFrom_${work.id}`}
+                        value={work.dateFrom}
+                        type="text"
+                        name="dateFrom"
+                        onChange={onChangeHandler}
+                        data-id={work.id}
+                        data-key="works"
+                      />
+                    </li>
+                    <li data-id={work.id} className="form-item">
+                      <label htmlFor={`dateTo_${work.id}`}>Date to:</label>
+                      <input
+                        id={`dateTo_${work.id}`}
+                        value={work.dateTo}
+                        type="month"
+                        name="dateTo"
+                        onChange={onChangeHandler}
+                        data-id={work.id}
+                        data-key="works"
+                      />
+                    </li>
+                    <li data-id={work.id} className="form-item">
+                      <label htmlFor={`description_${work.id}`}>Descriptions:</label>
+                      <input
+                        id={`description_${work.id}`}
+                        value={work.description}
+                        type="text"
+                        name="description"
+                        onChange={onChangeHandlerDescription}
+                        data-root-id={work.id}
+                        data-root-key="works"
+                        data-key="description"
+                      />
+                      <button
+                        type="button"
+                        data-key="descriptions"
+                        data-root-key="works"
+                        data-work-id={work.id}
+                        onClick={addDescriptionHandler}
+                      >
+                        Add Description
+                      </button>
+                      {work.descriptions.length > 0 && (
+                        <ul>
+                          {work.descriptions.map((description) => {
+                            return (
+                              <li key={description.id}>
+                                <label htmlFor={`description_${work.id}_${description.id}`}></label>
+                                <input
+                                  id={`description_${work.id}_${description.id}`}
+                                  value={description.text}
+                                  type="text"
+                                  name="description"
+                                  onChange={onChangeHandlerDescription}
+                                  data-root-id={work.id}
+                                  data-id={description.id}
+                                  data-root-key="works"
+                                  data-key="descriptions"
+                                />
+                                <button
+                                  type="button"
+                                  data-root-id={work.id}
+                                  data-id={description.id}
+                                  data-root-key="works"
+                                  onClick={deleteDescriptionHandler}
+                                >
+                                  Delete
+                                </button>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
+                    </li>
+                    <button type="button" data-id={work.id} onClick={deleteWorkHandler}>
+                      Delete
+                    </button>
+                  </ul>
+                );
+              })}
+            </form>
+          ) : (
+            <div>Loading...</div>
+          )}
         </div>
       </div>
     </section>
   );
 }
-
-/*
-<article>
-            <h3>Company Name</h3>
-            <h4>Date From - Date To</h4>
-            <ul>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-              <li>
-                Quaerat consequuntur possimus sapiente beatae accusantium, consequatur esse, ipsa
-                blanditiis, a minima fugit veritatis reprehenderit?
-              </li>
-              <li>Est, ratione distinctio aspernatur nulla accusamus dolores.</li>
-            </ul>
-          </article>
-          <article>
-            <h3>Company Name</h3>
-            <h4>Date From - Date To</h4>
-            <ul>
-              <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-              <li>
-                Quaerat consequuntur possimus sapiente beatae accusantium, consequatur esse, ipsa
-                blanditiis, a minima fugit veritatis reprehenderit?
-              </li>
-              <li>Est, ratione distinctio aspernatur nulla accusamus dolores.</li>
-            </ul>
-          </article>
-*/

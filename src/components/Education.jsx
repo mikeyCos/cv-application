@@ -1,167 +1,219 @@
 import { useState } from 'react';
-import Form from './Form';
-import createInputsProps from '../utilities/createInputsProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/education.css';
 
-let nextId = 8;
+let nextId = 1;
 export default function Education({ isEditing }) {
   const [educationData, setEducationData] = useState({
     school: {
-      // id: 0,
-      major: { value: '' },
-      schoolName: { value: '' },
-      dateFrom: { value: '', type: 'month' },
-      dateTo: { value: '', type: 'month' },
+      major: '',
+      schoolName: '',
+      dateFrom: '',
+      dateTo: '',
     },
     schools: [
       {
         id: 0,
-        major: { value: 'major placeholder 0' },
-        schoolName: { value: 'School name 0' },
-        dateFrom: { value: 'date from', type: 'month' },
-        dateTo: { value: 'date to', type: 'month' },
+        major: 'major placeholder 0',
+        schoolName: 'Hogwards',
+        dateFrom: 'Jan 2020',
+        dateTo: 'Feb 2024',
       },
       {
         id: 1,
-        major: { value: 'major placeholder 1' },
-        schoolName: { value: 'School name 1' },
-        dateFrom: { value: 'date from', type: 'month' },
-        dateTo: { value: 'date to', type: 'month' },
+        major: 'major placeholder 1',
+        schoolName: 'Helms Deep',
+        dateFrom: 'Mar 2024',
+        dateTo: 'Apr 2028',
       },
     ],
   });
 
   const onChangeHandler = (e) => {
-    const key = e.currentTarget.id;
-    const value = e.currentTarget.value;
+    const input = e.currentTarget;
+    const value = input.value;
+    const { id, key, prop } = { prop: input.name, ...input.dataset };
+    const data = educationData[key];
+    const newData = Array.isArray(data)
+      ? data.map((item) => {
+          return item.id === +id ? { ...item, [prop]: value } : item;
+        })
+      : { ...data, [prop]: value };
     setEducationData({
       ...educationData,
-      school: { ...educationData.school, [key]: { ...educationData.school[key], value } },
+      [key]: newData,
     });
   };
 
-  const changeEducationHandler = (e) => {
-    console.log(`changeEducationHandler firing!`);
-    console.log(e.currentTarget);
-  };
-
-  const addEducationHandler = (e) => {
-    console.log(`addEducationHandler firing!`);
-    console.log(e.currentTarget);
+  const addEducationHandler = () => {
+    const newSchool = { ...educationData.school, id: ++nextId };
+    setEducationData({
+      school: {
+        major: '',
+        schoolName: '',
+        dateFrom: '',
+        dateTo: '',
+      },
+      schools: [...educationData.schools, newSchool],
+    });
   };
 
   const deleteEducationHandler = (e) => {
-    console.log(`deleteEducationHandler firing!`);
-    console.log(e.currentTarget);
+    const btn = e.currentTarget;
+    const { id } = btn.dataset;
+    setEducationData({
+      ...educationData,
+      schools: educationData.schools.filter((school) => {
+        return school.id !== +id && school;
+      }),
+    });
   };
 
-  const formProps = isEditing && {
-    default: {
-      inputs: createInputsProps(educationData.school, {
-        onChangeHandler,
-      }),
-      button: {
-        text: 'Add',
-        className: 'btn education-add',
-        clickHandler: addEducationHandler,
+  const resetEducationHandler = () => {
+    setEducationData({
+      school: {
+        major: '',
+        schoolName: '',
+        dateFrom: '',
+        dateTo: '',
       },
-    },
-    set: {
-      inputs: createInputsProps(educationData.schools, {
-        className: 'visually-hidden',
-        name: 'school',
-        onChangeHandler: changeEducationHandler,
-      }),
-      button: {
-        text: 'Delete',
-        className: 'btn education-delete',
-        clickHandler: deleteEducationHandler,
-      },
-    },
+      schools: [...educationData.schools],
+    });
   };
-
-  console.log(formProps);
 
   return (
     <section className="education">
       <div>
         <h2>Education</h2>
-        {isEditing ? <Form className="form_education" props={formProps} /> : <div>Loading...</div>}
+        {isEditing ? (
+          <form>
+            <ul>
+              <li className="form-item">
+                <label htmlFor="major">Major:</label>
+                <input
+                  id="major"
+                  value={educationData.school.major}
+                  type="text"
+                  name="major"
+                  onChange={onChangeHandler}
+                  data-key="school"
+                />
+              </li>
+
+              <li className="form-item">
+                <label htmlFor="schoolName">School Name</label>
+                <input
+                  id="schoolName"
+                  value={educationData.school.schoolName}
+                  type="text"
+                  name="schoolName"
+                  onChange={onChangeHandler}
+                  data-key="school"
+                />
+              </li>
+              <li className="form-item">
+                <label htmlFor="dateFrom">date From</label>
+                <input
+                  id="dateFrom"
+                  value={educationData.school.dateFrom}
+                  type="month"
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  data-key="school"
+                />
+              </li>
+              <li className="form-item">
+                <label htmlFor="dateTo">date To</label>
+                <input
+                  id="dateTo"
+                  value={educationData.school.dateTo}
+                  type="month"
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  data-key="school"
+                />
+              </li>
+              <button type="button" onClick={addEducationHandler}>
+                Add
+              </button>
+              <button type="button" onClick={resetEducationHandler}>
+                Reset
+              </button>
+            </ul>
+
+            {educationData.schools.map((school) => {
+              return (
+                <ul key={school.id}>
+                  <li data-id={school.id} className="form-item">
+                    <label htmlFor={`major_${school.id}`}>Major:</label>
+                    <input
+                      id={`major_${school.id}`}
+                      value={school.major}
+                      type="text"
+                      name="major"
+                      onChange={onChangeHandler}
+                      data-id={school.id}
+                      data-key="schools"
+                    />
+                  </li>
+                  <li data-id={school.id} className="form-item">
+                    <label htmlFor={`schoolName_${school.id}`}>School Name</label>
+                    <input
+                      id={`schoolName_${school.id}`}
+                      value={school.schoolName}
+                      type="text"
+                      name="schoolName"
+                      onChange={onChangeHandler}
+                      data-id={school.id}
+                      data-key="schools"
+                    />
+                  </li>
+                  <li data-id={school.id} className="form-item">
+                    <label htmlFor={`dateFrom_${school.id}`}>date From</label>
+                    <input
+                      id={`dateFrom_${school.id}`}
+                      value="2000-02"
+                      type="month"
+                      name="dateFrom"
+                      onChange={onChangeHandler}
+                      data-id={school.id}
+                      data-key="schools"
+                    />
+                  </li>
+                  <li data-id={school.id} className="form-item">
+                    <label htmlFor={`dateTo_${school.id}`}>dateTo</label>
+                    <input
+                      id={`dateTo_${school.id}`}
+                      value="2020-03"
+                      type="month"
+                      name="dateTo"
+                      onChange={onChangeHandler}
+                      data-id={school.id}
+                      data-key="schools"
+                    />
+                  </li>
+                  <button type="button" data-id={school.id} onClick={deleteEducationHandler}>
+                    Delete
+                  </button>
+                </ul>
+              );
+            })}
+          </form>
+        ) : (
+          <>
+            {educationData.schools.map((school) => {
+              return (
+                <ul key={school.id}>
+                  <li>{school.major}</li>
+                  <li>{school.schoolName}</li>
+                  {/* Need to convert input value YYYY-MM to MMM YYYY */}
+                  <li>From: {school.dateFrom}</li>
+                  <li>From: {school.dateTo}</li>
+                </ul>
+              );
+            })}
+          </>
+        )}
       </div>
     </section>
   );
 }
-
-/*
-<form>
-  <ul>
-    <li class='form-item'>
-      <label>Major:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>School name:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Date From:</label>
-      <input type='month'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Date To:</label>
-      <input type='month'></input>
-    </li>
-    <button>Add</button>
-  </ul>
-
-  <ul>
-    <li class='form-item'>
-      <label>Major0:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>School name0:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Date From0:</label>
-      <input type='month'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Date To0:</label>
-      <input type='month'></input>
-    </li>
-    <button>Delete</button>
-  </ul>
-
-  <ul>
-    <li class='form-item'>
-      <label>Major1:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>School name1:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Date From1:</label>
-      <input type='month'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Date To1:</label>
-      <input type='month'></input>
-    </li>
-    <button>Delete</button>
-  </ul>
-</form>
-*/

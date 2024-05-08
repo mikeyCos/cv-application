@@ -6,20 +6,20 @@ import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
   const [contactData, setContactData] = useState({
-    email: { id: 0, value: '', type: 'email' },
-    phone: { id: 1, value: '', type: 'tel' },
-    address: { id: 2, value: '' },
+    email: '',
+    phone: '',
+    address: '',
   });
 
   const onChangeHandler = (e) => {
-    console.log('onChangeHandler firing!');
-    console.log(e.currentTarget);
-  };
+    const input = e.currentTarget;
+    const value = input.value;
+    const prop = input.name;
 
-  const formProps = isEditing && {
-    default: {
-      inputs: createInputsProps(contactData, { onChangeHandler }),
-    },
+    setContactData({
+      ...contactData,
+      [prop]: value,
+    });
   };
 
   return (
@@ -27,7 +27,40 @@ export default function Contact({ isEditing }) {
       <div>
         <h2>Contact</h2>
         {isEditing ? (
-          <Form className="form_contact" props={formProps} />
+          <form>
+            <ul>
+              <li>
+                <label htmlFor="email">Email:</label>
+                <input
+                  id="email"
+                  value={contactData.email}
+                  type="email"
+                  name="email"
+                  onChange={onChangeHandler}
+                />
+              </li>
+              <li>
+                <label htmlFor="phone">Phone:</label>
+                <input
+                  id="phone"
+                  value={contactData.phone}
+                  type="tel"
+                  name="phone"
+                  onChange={onChangeHandler}
+                />
+              </li>
+              <li>
+                <label htmlFor="address">Address:</label>
+                <input
+                  id="address"
+                  value={contactData.address}
+                  type="text"
+                  name="address"
+                  onChange={onChangeHandler}
+                />
+              </li>
+            </ul>
+          </form>
         ) : (
           <ul>
             <li>Email: {contactData.email.value}</li>

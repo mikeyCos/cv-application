@@ -1,6 +1,15 @@
 # Changelog
 ---
+### 07 MAY 2024
+- Job descriptions can be added and deleted; inputs are not cleared when job descriptions are added.
+- Added `nextId` property to work objects to create new id's when adding descriptions; no memoization used. 
+- Work can be added and deleted.
+- Added `description` and `descriptions` properties to `work` objects.
+- Created `onChangeHandlerDescription` in `Works` module.
+---
 ### 06 MAY 2024
+- Hardcoded form elements and their respective children in each section.
+- Created `module-form` branch; this does not practice passing props to components.
 - Re-enabled some sections.
 - Commit before creating another branch.
 ---

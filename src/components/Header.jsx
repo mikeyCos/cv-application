@@ -1,53 +1,83 @@
 import { useState } from 'react';
 import Form from './Form';
 import concatenateNames from '../utilities/concatenateNames';
-import createInputsProps from '../utilities/createInputsProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/header.css';
 
 export default function Header({ isEditing }) {
   const [headerData, setHeaderData] = useState({
-    firstName: { id: 0, value: '' },
-    lastName: { id: 1, value: '' },
-    jobTitle: { id: 2, value: '' },
+    firstName: '',
+    lastName: '',
+    jobTitle: '',
   });
 
   const onChangeHandler = (e) => {
-    console.log('onChangeHandler firing!');
-    console.log(e.currentTarget);
+    const input = e.currentTarget;
+    const value = input.value;
+    const prop = input.name;
+    setHeaderData({
+      ...headerData,
+      [prop]: value,
+    });
   };
 
-  const formProps = isEditing && {
-    default: {
-      inputs: createInputsProps(headerData, { onChangeHandler }),
-    },
+  const resetHandler = () => {
+    setHeaderData({
+      firstName: '',
+      lastName: '',
+      jobTitle: '',
+    });
   };
 
-  console.log(formProps);
+  const fullName = concatenateNames(headerData.firstName, headerData.lastName);
+
   return (
     <header>
-      {isEditing ? <Form className="form_header" props={formProps} /> : <div>Loading...</div>}
+      {isEditing ? (
+        <form>
+          <ul>
+            <li className="form-item">
+              <label htmlFor="firstName">First name:</label>
+              <input
+                id="firstName"
+                value={headerData.firstName}
+                type="text"
+                name="firstName"
+                onChange={onChangeHandler}
+              ></input>
+            </li>
+
+            <li className="form-item">
+              <label htmlFor="lastName">Last name:</label>
+              <input
+                id="lastName"
+                value={headerData.lastName}
+                type="text"
+                name="lastName"
+                onChange={onChangeHandler}
+              ></input>
+            </li>
+
+            <li className="form-item">
+              <label htmlFor="jobTitle">Job title:</label>
+              <input
+                id="jobTitle"
+                value={headerData.jobTitle}
+                type="text"
+                name="jobTitle"
+                onChange={onChangeHandler}
+              ></input>
+            </li>
+            <button type="button" onClick={resetHandler}>
+              Reset
+            </button>
+          </ul>
+        </form>
+      ) : (
+        <div>
+          <h1>{fullName}</h1>
+          <h2>{headerData.jobTitle}</h2>
+        </div>
+      )}
     </header>
   );
 }
-
-/*
-<form>
-  <ul>
-    <li class='form-item'>
-      <label>First name:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>last name:</label>
-      <input type='text'></input>
-    </li>
-
-    <li class='form-item'>
-      <label>Job title:</label>
-      <input type='text'></input>
-    </li>
-  </ul>
-</form>
-*/
