@@ -1,6 +1,21 @@
 # Changelog
 ---
 ### 08 MAY 2024
+- Renamed `keyToSentenceCase` to `stringToSentenceCase`.
+- Created `inputsProperties` in `data` directory.
+- Properties passed into a `FormItem` component look as follows:
+```js
+<FormItem
+  id="dateFrom"
+  value={workData.work.dateFrom}
+  name="dateFrom"
+  onChange={onChangeHandler}
+  type="month"
+  dataAttributes={{ 'data-key': 'work' }}
+/>
+```
+- Created `FormItem` module that will return a list item with label and input elements, and children components.
+- Checked out CHANGELOG.md from `module-form` branch to `main` and `form-input` branches.
 - The `module-form` branch accepts inputs without form validation and renders appropriately; little to no props usage.
 - Sections involving an add button have the ability to edit and delete their children.
 ---

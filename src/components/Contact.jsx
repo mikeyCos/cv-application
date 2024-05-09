@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import FormItem from './FormItem';
+import Button from './Button';
 import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
@@ -26,36 +28,28 @@ export default function Contact({ isEditing }) {
         {isEditing ? (
           <form>
             <ul>
-              <li>
-                <label htmlFor="email">Email:</label>
-                <input
-                  id="email"
-                  value={contactData.email}
-                  type="email"
-                  name="email"
-                  onChange={onChangeHandler}
-                />
-              </li>
-              <li>
-                <label htmlFor="phone">Phone:</label>
-                <input
-                  id="phone"
-                  value={contactData.phone}
-                  type="tel"
-                  name="phone"
-                  onChange={onChangeHandler}
-                />
-              </li>
-              <li>
-                <label htmlFor="address">Address:</label>
-                <input
-                  id="address"
-                  value={contactData.address}
-                  type="text"
-                  name="address"
-                  onChange={onChangeHandler}
-                />
-              </li>
+              <FormItem
+                id="email"
+                value={contactData.email}
+                type="email"
+                name="email"
+                onChange={onChangeHandler}
+              />
+
+              <FormItem
+                id="phone"
+                value={contactData.phone}
+                type="tel"
+                name="phone"
+                onChange={onChangeHandler}
+              />
+              <FormItem
+                id="address"
+                value={contactData.address}
+                type="text"
+                name="address"
+                onChange={onChangeHandler}
+              />
             </ul>
           </form>
         ) : (

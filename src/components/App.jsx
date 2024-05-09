@@ -6,7 +6,6 @@ import Skills from './Skills';
 import Work from './Work';
 import References from './References';
 import Button from './Button';
-import Form from './Form';
 import '../styles/app.css';
 
 export default function App() {
@@ -19,12 +18,12 @@ export default function App() {
   return (
     <div className="app">
       <Button {...buttonProps} clickHandler={editHandler} />
-      <Header isEditing={isEditing} />
-      <Contact isEditing={isEditing} />
-      <Education isEditing={isEditing} />
+      {/* <Header isEditing={isEditing} /> */}
+      {/* <Contact isEditing={isEditing} /> */}
+      {/* <Education isEditing={isEditing} /> */}
       <Skills isEditing={isEditing} />
-      <Work isEditing={isEditing} />
-      <References isEditing={isEditing} />
+      {/* <Work isEditing={isEditing} /> */}
+      {/* <References isEditing={isEditing} /> */}
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import FormItem from './FormItem';
+import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
 import '../styles/header.css';
 
@@ -34,41 +36,30 @@ export default function Header({ isEditing }) {
       {isEditing ? (
         <form>
           <ul>
-            <li className="form-item">
-              <label htmlFor="firstName">First name:</label>
-              <input
-                id="firstName"
-                value={headerData.firstName}
-                type="text"
-                name="firstName"
-                onChange={onChangeHandler}
-              ></input>
-            </li>
+            <FormItem
+              id="firstName"
+              value={headerData.firstName}
+              type="text"
+              name="firstName"
+              onChange={onChangeHandler}
+            />
 
-            <li className="form-item">
-              <label htmlFor="lastName">Last name:</label>
-              <input
-                id="lastName"
-                value={headerData.lastName}
-                type="text"
-                name="lastName"
-                onChange={onChangeHandler}
-              ></input>
-            </li>
+            <FormItem
+              id="lastName"
+              value={headerData.lastName}
+              type="text"
+              name="lastName"
+              onChange={onChangeHandler}
+            />
 
-            <li className="form-item">
-              <label htmlFor="jobTitle">Job title:</label>
-              <input
-                id="jobTitle"
-                value={headerData.jobTitle}
-                type="text"
-                name="jobTitle"
-                onChange={onChangeHandler}
-              ></input>
-            </li>
-            <button type="button" onClick={resetHandler}>
-              Reset
-            </button>
+            <FormItem
+              id="jobTitle"
+              value={headerData.jobTitle}
+              type="text"
+              name="jobTitle"
+              onChange={onChangeHandler}
+            />
+            <Button text="Reset" clickHandler={resetHandler}></Button>
           </ul>
         </form>
       ) : (

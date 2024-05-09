@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import FormItem from './FormItem';
+import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
 import '../styles/references.css';
 let nextId = 0;
@@ -42,7 +44,7 @@ export default function References({ isEditing }) {
   };
 
   const addReferenceHandler = () => {
-    const newReference = { ...referencesData.school, id: ++nextId };
+    const newReference = { ...referencesData.reference, id: ++nextId };
     setReferencesData({
       reference: {
         firstName: '',
@@ -88,158 +90,116 @@ export default function References({ isEditing }) {
         {isEditing ? (
           <form>
             <ul>
-              <li className="form-item">
-                <label htmlFor="firstName">First name:</label>
-                <input
-                  id="firstName"
-                  value={referencesData.reference.firstName}
-                  type="text"
-                  name="firstName"
-                  onChange={onChangeHandler}
-                  data-key="reference"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="lastName">Last name:</label>
-                <input
-                  id="lastName"
-                  value={referencesData.reference.lastName}
-                  type="text"
-                  name="lastName"
-                  onChange={onChangeHandler}
-                  data-key="reference"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="jobTitle">Job Title:</label>
-                <input
-                  id="jobTitle"
-                  value={referencesData.reference.jobTitle}
-                  type="text"
-                  name="jobTitle"
-                  onChange={onChangeHandler}
-                  data-key="reference"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="companyName">Company name:</label>
-                <input
-                  id="companyName"
-                  value={referencesData.reference.companyName}
-                  type="text"
-                  name="companyName"
-                  onChange={onChangeHandler}
-                  data-key="reference"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="phone">Phone:</label>
-                <input
-                  id="phone"
-                  value={referencesData.reference.phone}
-                  type="text"
-                  name="phone"
-                  onChange={onChangeHandler}
-                  data-key="reference"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="email">Email:</label>
-                <input
-                  id="email"
-                  value={referencesData.reference.email}
-                  type="text"
-                  name="email"
-                  onChange={onChangeHandler}
-                  data-key="reference"
-                />
-              </li>
-              <button type="button" onClick={addReferenceHandler}>
-                Add
-              </button>
-              <button type="button" onClick={resetReferenceHandler}>
-                Reset
-              </button>
+              <FormItem
+                id="firstName"
+                value={referencesData.reference.firstName}
+                name="firstName"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'reference' }}
+              />
+
+              <FormItem
+                id="lastName"
+                value={referencesData.reference.lastName}
+                name="lastName"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'reference' }}
+              />
+
+              <FormItem
+                id="jobTitle"
+                value={referencesData.reference.jobTitle}
+                name="jobTitle"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'reference' }}
+              />
+
+              <FormItem
+                id="companyName"
+                value={referencesData.reference.companyName}
+                name="companyName"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'reference' }}
+              />
+
+              <FormItem
+                id="phone"
+                value={referencesData.reference.phone}
+                name="phone"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'reference' }}
+              />
+
+              <FormItem
+                id="email"
+                value={referencesData.reference.email}
+                name="email"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'reference' }}
+              />
+
+              <Button text="Add" clickHandler={addReferenceHandler}></Button>
+              <Button text="Reset" clickHandler={resetReferenceHandler}></Button>
             </ul>
 
             {referencesData.references.map((reference) => {
               return (
                 <ul key={reference.id}>
-                  <li data-id={reference.id} className="form-item">
-                    <label htmlFor={`firstName_${reference.id}`}>First name:</label>
-                    <input
-                      id={`firstName_${reference.id}`}
-                      value={reference.firstName}
-                      type="text"
-                      name="firstName"
-                      onChange={onChangeHandler}
-                      data-id={reference.id}
-                      data-key="references"
-                    />
-                  </li>
-                  <li data-id={reference.id} className="form-item">
-                    <label htmlFor={`lastName_${reference.id}`}>Last name:</label>
-                    <input
-                      id={`lastName_${reference.id}`}
-                      value={reference.lastName}
-                      type="text"
-                      name="lastName"
-                      onChange={onChangeHandler}
-                      data-id={reference.id}
-                      data-key="references"
-                    />
-                  </li>
-                  <li data-id={reference.id} className="form-item">
-                    <label htmlFor={`jobTitle_${reference.id}`}>Job title:</label>
-                    <input
-                      id={`jobTitle_${reference.id}`}
-                      value={reference.jobTitle}
-                      type="text"
-                      name="jobTitle"
-                      onChange={onChangeHandler}
-                      data-id={reference.id}
-                      data-key="references"
-                    />
-                  </li>
-                  <li data-id={reference.id} className="form-item">
-                    <label htmlFor={`companyName_${reference.id}`}>Company Name:</label>
-                    <input
-                      id={`companyName_${reference.id}`}
-                      value={reference.companyName}
-                      type="text"
-                      name="companyName"
-                      onChange={onChangeHandler}
-                      data-id={reference.id}
-                      data-key="references"
-                    />
-                  </li>
-                  <li data-id={reference.id} className="form-item">
-                    <label htmlFor={`phone_${reference.id}`}>Phone:</label>
-                    <input
-                      id={`phone_${reference.id}`}
-                      value={reference.phone}
-                      type="text"
-                      name="phone"
-                      onChange={onChangeHandler}
-                      data-id={reference.id}
-                      data-key="references"
-                    />
-                  </li>
-                  <li data-id={reference.id} className="form-item">
-                    <label htmlFor={`email_${reference.id}`}>Email:</label>
-                    <input
-                      id={`email_${reference.id}`}
-                      value={reference.email}
-                      type="text"
-                      name="email"
-                      onChange={onChangeHandler}
-                      data-id={reference.id}
-                      data-key="references"
-                    />
-                  </li>
-                  <button type="button" data-id={reference.id} onClick={deleteReferenceHandler}>
-                    Delete
-                  </button>
+                  <FormItem
+                    id={`firstName_${reference.id}`}
+                    value={reference.firstName}
+                    name="firstName"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                  />
+
+                  <FormItem
+                    id={`lastName_${reference.id}`}
+                    value={reference.lastName}
+                    name="lastName"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                  />
+
+                  <FormItem
+                    id={`jobTitle_${reference.id}`}
+                    value={reference.jobTitle}
+                    name="jobTitle"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                  />
+
+                  <FormItem
+                    id={`companyName_${reference.id}`}
+                    value={reference.companyName}
+                    name="companyName"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                  />
+
+                  <FormItem
+                    id={`phone_${reference.id}`}
+                    value={reference.phone}
+                    type="tel"
+                    name="phone"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                  />
+
+                  <FormItem
+                    id={`email_${reference.id}`}
+                    value={reference.email}
+                    type="email"
+                    name="email"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                  />
+
+                  <Button
+                    text="Delete"
+                    clickHandler={deleteReferenceHandler}
+                    dataAttributes={{ 'data-id': reference.id, 'data-root-key': 'work' }}
+                  ></Button>
                 </ul>
               );
             })}

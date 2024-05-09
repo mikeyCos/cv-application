@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import FormItem from './FormItem';
 import '../styles/work.css';
+import Button from './Button';
 
 let nextId = 1;
 export default function Work({ isEditing }) {
@@ -196,214 +198,192 @@ export default function Work({ isEditing }) {
           {isEditing ? (
             <form>
               <ul>
-                <li className="form-item">
-                  <label htmlFor="jobTitle">Job title:</label>
-                  <input
-                    id="jobTitle"
-                    value={workData.work.jobTitle}
-                    type="text"
-                    name="jobTitle"
-                    onChange={onChangeHandler}
-                    data-key="work"
-                  />
-                </li>
-                <li className="form-item">
-                  <label htmlFor="companyName">Company name:</label>
-                  <input
-                    id="companyName"
-                    value={workData.work.companyName}
-                    type="text"
-                    name="companyName"
-                    onChange={onChangeHandler}
-                    data-key="work"
-                  />
-                </li>
-                <li className="form-item">
-                  <label htmlFor="dateFrom">Date from:</label>
-                  <input
-                    id="dateFrom"
-                    value={workData.work.dateFrom}
-                    type="month"
-                    name="dateFrom"
-                    onChange={onChangeHandler}
-                    data-key="work"
-                  />
-                </li>
-                <li className="form-item">
-                  <label htmlFor="dateTo">Date to:</label>
-                  <input
-                    id="dateTo"
-                    value={workData.work.dateTo}
-                    type="month"
-                    name="dateTo"
-                    onChange={onChangeHandler}
-                    data-key="work"
-                  />
-                </li>
-                <li>
-                  <label htmlFor="description">Descriptions:</label>
-                  <input
-                    id="description"
-                    value={workData.work.description}
-                    type="text"
-                    name="description"
-                    onChange={onChangeHandlerDescription}
-                    data-root-key="work"
-                    data-key="description"
-                  />
-                  <button
-                    type="button"
-                    data-key="descriptions"
-                    data-root-key="work"
-                    onClick={addDescriptionHandler}
-                  >
-                    Add Description
-                  </button>
+                <FormItem
+                  id="jobTitle"
+                  value={workData.work.jobTitle}
+                  name="jobTitle"
+                  onChange={onChangeHandler}
+                  dataAttributes={{
+                    'data-key': 'work',
+                  }}
+                />
+                <FormItem
+                  id="companyName"
+                  value={workData.work.companyName}
+                  name="companyName"
+                  onChange={onChangeHandler}
+                  dataAttributes={{ 'data--key': 'work' }}
+                />
+                <FormItem
+                  id="dateFrom"
+                  value={workData.work.dateFrom}
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  type="month"
+                  dataAttributes={{ 'data-key': 'work' }}
+                />
+                <FormItem
+                  id="dateTo"
+                  value={workData.work.dateFrom}
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  type="month"
+                  dataAttributes={{ 'data-key': 'work' }}
+                />
+                <FormItem
+                  id="description"
+                  value={workData.work.description}
+                  name="description"
+                  onChange={onChangeHandlerDescription}
+                  dataAttributes={{ 'data-key': 'description', 'data-root-key': 'work' }}
+                >
+                  <Button
+                    text="Add description"
+                    clickHandler={addDescriptionHandler}
+                    dataAttributes={{ 'data-key': 'descriptions', 'data-root-key': 'work' }}
+                  ></Button>
                   {workData.work.descriptions.length > 0 && (
                     <ul>
                       {workData.work.descriptions.map((description) => {
                         return (
-                          <li key={description.id}>
-                            <label htmlFor={`description_${description.id}`}></label>
-                            <input
-                              id={`description_${description.id}`}
-                              value={description.text}
-                              type="text"
-                              name="description"
-                              onChange={onChangeHandlerDescription}
-                              data-id={description.id}
-                              data-root-key="work"
-                              data-key="descriptions"
-                            />
-                            <button
-                              type="button"
-                              data-id={description.id}
-                              data-root-key="work"
-                              onClick={deleteDescriptionHandler}
-                            >
-                              Delete
-                            </button>
-                          </li>
+                          <FormItem
+                            key={description.id}
+                            id={`description_${description.id}`}
+                            value={description.text}
+                            name="description"
+                            onChange={onChangeHandlerDescription}
+                            dataAttributes={{
+                              'data-id': description.id,
+                              'data-root-key': 'work',
+                              'data-key': 'descriptions',
+                            }}
+                          >
+                            <Button
+                              text="Delete description"
+                              clickHandler={deleteDescriptionHandler}
+                              dataAttributes={{
+                                'data-id': description.id,
+                                'data-root-key': 'work',
+                                'data-key': 'descriptions',
+                              }}
+                            ></Button>
+                          </FormItem>
                         );
                       })}
                     </ul>
                   )}
-                </li>
-                <button type="button" onClick={addWorkHandler}>
-                  Add
-                </button>
-                <button type="button" onClick={resetWorkHandler}>
-                  Reset
-                </button>
+                </FormItem>
+                <Button text="Add" clickHandler={addWorkHandler}></Button>
+                <Button text="Reset" clickHandler={resetWorkHandler}></Button>
               </ul>
 
               {workData.works.map((work) => {
                 return (
                   <ul key={work.id}>
-                    <li data-id={work.id} className="form-item">
-                      <label htmlFor={`jobTitle_${work.id}`}>Job title:</label>
-                      <input
-                        id={`jobTitle_${work.id}`}
-                        value={work.jobTitle}
-                        type="text"
-                        name="jobTitle"
-                        onChange={onChangeHandler}
-                        data-id={work.id}
-                        data-key="works"
-                      />
-                    </li>
-                    <li data-id={work.id} className="form-item">
-                      <label htmlFor={`companyName_${work.id}`}>Company name:</label>
-                      <input
-                        id={`companyName_${work.id}`}
-                        value={work.companyName}
-                        type="text"
-                        name="companyName"
-                        onChange={onChangeHandler}
-                        data-id={work.id}
-                        data-key="works"
-                      />
-                    </li>
-                    <li data-id={work.id} className="form-item">
-                      <label htmlFor={`dateFrom_${work.id}`}>Date from:</label>
-                      <input
-                        id={`dateFrom_${work.id}`}
-                        value={work.dateFrom}
-                        type="month"
-                        name="dateFrom"
-                        onChange={onChangeHandler}
-                        data-id={work.id}
-                        data-key="works"
-                      />
-                    </li>
-                    <li data-id={work.id} className="form-item">
-                      <label htmlFor={`dateTo_${work.id}`}>Date to:</label>
-                      <input
-                        id={`dateTo_${work.id}`}
-                        value={work.dateTo}
-                        type="month"
-                        name="dateTo"
-                        onChange={onChangeHandler}
-                        data-id={work.id}
-                        data-key="works"
-                      />
-                    </li>
-                    <li data-id={work.id} className="form-item">
-                      <label htmlFor={`description_${work.id}`}>Descriptions:</label>
-                      <input
-                        id={`description_${work.id}`}
-                        value={work.description}
-                        type="text"
-                        name="description"
-                        onChange={onChangeHandlerDescription}
-                        data-root-id={work.id}
-                        data-root-key="works"
-                        data-key="description"
-                      />
-                      <button
-                        type="button"
-                        data-key="descriptions"
-                        data-root-key="works"
-                        data-work-id={work.id}
-                        onClick={addDescriptionHandler}
-                      >
-                        Add Description
-                      </button>
+                    <FormItem
+                      id={`jobTitle_${work.id}`}
+                      value={work.jobTitle}
+                      name="jobTitle"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': work.id,
+                        'data-key': 'works',
+                      }}
+                    />
+
+                    <FormItem
+                      id={`companyName_${work.id}`}
+                      value={work.companyName}
+                      name="companyName"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': work.id,
+                        'data-key': 'works',
+                      }}
+                    />
+
+                    <FormItem
+                      id={`dateFrom_${work.id}`}
+                      value={work.dateFrom}
+                      name="dateFrom"
+                      onChange={onChangeHandler}
+                      type="month"
+                      dataAttributes={{
+                        'data-id': work.id,
+                        'data-key': 'works',
+                      }}
+                    />
+                    <FormItem
+                      id={`dateTo_${work.id}`}
+                      value={work.dateTo}
+                      name="dateTo"
+                      onChange={onChangeHandler}
+                      type="month"
+                      dataAttributes={{
+                        'data-id': work.id,
+                        'data-key': 'works',
+                      }}
+                    />
+                    <FormItem
+                      id={`description_${work.id}`}
+                      value={work.description}
+                      name="description"
+                      onChange={onChangeHandlerDescription}
+                      dataAttributes={{
+                        'data-root-id': work.id,
+                        'data-root-key': 'works',
+                        'data-key': 'description',
+                      }}
+                    >
+                      <Button
+                        text="Add description"
+                        clickHandler={addDescriptionHandler}
+                        dataAttributes={{
+                          'data-key': 'descriptions',
+                          'data-root-key': 'works',
+                          'data-work-id': work.id,
+                        }}
+                      ></Button>
+
                       {work.descriptions.length > 0 && (
                         <ul>
                           {work.descriptions.map((description) => {
                             return (
-                              <li key={description.id}>
-                                <label htmlFor={`description_${work.id}_${description.id}`}></label>
-                                <input
-                                  id={`description_${work.id}_${description.id}`}
-                                  value={description.text}
-                                  type="text"
-                                  name="description"
-                                  onChange={onChangeHandlerDescription}
-                                  data-root-id={work.id}
-                                  data-id={description.id}
-                                  data-root-key="works"
-                                  data-key="descriptions"
-                                />
-                                <button
-                                  type="button"
-                                  data-root-id={work.id}
-                                  data-id={description.id}
-                                  data-root-key="works"
-                                  onClick={deleteDescriptionHandler}
-                                >
-                                  Delete
-                                </button>
-                              </li>
+                              <FormItem
+                                key={description.id}
+                                id={`description_${work.id}_${description.id}`}
+                                value={description.text}
+                                name="description"
+                                onChange={onChangeHandlerDescription}
+                                dataAttributes={{
+                                  'data-root-id': work.id,
+                                  'data-id': description.id,
+                                  'data-root-key': 'works',
+                                  'data-key': 'descriptions',
+                                }}
+                              >
+                                <Button
+                                  text="Delete description"
+                                  clickHandler={deleteDescriptionHandler}
+                                  dataAttributes={{
+                                    'data-root-id': work.id,
+                                    'data-id': description.id,
+                                    'data-root-key': 'works',
+                                  }}
+                                ></Button>
+                              </FormItem>
                             );
                           })}
                         </ul>
                       )}
-                    </li>
-                    <button type="button" data-id={work.id} onClick={deleteWorkHandler}>
-                      Delete
-                    </button>
+                    </FormItem>
+                    <Button
+                      text="Delete"
+                      clickHandler={deleteWorkHandler}
+                      dataAttributes={{
+                        'data-id': work.id,
+                      }}
+                    ></Button>
                   </ul>
                 );
               })}

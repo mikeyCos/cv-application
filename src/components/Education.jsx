@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import FormItem from './FormItem';
+import Button from './Button';
 import '../styles/education.css';
 
 let nextId = 1;
@@ -15,15 +17,15 @@ export default function Education({ isEditing }) {
         id: 0,
         major: 'major placeholder 0',
         schoolName: 'Hogwards',
-        dateFrom: 'Jan 2020',
-        dateTo: 'Feb 2024',
+        dateFrom: '1990-03',
+        dateTo: '1999-09',
       },
       {
         id: 1,
         major: 'major placeholder 1',
         schoolName: 'Helms Deep',
-        dateFrom: 'Mar 2024',
-        dateTo: 'Apr 2028',
+        dateFrom: '2000-01',
+        dateTo: '2020-05',
       },
     ],
   });
@@ -87,54 +89,52 @@ export default function Education({ isEditing }) {
         {isEditing ? (
           <form>
             <ul>
-              <li className="form-item">
-                <label htmlFor="major">Major:</label>
-                <input
-                  id="major"
-                  value={educationData.school.major}
-                  type="text"
-                  name="major"
-                  onChange={onChangeHandler}
-                  data-key="school"
-                />
-              </li>
+              <FormItem
+                id="major"
+                value={educationData.school.major}
+                name="major"
+                onChange={onChangeHandler}
+                dataAttributes={{
+                  'data-key': 'school',
+                }}
+              />
 
-              <li className="form-item">
-                <label htmlFor="schoolName">School Name</label>
-                <input
-                  id="schoolName"
-                  value={educationData.school.schoolName}
-                  type="text"
-                  name="schoolName"
-                  onChange={onChangeHandler}
-                  data-key="school"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="dateFrom">date From</label>
-                <input
-                  id="dateFrom"
-                  value={educationData.school.dateFrom}
-                  type="month"
-                  name="dateFrom"
-                  onChange={onChangeHandler}
-                  data-key="school"
-                />
-              </li>
-              <li className="form-item">
-                <label htmlFor="dateTo">date To</label>
-                <input
-                  id="dateTo"
-                  value={educationData.school.dateTo}
-                  type="month"
-                  name="dateTo"
-                  onChange={onChangeHandler}
-                  data-key="school"
-                />
-              </li>
-              <button type="button" onClick={addEducationHandler}>
+              <FormItem
+                id="schoolName"
+                value={educationData.school.schoolName}
+                name="schoolName"
+                onChange={onChangeHandler}
+                dataAttributes={{
+                  'data-key': 'school',
+                }}
+              />
+
+              <FormItem
+                id="dateFrom"
+                value={educationData.school.dateFrom}
+                name="dateFrom"
+                onChange={onChangeHandler}
+                type="month"
+                dataAttributes={{
+                  'data-key': 'school',
+                }}
+              />
+
+              <FormItem
+                id="dateTo"
+                value={educationData.school.dateTo}
+                name="dateTo"
+                onChange={onChangeHandler}
+                type="month"
+                dataAttributes={{
+                  'data-key': 'school',
+                }}
+              />
+
+              {/* <button type="button" onClick={addEducationHandler}>
                 Add
-              </button>
+              </button> */}
+
               <button type="button" onClick={resetEducationHandler}>
                 Reset
               </button>
@@ -143,57 +143,57 @@ export default function Education({ isEditing }) {
             {educationData.schools.map((school) => {
               return (
                 <ul key={school.id}>
-                  <li data-id={school.id} className="form-item">
-                    <label htmlFor={`major_${school.id}`}>Major:</label>
-                    <input
-                      id={`major_${school.id}`}
-                      value={school.major}
-                      type="text"
-                      name="major"
-                      onChange={onChangeHandler}
-                      data-id={school.id}
-                      data-key="schools"
-                    />
-                  </li>
-                  <li data-id={school.id} className="form-item">
-                    <label htmlFor={`schoolName_${school.id}`}>School Name</label>
-                    <input
-                      id={`schoolName_${school.id}`}
-                      value={school.schoolName}
-                      type="text"
-                      name="schoolName"
-                      onChange={onChangeHandler}
-                      data-id={school.id}
-                      data-key="schools"
-                    />
-                  </li>
-                  <li data-id={school.id} className="form-item">
-                    <label htmlFor={`dateFrom_${school.id}`}>date From</label>
-                    <input
-                      id={`dateFrom_${school.id}`}
-                      value="2000-02"
-                      type="month"
-                      name="dateFrom"
-                      onChange={onChangeHandler}
-                      data-id={school.id}
-                      data-key="schools"
-                    />
-                  </li>
-                  <li data-id={school.id} className="form-item">
-                    <label htmlFor={`dateTo_${school.id}`}>dateTo</label>
-                    <input
-                      id={`dateTo_${school.id}`}
-                      value="2020-03"
-                      type="month"
-                      name="dateTo"
-                      onChange={onChangeHandler}
-                      data-id={school.id}
-                      data-key="schools"
-                    />
-                  </li>
-                  <button type="button" data-id={school.id} onClick={deleteEducationHandler}>
-                    Delete
-                  </button>
+                  <FormItem
+                    id={`major_${school.id}`}
+                    value={school.major}
+                    name="major"
+                    onChange={onChangeHandler}
+                    dataAttributes={{
+                      'data-id': school.id,
+                      'data-key': 'schools',
+                    }}
+                  />
+
+                  <FormItem
+                    id={`schoolName_${school.id}`}
+                    value={school.major}
+                    name="schoolName"
+                    onChange={onChangeHandler}
+                    dataAttributes={{
+                      'data-id': school.id,
+                      'data-key': 'schools',
+                    }}
+                  />
+
+                  <FormItem
+                    id={`dateFrom_${school.id}`}
+                    value={school.dateFrom}
+                    type="month"
+                    name="dateFrom"
+                    onChange={onChangeHandler}
+                    dataAttributes={{
+                      'data-id': school.id,
+                      'data-key': 'schools',
+                    }}
+                  />
+
+                  <FormItem
+                    id={`dateTo_${school.id}`}
+                    value={school.dateTo}
+                    type="month"
+                    name="dateTo"
+                    onChange={onChangeHandler}
+                    dataAttributes={{
+                      'data-id': school.id,
+                      'data-key': 'schools',
+                    }}
+                  />
+
+                  <Button
+                    text="Delete"
+                    clickHandler={deleteEducationHandler}
+                    dataAttributes={{ 'data-id': school.id }}
+                  ></Button>
                 </ul>
               );
             })}

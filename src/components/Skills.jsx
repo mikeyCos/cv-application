@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import FormItem from './FormItem';
+import Button from './Button';
+import fetchProp from '../data/inputsProperties';
 import '../styles/skills.css';
 // https://codesandbox.io/p/sandbox/react-dev-64n8l5?file=%2Fsrc%2FTaskList.js&utm_medium=sandpack
 // https://www.w3.org/WAI/tutorials/forms/labels/
@@ -11,6 +14,10 @@ export default function Skills({ isEditing }) {
       { id: 0, value: 'test' },
       { id: 1, value: 'test again' },
     ],
+  });
+
+  Object.entries(skillsData).map(([key, value]) => {
+    console.log(key);
   });
 
   const onChangeHandler = (e) => {
@@ -56,40 +63,34 @@ export default function Skills({ isEditing }) {
         {isEditing ? (
           <form>
             <ul>
-              <li>
-                <label>Skill</label>
-                <input
-                  id="skill"
-                  value={skillsData.skill}
-                  type="text"
-                  name="skill"
-                  onChange={onChangeHandler}
-                  data-key="skill"
-                />
-              </li>
-              <button type="button" onClick={addSkillHandler}>
-                Add
-              </button>
+              <FormItem
+                id="skill"
+                value={skillsData.skill}
+                name="skill"
+                onChange={onChangeHandler}
+                dataAttributes={{ 'data-key': 'skill' }}
+              />
+              <Button text="Add" clickHandler={addSkillHandler}></Button>
             </ul>
 
             <ul>
               {skillsData.skills.map((skill) => {
                 return (
-                  <li key={skill.id}>
-                    <label htmlFor={`skill_${skill.id}`}></label>
-                    <input
-                      id={`skill_${skill.id}`}
-                      value={skill.value}
-                      type="text"
-                      name="skills"
-                      onChange={onChangeHandler}
-                      data-id={skill.id}
-                      data-key="skills"
-                    />
-                    <button type="button" data-id={skill.id} onClick={deleteSkillHandler}>
-                      Delete
-                    </button>
-                  </li>
+                  <FormItem
+                    key={skill.id}
+                    id={`skill_${skill.id}`}
+                    value={skill.value}
+                    type="text"
+                    name="skills"
+                    onChange={onChangeHandler}
+                    dataAttributes={{ 'data-id': skill.id, 'data-key': 'skill' }}
+                  >
+                    <Button
+                      text="Delete skill"
+                      clickHandler={deleteSkillHandler}
+                      dataAttributes={{ 'data-id': skill.id }}
+                    ></Button>
+                  </FormItem>
                 );
               })}
             </ul>
@@ -105,39 +106,3 @@ export default function Skills({ isEditing }) {
     </section>
   );
 }
-
-/*
-<form>
-  <ul>
-    <li class='form-item'>
-      <label>Skill:</label>
-      <input type='text'></input>
-    </li>
-    <button>Add</button>
-  </ul>
-
-  <ul>
-    <li class='form-item'>
-      <label>Skill0:</label>
-      <input type='text'></input>
-    </li>
-    <button>Delete</button>
-  </ul>
-
-  <ul>
-    <li class='form-item'>
-      <label>Skill1:</label>
-      <input type='text'></input>
-      <button>Delete</button>
-    </li>
-  <ul>
-
-  <ul>
-    <li class='form-item'>
-      <label>Skill2:</label>
-      <input type='text'></input>
-      <button>Delete</button>
-    </li>
-  </ul>
-</form>
-*/
