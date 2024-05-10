@@ -1,4 +1,4 @@
-import keyToSentenceCase from './keysToSentenceCase';
+import keyToSentenceCase from './stringToSentenceCase';
 
 export default function createInputsProps(root, options) {
   if (Array.isArray(root)) {

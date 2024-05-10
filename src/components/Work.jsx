@@ -1,50 +1,12 @@
 import { useState } from 'react';
+import { work as initialWorkState } from '../data/data.initialStates';
 import FormItem from './FormItem';
-import '../styles/work.css';
 import Button from './Button';
+import '../styles/work.css';
 
 let nextId = 1;
 export default function Work({ isEditing }) {
-  const [workData, setWorkData] = useState({
-    work: {
-      jobTitle: '',
-      companyName: '',
-      dateFrom: '',
-      dateTo: '',
-      description: '',
-      descriptions: [{ id: 0, text: 'TESTING' }],
-      nextId: 0,
-    },
-    works: [
-      {
-        id: 0,
-        jobTitle: 'Unemployed',
-        companyName: 'Unemployment Inc.',
-        dateFrom: '',
-        dateTo: '',
-        description: '',
-        descriptions: [
-          { id: 0, text: 'Staring at walls.' },
-          { id: 1, text: 'Sleeping' },
-        ],
-        nextId: 1,
-      },
-      {
-        id: 1,
-        jobTitle: 'Lifeguard',
-        companyName: 'Lifeguard Inc.',
-        dateFrom: '',
-        dateTo: '',
-        description: '',
-        descriptions: [
-          { id: 0, text: 'Swimming' },
-          { id: 1, text: 'Monitors swimmers' },
-        ],
-        nextId: 1,
-      },
-    ],
-  });
-
+  const [workData, setWorkData] = useState({ ...initialWorkState });
   const onChangeHandler = (e) => {
     const input = e.currentTarget;
     const value = input.value;
@@ -65,13 +27,7 @@ export default function Work({ isEditing }) {
     const newWork = { ...workData.work, id: ++nextId };
     setWorkData({
       work: {
-        jobTitle: '',
-        companyName: '',
-        dateFrom: '',
-        dateTo: '',
-        description: '',
-        descriptions: [],
-        nextId: 0,
+        ...initialWorkState.work,
       },
       works: [...workData.works, newWork],
     });
@@ -91,12 +47,7 @@ export default function Work({ isEditing }) {
   const resetWorkHandler = () => {
     setWorkData({
       work: {
-        jobTitle: '',
-        companyName: '',
-        dateFrom: '',
-        dateTo: '',
-        description: '',
-        descriptions: [],
+        ...initialWorkState.work,
       },
       works: [...workData.works],
     });
@@ -212,7 +163,7 @@ export default function Work({ isEditing }) {
                   value={workData.work.companyName}
                   name="companyName"
                   onChange={onChangeHandler}
-                  dataAttributes={{ 'data--key': 'work' }}
+                  dataAttributes={{ 'data-key': 'work' }}
                 />
                 <FormItem
                   id="dateFrom"
@@ -239,7 +190,7 @@ export default function Work({ isEditing }) {
                 >
                   <Button
                     text="Add description"
-                    clickHandler={addDescriptionHandler}
+                    onClick={addDescriptionHandler}
                     dataAttributes={{ 'data-key': 'descriptions', 'data-root-key': 'work' }}
                   ></Button>
                   {workData.work.descriptions.length > 0 && (
@@ -260,7 +211,7 @@ export default function Work({ isEditing }) {
                           >
                             <Button
                               text="Delete description"
-                              clickHandler={deleteDescriptionHandler}
+                              onClick={deleteDescriptionHandler}
                               dataAttributes={{
                                 'data-id': description.id,
                                 'data-root-key': 'work',
@@ -273,8 +224,8 @@ export default function Work({ isEditing }) {
                     </ul>
                   )}
                 </FormItem>
-                <Button text="Add" clickHandler={addWorkHandler}></Button>
-                <Button text="Reset" clickHandler={resetWorkHandler}></Button>
+                <Button text="Add" onClick={addWorkHandler}></Button>
+                <Button text="Reset" onClick={resetWorkHandler}></Button>
               </ul>
 
               {workData.works.map((work) => {
@@ -337,7 +288,7 @@ export default function Work({ isEditing }) {
                     >
                       <Button
                         text="Add description"
-                        clickHandler={addDescriptionHandler}
+                        onClick={addDescriptionHandler}
                         dataAttributes={{
                           'data-key': 'descriptions',
                           'data-root-key': 'works',
@@ -364,7 +315,7 @@ export default function Work({ isEditing }) {
                               >
                                 <Button
                                   text="Delete description"
-                                  clickHandler={deleteDescriptionHandler}
+                                  onClick={deleteDescriptionHandler}
                                   dataAttributes={{
                                     'data-root-id': work.id,
                                     'data-id': description.id,
@@ -379,7 +330,7 @@ export default function Work({ isEditing }) {
                     </FormItem>
                     <Button
                       text="Delete"
-                      clickHandler={deleteWorkHandler}
+                      onClick={deleteWorkHandler}
                       dataAttributes={{
                         'data-id': work.id,
                       }}

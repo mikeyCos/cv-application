@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { header as initialHeaderState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
@@ -6,9 +7,7 @@ import '../styles/header.css';
 
 export default function Header({ isEditing }) {
   const [headerData, setHeaderData] = useState({
-    firstName: '',
-    lastName: '',
-    jobTitle: '',
+    ...initialHeaderState,
   });
 
   const onChangeHandler = (e) => {
@@ -23,9 +22,7 @@ export default function Header({ isEditing }) {
 
   const resetHandler = () => {
     setHeaderData({
-      firstName: '',
-      lastName: '',
-      jobTitle: '',
+      ...initialHeaderState,
     });
   };
 
@@ -59,7 +56,7 @@ export default function Header({ isEditing }) {
               name="jobTitle"
               onChange={onChangeHandler}
             />
-            <Button text="Reset" clickHandler={resetHandler}></Button>
+            <Button text="Reset" onClick={resetHandler}></Button>
           </ul>
         </form>
       ) : (

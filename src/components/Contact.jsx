@@ -1,13 +1,12 @@
 import { useState } from 'react';
+import { contact as initialContactState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
 import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
   const [contactData, setContactData] = useState({
-    email: '',
-    phone: '',
-    address: '',
+    ...initialContactState,
   });
 
   const onChangeHandler = (e) => {

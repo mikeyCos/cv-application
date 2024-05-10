@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { references as initialReferencesState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
@@ -6,25 +7,7 @@ import '../styles/references.css';
 let nextId = 0;
 export default function References({ isEditing }) {
   const [referencesData, setReferencesData] = useState({
-    reference: {
-      firstName: '',
-      lastName: '',
-      jobTitle: '',
-      companyName: '',
-      phone: '',
-      email: '',
-    },
-    references: [
-      {
-        id: 0,
-        firstName: 'Woody',
-        lastName: 'Joe',
-        jobTitle: 'Clown',
-        companyName: 'Clown Co.',
-        phone: '000-123-4567',
-        email: 'email@gmail.com',
-      },
-    ],
+    ...initialReferencesState,
   });
 
   const onChangeHandler = (e) => {
@@ -47,12 +30,7 @@ export default function References({ isEditing }) {
     const newReference = { ...referencesData.reference, id: ++nextId };
     setReferencesData({
       reference: {
-        firstName: '',
-        lastName: '',
-        jobTitle: '',
-        companyName: '',
-        phone: '',
-        email: '',
+        ...initialReferencesState.reference,
       },
       references: [...referencesData.references, newReference],
     });
@@ -72,12 +50,7 @@ export default function References({ isEditing }) {
   const resetReferenceHandler = () => {
     setReferencesData({
       reference: {
-        firstName: '',
-        lastName: '',
-        jobTitle: '',
-        companyName: '',
-        phone: '',
-        email: '',
+        ...initialReferencesState.reference,
       },
       references: [...referencesData.references],
     });
@@ -138,8 +111,8 @@ export default function References({ isEditing }) {
                 dataAttributes={{ 'data-key': 'reference' }}
               />
 
-              <Button text="Add" clickHandler={addReferenceHandler}></Button>
-              <Button text="Reset" clickHandler={resetReferenceHandler}></Button>
+              <Button text="Add" onClick={addReferenceHandler}></Button>
+              <Button text="Reset" onClick={resetReferenceHandler}></Button>
             </ul>
 
             {referencesData.references.map((reference) => {
@@ -197,7 +170,7 @@ export default function References({ isEditing }) {
 
                   <Button
                     text="Delete"
-                    clickHandler={deleteReferenceHandler}
+                    onClick={deleteReferenceHandler}
                     dataAttributes={{ 'data-id': reference.id, 'data-root-key': 'work' }}
                   ></Button>
                 </ul>

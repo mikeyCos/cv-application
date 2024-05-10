@@ -1,23 +1,16 @@
 import { useState } from 'react';
+import { skills as initialSkillsState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
-import fetchProp from '../data/inputsProperties';
 import '../styles/skills.css';
 // https://codesandbox.io/p/sandbox/react-dev-64n8l5?file=%2Fsrc%2FTaskList.js&utm_medium=sandpack
 // https://www.w3.org/WAI/tutorials/forms/labels/
+// https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
 let nextId = 1;
 
 export default function Skills({ isEditing }) {
   const [skillsData, setSkillsData] = useState({
-    skill: '',
-    skills: [
-      { id: 0, value: 'test' },
-      { id: 1, value: 'test again' },
-    ],
-  });
-
-  Object.entries(skillsData).map(([key, value]) => {
-    console.log(key);
+    ...initialSkillsState,
   });
 
   const onChangeHandler = (e) => {
@@ -70,7 +63,7 @@ export default function Skills({ isEditing }) {
                 onChange={onChangeHandler}
                 dataAttributes={{ 'data-key': 'skill' }}
               />
-              <Button text="Add" clickHandler={addSkillHandler}></Button>
+              <Button text="Add" onClick={addSkillHandler}></Button>
             </ul>
 
             <ul>
@@ -87,7 +80,7 @@ export default function Skills({ isEditing }) {
                   >
                     <Button
                       text="Delete skill"
-                      clickHandler={deleteSkillHandler}
+                      onClick={deleteSkillHandler}
                       dataAttributes={{ 'data-id': skill.id }}
                     ></Button>
                   </FormItem>

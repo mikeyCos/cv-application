@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { education as initialEducationsState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
 import '../styles/education.css';
@@ -6,28 +7,7 @@ import '../styles/education.css';
 let nextId = 1;
 export default function Education({ isEditing }) {
   const [educationData, setEducationData] = useState({
-    school: {
-      major: '',
-      schoolName: '',
-      dateFrom: '',
-      dateTo: '',
-    },
-    schools: [
-      {
-        id: 0,
-        major: 'major placeholder 0',
-        schoolName: 'Hogwards',
-        dateFrom: '1990-03',
-        dateTo: '1999-09',
-      },
-      {
-        id: 1,
-        major: 'major placeholder 1',
-        schoolName: 'Helms Deep',
-        dateFrom: '2000-01',
-        dateTo: '2020-05',
-      },
-    ],
+    ...initialEducationsState,
   });
 
   const onChangeHandler = (e) => {
@@ -50,10 +30,7 @@ export default function Education({ isEditing }) {
     const newSchool = { ...educationData.school, id: ++nextId };
     setEducationData({
       school: {
-        major: '',
-        schoolName: '',
-        dateFrom: '',
-        dateTo: '',
+        ...initialEducationsState.school,
       },
       schools: [...educationData.schools, newSchool],
     });
@@ -73,10 +50,7 @@ export default function Education({ isEditing }) {
   const resetEducationHandler = () => {
     setEducationData({
       school: {
-        major: '',
-        schoolName: '',
-        dateFrom: '',
-        dateTo: '',
+        ...initialEducationsState.school,
       },
       schools: [...educationData.schools],
     });
@@ -131,9 +105,9 @@ export default function Education({ isEditing }) {
                 }}
               />
 
-              {/* <button type="button" onClick={addEducationHandler}>
+              <button type="button" onClick={addEducationHandler}>
                 Add
-              </button> */}
+              </button>
 
               <button type="button" onClick={resetEducationHandler}>
                 Reset
@@ -156,7 +130,7 @@ export default function Education({ isEditing }) {
 
                   <FormItem
                     id={`schoolName_${school.id}`}
-                    value={school.major}
+                    value={school.name}
                     name="schoolName"
                     onChange={onChangeHandler}
                     dataAttributes={{
@@ -191,7 +165,7 @@ export default function Education({ isEditing }) {
 
                   <Button
                     text="Delete"
-                    clickHandler={deleteEducationHandler}
+                    onClick={deleteEducationHandler}
                     dataAttributes={{ 'data-id': school.id }}
                   ></Button>
                 </ul>

@@ -1,5 +1,11 @@
 # Changelog
 ---
+### 09 MAY 2024
+- Deleted `inputsProperties`.
+- Created `validateForms` and `areFormsValid` in `App` module; names could change in the future.
+- Changed button property `clickHandler` to `onClick`.
+- Created `data.initialStates`; contains initial states for each module.
+---
 ### 08 MAY 2024
 - Renamed `keyToSentenceCase` to `stringToSentenceCase`.
 - Created `inputsProperties` in `data` directory.

@@ -1,19 +1,6 @@
-export default function Button({
-  type = 'button',
-  text,
-  className,
-  clickHandler,
-  id,
-  dataAttributes,
-}) {
+export default function Button({ type = 'button', text, className, onClick, id, dataAttributes }) {
   return (
-    <button
-      className={className}
-      type={type}
-      onClick={clickHandler}
-      data-id={id}
-      {...dataAttributes}
-    >
+    <button className={className} type={type} onClick={onClick} data-id={id} {...dataAttributes}>
       <span className="btn-text">{text}</span>
     </button>
   );
