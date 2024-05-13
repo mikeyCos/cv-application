@@ -1,7 +1,7 @@
 # Changelog
 ---
 ### 13 MAY 2024
-- Commit and merge `module-form` branch to main branch.
+- Commit before merge `module-form` branch to main branch.
 ---
 ### 10 MAY 2024
 - Created `formValidation` module and is imported into the `app` module; `validateForm` is assigned `formValidation` and is passed into section's prop.
