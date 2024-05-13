@@ -1,30 +1,64 @@
 import { useState } from 'react';
-import Form from './Form';
-import setInputProps from '../utilities/setInputProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
+import { contact as initialContactState } from '../data/data.initialStates';
+import FormItem from './FormItem';
+import Button from './Button';
 import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
   const [contactData, setContactData] = useState({
-    email: { id: 0, value: '', type: 'email' },
-    phone: { id: 1, value: '', type: 'tel' },
-    address: { id: 2, value: '' },
+    ...initialContactState,
   });
 
-  const onChangeHandler = setInputEventHandler(contactData, setContactData, true);
-  const propsForInputs = isEditing && setInputProps(contactData);
+  const onChangeHandler = (e) => {
+    const input = e.currentTarget;
+    const value = input.value;
+    const prop = input.name;
+
+    setContactData({
+      ...contactData,
+      [prop]: value,
+    });
+  };
 
   return (
     <section className="contact">
       <div>
         <h2>Contact</h2>
         {isEditing ? (
-          <Form props={[{ inputs: propsForInputs, onChangeHandler: onChangeHandler }]} />
+          <form>
+            <ul>
+              <FormItem
+                id="contact_email"
+                value={contactData.email}
+                type="email"
+                name="email"
+                onChange={onChangeHandler}
+                placeholder="some@email.com"
+              />
+
+              <FormItem
+                id="contact_phone"
+                value={contactData.phone}
+                type="tel"
+                name="phone"
+                onChange={onChangeHandler}
+                placeholder="ex. 123-456-7777"
+              />
+              <FormItem
+                id="contact_address"
+                value={contactData.address}
+                type="text"
+                name="address"
+                onChange={onChangeHandler}
+                placeholder="Address"
+              />
+            </ul>
+          </form>
         ) : (
           <ul>
-            <li>Email: {contactData.email.value}</li>
-            <li>Phone: {contactData.phone.value}</li>
-            <li>Address: {contactData.address.value}</li>
+            <li>Email: {contactData.email}</li>
+            <li>Phone: {contactData.phone}</li>
+            <li>Address: {contactData.address}</li>
           </ul>
         )}
       </div>

@@ -1,103 +1,109 @@
 import { useState } from 'react';
-import Form from './Form';
-import setInputProps from '../utilities/setInputProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
+import { skills as initialSkillsState } from '../data/data.initialStates';
+import FormItem from './FormItem';
+import Button from './Button';
 import '../styles/skills.css';
+// https://codesandbox.io/p/sandbox/react-dev-64n8l5?file=%2Fsrc%2FTaskList.js&utm_medium=sandpack
+// https://www.w3.org/WAI/tutorials/forms/labels/
+// https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
+let nextId = 1;
 
-let nextId = 2;
-export default function Skills({ isEditing }) {
+export default function Skills({ isEditing, validateForm }) {
   const [skillsData, setSkillsData] = useState({
-    skill: {
-      id: 0,
-      value: '',
-    },
-    skills: [
-      { id: 0, value: 'test' },
-      { id: 1, value: 'test again' },
-    ],
+    ...initialSkillsState,
   });
 
-  const onChangeHandler = setInputEventHandler(skillsData, setSkillsData, true);
-  const onChangeHandlerUpdate = setInputEventHandler(skillsData, (id, value) => {
-    const newSkills = Object.values(skillsData.skills).map((skill) => {
-      return skill.id === +id ? { id: +id, value } : skill;
-    });
+  const onChangeHandler = (e) => {
+    const input = e.currentTarget;
+    const value = input.value;
+    const { id, key, prop } = { prop: input.name, ...input.dataset };
+    const data = skillsData[key];
+    const newSkill = Array.isArray(data)
+      ? data.map((item) => {
+          return item.id === +id ? { ...item, value } : item;
+        })
+      : value;
 
     setSkillsData({
       ...skillsData,
-      skills: newSkills,
+      [key]: newSkill,
     });
-  });
+  };
 
   const addSkillHandler = () => {
+    const newSkill = { id: ++nextId, value: skillsData.skill };
     setSkillsData({
-      skill: {
-        ...skillsData.skill,
-        value: '',
-      },
-      skills: [...skillsData.skills, { id: nextId++, value: skillsData.skill.value }],
+      skill: '',
+      skills: [...skillsData.skills, newSkill],
     });
   };
 
   const deleteSkillHandler = (e) => {
+    const btn = e.currentTarget;
+    const { id } = btn.dataset;
     setSkillsData({
       ...skillsData,
-      skills: [...skillsData.skills.filter((skill) => skill.id !== +e.currentTarget.dataset.id)],
+      skills: skillsData.skills.filter((skill) => {
+        return skill.id !== +id && skill;
+      }),
     });
   };
-
-  const propsForInputs = isEditing && setInputProps({ skill: { ...skillsData.skill } });
-  const propsForSkills =
-    isEditing &&
-    setInputProps(
-      Object.values(skillsData.skills).reduce((accumulator, currentValue) => {
-        return {
-          ...accumulator,
-          [`skill${currentValue.id}`]: { ...currentValue },
-        };
-      }, {}),
-    );
 
   return (
     <section className="skills">
       <div>
         <h2>Skills</h2>
         {isEditing ? (
-          <Form
-            props={[
-              {
-                id: 0,
-                inputs: propsForInputs,
-                onChangeHandler: onChangeHandler,
-                button: { text: 'Add', className: 'skill-add', clickHandler: addSkillHandler },
-              },
-              {
-                id: 1,
-                inputs: propsForSkills,
-                onChangeHandler: onChangeHandlerUpdate,
-                button: {
-                  text: 'Delete',
-                  className: 'skill-delete',
-                  clickHandler: deleteSkillHandler,
-                },
-              },
-            ]}
-          ></Form>
+          <>
+            <form noValidate={true} onSubmit={validateForm(() => console.log('callback firing'))}>
+              <ul>
+                <FormItem
+                  id="skill"
+                  value={skillsData.skill}
+                  name="skill"
+                  onChange={onChangeHandler}
+                  dataAttributes={{ 'data-key': 'skill' }}
+                  placeholder="ex. 'Critical Thinking'"
+                  props={{ minLength: 3, required: true }}
+                />
+                {/* <Button type="submit" text="Add" onClick={addSkillHandler}></Button> */}
+                <Button type="submit" text="Add"></Button>
+              </ul>
+            </form>
+            <form>
+              <ul>
+                {skillsData.skills.map((skill) => {
+                  return (
+                    <FormItem
+                      key={skill.id}
+                      id={`skill_${skill.id}`}
+                      value={skill.value}
+                      type="text"
+                      name="skills"
+                      onChange={onChangeHandler}
+                      dataAttributes={{ 'data-id': skill.id, 'data-key': 'skill' }}
+                      placeholder="Edit or delete skills"
+                      label={{ className: 'visibility-hidden' }}
+                    >
+                      <Button
+                        text="Delete skill"
+                        onClick={deleteSkillHandler}
+                        dataAttributes={{ 'data-id': skill.id }}
+                      ></Button>
+                    </FormItem>
+                  );
+                })}
+              </ul>
+            </form>
+          </>
         ) : (
-          // <List arr={skillsData.skills} />
-          <div>Hello world!</div>
+          <ul>
+            {skillsData.skills.map((skill) => {
+              return <li key={skill.id}>{skill.value}</li>;
+            })}
+          </ul>
         )}
       </div>
     </section>
-  );
-}
-
-function List({ arr }) {
-  return (
-    <ul>
-      {arr.map((item) => {
-        return <li key={item.id}>{item.value}</li>;
-      })}
-    </ul>
   );
 }

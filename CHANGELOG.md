@@ -1,6 +1,35 @@
 # Changelog
 ---
+### 13 MAY 2024
+- Commit before merge `module-form` branch to main branch.
+---
+### 10 MAY 2024
+- Created `formValidation` module and is imported into the `app` module; `validateForm` is assigned `formValidation` and is passed into section's prop.
+- Added `placeholder` property to inputs, excluding inputs of `type: 'month'`.
+- Created `parseDate` module; reformats date from 'YYYY-MM' to 'MMM YYYY'.
+---
+### 09 MAY 2024
+- Deleted `inputsProperties`.
+- Created `validateForms` and `areFormsValid` in `App` module; names could change in the future.
+- Changed button property `clickHandler` to `onClick`.
+- Created `data.initialStates`; contains initial states for each module.
+---
 ### 08 MAY 2024
+- Renamed `keyToSentenceCase` to `stringToSentenceCase`.
+- Created `inputsProperties` in `data` directory.
+- Properties passed into a `FormItem` component look as follows:
+```js
+<FormItem
+  id="dateFrom"
+  value={workData.work.dateFrom}
+  name="dateFrom"
+  onChange={onChangeHandler}
+  type="month"
+  dataAttributes={{ 'data-key': 'work' }}
+/>
+```
+- Created `FormItem` module that will return a list item with label and input elements, and children components.
+- Checked out CHANGELOG.md from `module-form` branch to `main` and `form-input` branches.
 - The `module-form` branch accepts inputs without form validation and renders appropriately; little to no props usage.
 - Sections involving an add button have the ability to edit and delete their children.
 ---

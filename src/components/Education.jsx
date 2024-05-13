@@ -1,114 +1,200 @@
 import { useState } from 'react';
-import Form from './Form';
-import setInputProps from '../utilities/setInputProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
+import { education as initialEducationsState } from '../data/data.initialStates';
+import FormItem from './FormItem';
+import Button from './Button';
+import parseDate from '../utilities/parseDate';
 import '../styles/education.css';
 
 let nextId = 1;
 export default function Education({ isEditing }) {
   const [educationData, setEducationData] = useState({
-    school: {
-      major: { id: 0, value: '' },
-      schoolName: { id: 1, value: '' },
-      dateFrom: { id: 2, value: '', type: 'month' },
-      dateTo: { id: 3, value: '', type: 'month' },
-    },
-    schools: [
-      {
-        id: 0,
-        major: { id: 0, value: 'major placeholder' },
-        schoolName: { id: 1, value: 'School name' },
-        dateFrom: { id: 2, value: 'date from' },
-        dateTo: { id: 3, value: 'date to' },
-      },
-    ],
+    ...initialEducationsState,
   });
 
-  const onChangeHandler = setInputEventHandler(educationData, setEducationData, true);
-  const onChangeHandlerUpdate = setInputEventHandler(educationData, (id, value) => {
-    const newSchools = Object.values(educationData.schools).map((school) => {
-      return school.id === +id ? { id: +id, value } : school;
-    });
-
+  const onChangeHandler = (e) => {
+    const input = e.currentTarget;
+    const value = input.value;
+    const { id, key, prop } = { prop: input.name, ...input.dataset };
+    const data = educationData[key];
+    const newData = Array.isArray(data)
+      ? data.map((item) => {
+          return item.id === +id ? { ...item, [prop]: value } : item;
+        })
+      : { ...data, [prop]: value };
     setEducationData({
-      ...setEducationData,
-      schools: newSchools,
+      ...educationData,
+      [key]: newData,
     });
-  });
+  };
 
   const addEducationHandler = () => {
+    const newSchool = { ...educationData.school, id: ++nextId };
     setEducationData({
       school: {
-        ...educationData.school,
-        value: '',
+        ...initialEducationsState.school,
       },
-      schools: [...educationData.schools, { id: nextId++, value: setEducationData.school.value }],
+      schools: [...educationData.schools, newSchool],
     });
   };
 
   const deleteEducationHandler = (e) => {
+    const btn = e.currentTarget;
+    const { id } = btn.dataset;
     setEducationData({
       ...educationData,
-      schools: [
-        ...educationData.skills.filter((school) => school.id !== +e.currentTarget.dataset.id),
-      ],
+      schools: educationData.schools.filter((school) => {
+        return school.id !== +id && school;
+      }),
     });
   };
 
-  const propsForInputs = isEditing && setInputProps({ school: { ...educationData.school } });
-  const propsForSchools =
-    isEditing &&
-    setInputProps(
-      Object.values(educationData.schools).reduce((accumulator, currentValue) => {
-        return {
-          ...accumulator,
-          [`school${currentValue.id}`]: { ...currentValue },
-        };
-      }, {}),
-    );
-
-  console.log(propsForInputs);
-  console.log(propsForSchools);
+  const resetEducationHandler = () => {
+    setEducationData({
+      school: {
+        ...initialEducationsState.school,
+      },
+      schools: [...educationData.schools],
+    });
+  };
 
   return (
     <section className="education">
       <div>
         <h2>Education</h2>
         {isEditing ? (
-          <Form
-            props={[
-              {
-                id: 0,
-                inputs: propsForInputs,
-                onChangeHandler: onChangeHandler,
-                button: {
-                  text: 'Add',
-                  className: 'education-add',
-                  clickHandler: addEducationHandler,
-                },
-              },
-              {
-                id: 1,
-                inputs: propsForSchools,
-                onChangeHandler: onChangeHandlerUpdate,
-                button: {
-                  text: 'Delete',
-                  className: 'education-delete',
-                  clickHandler: deleteEducationHandler,
-                },
-              },
-            ]}
-          />
+          <>
+            <form>
+              <ul>
+                <FormItem
+                  id="education_degree"
+                  value={educationData.school.degree}
+                  name="degree"
+                  onChange={onChangeHandler}
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                  placeholder="Degree"
+                />
+
+                <FormItem
+                  id="education_schoolName"
+                  value={educationData.school.schoolName}
+                  name="schoolName"
+                  onChange={onChangeHandler}
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                  placeholder="School name"
+                />
+
+                <FormItem
+                  id="education_dateFrom"
+                  value={educationData.school.dateFrom}
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  type="month"
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                />
+
+                <FormItem
+                  id="education_dateTo"
+                  value={educationData.school.dateTo}
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  type="month"
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                />
+
+                <button type="button" onClick={addEducationHandler}>
+                  Add
+                </button>
+
+                <button type="button" onClick={resetEducationHandler}>
+                  Reset
+                </button>
+              </ul>
+            </form>
+            <form>
+              {educationData.schools.map((school) => {
+                return (
+                  <ul key={school.id}>
+                    <FormItem
+                      id={`education_degree_${school.id}`}
+                      value={school.degree}
+                      name="degree"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      placeholder="Degree"
+                    />
+
+                    <FormItem
+                      id={`education_schoolName_${school.id}`}
+                      value={school.name}
+                      name="schoolName"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      placeholder="School name"
+                    />
+
+                    <FormItem
+                      id={`education_dateFrom_${school.id}`}
+                      value={school.dateFrom}
+                      type="month"
+                      name="dateFrom"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      label={{ text: '(MMM YYYY)' }}
+                    />
+
+                    <FormItem
+                      id={`education_dateTo_${school.id}`}
+                      value={school.dateTo}
+                      type="month"
+                      name="dateTo"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      label={{ text: '(MMM YYYY)' }}
+                    />
+
+                    <Button
+                      text="Delete"
+                      onClick={deleteEducationHandler}
+                      dataAttributes={{ 'data-id': school.id }}
+                    ></Button>
+                  </ul>
+                );
+              })}
+            </form>
+          </>
         ) : (
-          <div>
-            {/* <article>
-              <h3>{educationData.major.value}</h3>
-              <h4>{educationData.schoolName.value}</h4>
-              <h4>
-                {educationData.dateFrom.value} - {educationData.dateTo.value}
-              </h4>
-            </article> */}
-          </div>
+          <>
+            {educationData.schools.map((school) => {
+              return (
+                <ul key={school.id}>
+                  <li>{school.degree}</li>
+                  <li>{school.schoolName}</li>
+                  <li>From: {parseDate(school.dateFrom)}</li>
+                  <li>To: {parseDate(school.dateTo)}</li>
+                </ul>
+              );
+            })}
+          </>
         )}
       </div>
     </section>

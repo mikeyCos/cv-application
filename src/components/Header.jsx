@@ -1,29 +1,71 @@
 import { useState } from 'react';
-import Form from './Form';
+import { header as initialHeaderState } from '../data/data.initialStates';
+import FormItem from './FormItem';
+import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
-import setInputProps from '../utilities/setInputProps';
-import setInputEventHandler from '../utilities/setInputEventHandler';
 import '../styles/header.css';
 
-export default function Header({ isEditing }) {
+export default function Header({ isEditing, validateForm }) {
   const [headerData, setHeaderData] = useState({
-    firstName: { id: 0, value: '' },
-    lastName: { id: 1, value: '' },
-    jobTitle: { id: 2, value: '' },
+    ...initialHeaderState,
   });
 
-  const fullName = concatenateNames(headerData.firstName.value, headerData.lastName.value);
-  const onChangeHandler = setInputEventHandler(headerData, setHeaderData, true);
-  const propsForInputs = isEditing && setInputProps(headerData);
-  console.log(propsForInputs);
+  const onChangeHandler = (e) => {
+    const input = e.currentTarget;
+    const value = input.value;
+    const prop = input.name;
+    setHeaderData({
+      ...headerData,
+      [prop]: value,
+    });
+  };
+
+  const resetHandler = () => {
+    setHeaderData({
+      ...initialHeaderState,
+    });
+  };
+
+  const fullName = concatenateNames(headerData.firstName, headerData.lastName);
+
   return (
     <header>
       {isEditing ? (
-        <Form props={[{ inputs: propsForInputs, onChangeHandler: onChangeHandler }]} />
+        <form onSubmit={validateForm}>
+          <ul>
+            <FormItem
+              id="header_firstName"
+              value={headerData.firstName}
+              type="text"
+              name="firstName"
+              onChange={onChangeHandler}
+              placeholder="First name"
+            />
+
+            <FormItem
+              id="header_lastName"
+              value={headerData.lastName}
+              type="text"
+              name="lastName"
+              onChange={onChangeHandler}
+              placeholder="Last name"
+            />
+
+            <FormItem
+              id="header_jobTitle"
+              value={headerData.jobTitle}
+              type="text"
+              name="jobTitle"
+              onChange={onChangeHandler}
+              placeholder="Job title"
+            />
+            <Button text="Reset" onClick={resetHandler}></Button>
+          </ul>
+        </form>
       ) : (
         <div>
           <h1>{fullName}</h1>
-          <h3>{headerData.jobTitle.value}</h3>
+          <h2>{headerData.jobTitle}</h2>
         </div>
       )}
     </header>

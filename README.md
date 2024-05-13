@@ -18,12 +18,12 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
+<!-- [![Contributors][contributors-shield]][contributors-url] -->
+<!-- [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 
 
@@ -34,7 +34,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">CV Application</h3>
 
   <p align="center">
     project_description
@@ -242,7 +242,35 @@ const propsForInputs =
       type: 'text',
     }));
 ```
-
+2. Is there a benefit for making a `FormItem` component and passing it's respective properties versus hardcoding a form item's content where it is needed? For example:
+```js
+<FormItem
+  {...{
+    id: `companyName_${work.id}`,
+    value: work.companyName,
+    name: 'companyName',
+    onChange: onChangeHandler,
+  }}
+  dataAttributes={{
+    'data-id': work.id,
+    'data-key': 'works',
+  }}
+/>
+// versus
+<li data-id={work.id} className="form-item">
+  <label htmlFor={`companyName_${work.id}`}>Company name:</label>
+  <input
+    id={`companyName_${work.id}`}
+    value={work.companyName}
+    type="text"
+    name="companyName"
+    onChange={onChangeHandler}
+    data-id={work.id}
+    data-key="works"
+  />
+</li>
+```
+3. Lorem ipsum
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
