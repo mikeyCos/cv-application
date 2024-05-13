@@ -5,7 +5,7 @@ import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
 import '../styles/header.css';
 
-export default function Header({ isEditing }) {
+export default function Header({ isEditing, validateForm }) {
   const [headerData, setHeaderData] = useState({
     ...initialHeaderState,
   });
@@ -31,30 +31,33 @@ export default function Header({ isEditing }) {
   return (
     <header>
       {isEditing ? (
-        <form>
+        <form onSubmit={validateForm}>
           <ul>
             <FormItem
-              id="firstName"
+              id="header_firstName"
               value={headerData.firstName}
               type="text"
               name="firstName"
               onChange={onChangeHandler}
+              placeholder="First name"
             />
 
             <FormItem
-              id="lastName"
+              id="header_lastName"
               value={headerData.lastName}
               type="text"
               name="lastName"
               onChange={onChangeHandler}
+              placeholder="Last name"
             />
 
             <FormItem
-              id="jobTitle"
+              id="header_jobTitle"
               value={headerData.jobTitle}
               type="text"
               name="jobTitle"
               onChange={onChangeHandler}
+              placeholder="Job title"
             />
             <Button text="Reset" onClick={resetHandler}></Button>
           </ul>

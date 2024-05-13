@@ -12,7 +12,7 @@ const contact = {
 
 const education = {
   school: {
-    major: '',
+    degree: '',
     schoolName: '',
     dateFrom: '',
     dateTo: '',
@@ -20,14 +20,14 @@ const education = {
   schools: [
     {
       id: 0,
-      major: 'major placeholder 0',
+      degree: 'major placeholder 0',
       schoolName: 'Hogwards',
       dateFrom: '1990-03',
       dateTo: '1999-09',
     },
     {
       id: 1,
-      major: 'major placeholder 1',
+      degree: 'major placeholder 1',
       schoolName: 'Helms Deep',
       dateFrom: '2000-01',
       dateTo: '2020-05',
@@ -59,8 +59,8 @@ const work = {
       id: 0,
       jobTitle: 'Unemployed',
       companyName: 'Unemployment Inc.',
-      dateFrom: '',
-      dateTo: '',
+      dateFrom: '1999-01',
+      dateTo: '2000-01',
       description: '',
       descriptions: [
         { id: 0, text: 'Staring at walls.' },
@@ -72,8 +72,8 @@ const work = {
       id: 1,
       jobTitle: 'Lifeguard',
       companyName: 'Lifeguard Inc.',
-      dateFrom: '',
-      dateTo: '',
+      dateFrom: '2003-01',
+      dateTo: '2006-01',
       description: '',
       descriptions: [
         { id: 0, text: 'Swimming' },

@@ -6,7 +6,9 @@ import Skills from './Skills';
 import Work from './Work';
 import References from './References';
 import Button from './Button';
+import formValidation from '../utilities/formValidation';
 import '../styles/app.css';
+import '../styles/form.css';
 
 export default function App() {
   const [isEditing, setIsEditing] = useState(false);
@@ -21,8 +23,7 @@ export default function App() {
     }
   };
 
-  console.log(isEditing);
-
+  const validateForm = formValidation;
   const buttonProps = isEditing
     ? { type: 'submit', className: 'cv-submit', text: 'Submit CV' }
     : { type: 'button', className: 'cv-edit', text: 'Edit CV' };
@@ -30,10 +31,10 @@ export default function App() {
   return (
     <div className="app">
       <Button {...buttonProps} onClick={!isEditing ? editHandler : validateForms} />
-      <Header isEditing={isEditing} />
+      <Header isEditing={isEditing} validateForm={isEditing && validateForm} />
       <Contact isEditing={isEditing} />
       <Education isEditing={isEditing} />
-      <Skills isEditing={isEditing} />
+      <Skills isEditing={isEditing} validateForm={isEditing && validateForm} />
       <Work isEditing={isEditing} />
       <References isEditing={isEditing} />
     </div>
@@ -47,5 +48,5 @@ const areFormsValid = () => {
 
   // Return true if all form inputs are valid
   // Return false if a form input is invalid
-  return false;
+  return true;
 };

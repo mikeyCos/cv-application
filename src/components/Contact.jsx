@@ -28,26 +28,29 @@ export default function Contact({ isEditing }) {
           <form>
             <ul>
               <FormItem
-                id="email"
+                id="contact_email"
                 value={contactData.email}
                 type="email"
                 name="email"
                 onChange={onChangeHandler}
+                placeholder="some@email.com"
               />
 
               <FormItem
-                id="phone"
+                id="contact_phone"
                 value={contactData.phone}
                 type="tel"
                 name="phone"
                 onChange={onChangeHandler}
+                placeholder="ex. 123-456-7777"
               />
               <FormItem
-                id="address"
+                id="contact_address"
                 value={contactData.address}
                 type="text"
                 name="address"
                 onChange={onChangeHandler}
+                placeholder="Address"
               />
             </ul>
           </form>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { education as initialEducationsState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
+import parseDate from '../utilities/parseDate';
 import '../styles/education.css';
 
 let nextId = 1;
@@ -61,127 +62,135 @@ export default function Education({ isEditing }) {
       <div>
         <h2>Education</h2>
         {isEditing ? (
-          <form>
-            <ul>
-              <FormItem
-                id="major"
-                value={educationData.school.major}
-                name="major"
-                onChange={onChangeHandler}
-                dataAttributes={{
-                  'data-key': 'school',
-                }}
-              />
+          <>
+            <form>
+              <ul>
+                <FormItem
+                  id="education_degree"
+                  value={educationData.school.degree}
+                  name="degree"
+                  onChange={onChangeHandler}
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                  placeholder="Degree"
+                />
 
-              <FormItem
-                id="schoolName"
-                value={educationData.school.schoolName}
-                name="schoolName"
-                onChange={onChangeHandler}
-                dataAttributes={{
-                  'data-key': 'school',
-                }}
-              />
+                <FormItem
+                  id="education_schoolName"
+                  value={educationData.school.schoolName}
+                  name="schoolName"
+                  onChange={onChangeHandler}
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                  placeholder="School name"
+                />
 
-              <FormItem
-                id="dateFrom"
-                value={educationData.school.dateFrom}
-                name="dateFrom"
-                onChange={onChangeHandler}
-                type="month"
-                dataAttributes={{
-                  'data-key': 'school',
-                }}
-              />
+                <FormItem
+                  id="education_dateFrom"
+                  value={educationData.school.dateFrom}
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  type="month"
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                />
 
-              <FormItem
-                id="dateTo"
-                value={educationData.school.dateTo}
-                name="dateTo"
-                onChange={onChangeHandler}
-                type="month"
-                dataAttributes={{
-                  'data-key': 'school',
-                }}
-              />
+                <FormItem
+                  id="education_dateTo"
+                  value={educationData.school.dateTo}
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  type="month"
+                  dataAttributes={{
+                    'data-key': 'school',
+                  }}
+                />
 
-              <button type="button" onClick={addEducationHandler}>
-                Add
-              </button>
+                <button type="button" onClick={addEducationHandler}>
+                  Add
+                </button>
 
-              <button type="button" onClick={resetEducationHandler}>
-                Reset
-              </button>
-            </ul>
+                <button type="button" onClick={resetEducationHandler}>
+                  Reset
+                </button>
+              </ul>
+            </form>
+            <form>
+              {educationData.schools.map((school) => {
+                return (
+                  <ul key={school.id}>
+                    <FormItem
+                      id={`education_degree_${school.id}`}
+                      value={school.degree}
+                      name="degree"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      placeholder="Degree"
+                    />
 
-            {educationData.schools.map((school) => {
-              return (
-                <ul key={school.id}>
-                  <FormItem
-                    id={`major_${school.id}`}
-                    value={school.major}
-                    name="major"
-                    onChange={onChangeHandler}
-                    dataAttributes={{
-                      'data-id': school.id,
-                      'data-key': 'schools',
-                    }}
-                  />
+                    <FormItem
+                      id={`education_schoolName_${school.id}`}
+                      value={school.name}
+                      name="schoolName"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      placeholder="School name"
+                    />
 
-                  <FormItem
-                    id={`schoolName_${school.id}`}
-                    value={school.name}
-                    name="schoolName"
-                    onChange={onChangeHandler}
-                    dataAttributes={{
-                      'data-id': school.id,
-                      'data-key': 'schools',
-                    }}
-                  />
+                    <FormItem
+                      id={`education_dateFrom_${school.id}`}
+                      value={school.dateFrom}
+                      type="month"
+                      name="dateFrom"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      label={{ text: '(MMM YYYY)' }}
+                    />
 
-                  <FormItem
-                    id={`dateFrom_${school.id}`}
-                    value={school.dateFrom}
-                    type="month"
-                    name="dateFrom"
-                    onChange={onChangeHandler}
-                    dataAttributes={{
-                      'data-id': school.id,
-                      'data-key': 'schools',
-                    }}
-                  />
+                    <FormItem
+                      id={`education_dateTo_${school.id}`}
+                      value={school.dateTo}
+                      type="month"
+                      name="dateTo"
+                      onChange={onChangeHandler}
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                      }}
+                      label={{ text: '(MMM YYYY)' }}
+                    />
 
-                  <FormItem
-                    id={`dateTo_${school.id}`}
-                    value={school.dateTo}
-                    type="month"
-                    name="dateTo"
-                    onChange={onChangeHandler}
-                    dataAttributes={{
-                      'data-id': school.id,
-                      'data-key': 'schools',
-                    }}
-                  />
-
-                  <Button
-                    text="Delete"
-                    onClick={deleteEducationHandler}
-                    dataAttributes={{ 'data-id': school.id }}
-                  ></Button>
-                </ul>
-              );
-            })}
-          </form>
+                    <Button
+                      text="Delete"
+                      onClick={deleteEducationHandler}
+                      dataAttributes={{ 'data-id': school.id }}
+                    ></Button>
+                  </ul>
+                );
+              })}
+            </form>
+          </>
         ) : (
           <>
             {educationData.schools.map((school) => {
               return (
                 <ul key={school.id}>
-                  <li>{school.major}</li>
+                  <li>{school.degree}</li>
                   <li>{school.schoolName}</li>
-                  {/* Need to convert input value YYYY-MM to MMM YYYY */}
-                  <li>From: {school.dateFrom}</li>
-                  <li>From: {school.dateTo}</li>
+                  <li>From: {parseDate(school.dateFrom)}</li>
+                  <li>To: {parseDate(school.dateTo)}</li>
                 </ul>
               );
             })}
