@@ -6,7 +6,7 @@ import Skills from './Skills';
 import Work from './Work';
 import References from './References';
 import Button from './Button';
-import formValidation from '../utilities/formValidation';
+import formValidation, { validateInput } from '../utilities/formValidation';
 import '../styles/app.css';
 import '../styles/form.css';
 
@@ -32,11 +32,27 @@ export default function App() {
     <div className="app">
       <Button {...buttonProps} onClick={!isEditing ? editHandler : validateForms} />
       <Header isEditing={isEditing} validateForm={isEditing && validateForm} />
-      <Contact isEditing={isEditing} />
-      <Education isEditing={isEditing} />
-      <Skills isEditing={isEditing} validateForm={isEditing && validateForm} />
-      <Work isEditing={isEditing} />
-      <References isEditing={isEditing} />
+      <Contact
+        isEditing={isEditing}
+        validateForm={isEditing && validateForm}
+        validateInput={isEditing && validateInput}
+      />
+      <Education
+        isEditing={isEditing}
+        validateForm={isEditing && validateForm}
+        validateInput={isEditing && validateInput}
+      />
+      <Skills
+        isEditing={isEditing}
+        validateForm={isEditing && validateForm}
+        validateInput={isEditing && validateInput}
+      />
+      <Work
+        isEditing={isEditing}
+        validateForm={isEditing && validateForm}
+        validateInput={isEditing && validateInput}
+      />
+      {/* <References isEditing={isEditing} validateForm={isEditing && validateForm} /> */}
     </div>
   );
 }

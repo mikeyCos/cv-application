@@ -1,6 +1,18 @@
 # Changelog
 ---
+### 15 MAY 2024
+- 
+---
+### 14 MAY 2024
+- Added `month`,`year`, and `description` to `inputs` objects in `formValidation` module.
+- Changed `dateFrom` and `dateTo` string properties into object properties with `month` and `year` as their properties.
+- Split the input of type month into select and input elements; the select element is for months and input is for the year.
+---
 ### 13 MAY 2024
+- `FormItem` component now adds a container for input error messages.
+- Input pattern added to object properties in `formValidation` module.
+- Form validation added to a handful of inputs.
+- Created `form-validation` branch.
 - Commit before merge `module-form` branch to main branch.
 ---
 ### 10 MAY 2024

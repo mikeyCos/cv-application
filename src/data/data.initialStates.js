@@ -47,8 +47,15 @@ const work = {
   work: {
     jobTitle: '',
     companyName: '',
-    dateFrom: '',
-    dateTo: '',
+    // dateFrom: '',
+    dateFrom: {
+      month: '',
+      year: '',
+    },
+    dateTo: {
+      month: '',
+      year: '',
+    },
     description: '',
     // descriptions: [{ id: 0, text: 'TESTING' }],
     descriptions: [],
@@ -59,8 +66,14 @@ const work = {
       id: 0,
       jobTitle: 'Unemployed',
       companyName: 'Unemployment Inc.',
-      dateFrom: '1999-01',
-      dateTo: '2000-01',
+      dateFrom: {
+        month: '1',
+        year: '1999',
+      },
+      dateTo: {
+        month: '8',
+        year: '2000',
+      },
       description: '',
       descriptions: [
         { id: 0, text: 'Staring at walls.' },
@@ -72,8 +85,14 @@ const work = {
       id: 1,
       jobTitle: 'Lifeguard',
       companyName: 'Lifeguard Inc.',
-      dateFrom: '2003-01',
-      dateTo: '2006-01',
+      dateFrom: {
+        month: '1',
+        year: '2003',
+      },
+      dateTo: {
+        month: '5',
+        year: '2006',
+      },
       description: '',
       descriptions: [
         { id: 0, text: 'Swimming' },

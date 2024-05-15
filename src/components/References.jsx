@@ -5,7 +5,7 @@ import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
 import '../styles/references.css';
 let nextId = 0;
-export default function References({ isEditing }) {
+export default function References({ isEditing, validateForm }) {
   const [referencesData, setReferencesData] = useState({
     ...initialReferencesState,
   });
@@ -62,7 +62,7 @@ export default function References({ isEditing }) {
         <h2>References</h2>
         {isEditing ? (
           <>
-            <form>
+            <form noValidate={true} onSubmit={validateForm(() => addReferenceHandler())}>
               <ul>
                 <FormItem
                   id="references_firstName"
@@ -118,7 +118,8 @@ export default function References({ isEditing }) {
                   placeholder="ex. some@email.com"
                 />
 
-                <Button text="Add" onClick={addReferenceHandler}></Button>
+                {/* <Button text="Add" onClick={addReferenceHandler}></Button> */}
+                <Button type="submit" text="Add"></Button>
                 <Button text="Reset" onClick={resetReferenceHandler}></Button>
               </ul>
             </form>

@@ -6,7 +6,7 @@ import parseDate from '../utilities/parseDate';
 import '../styles/education.css';
 
 let nextId = 1;
-export default function Education({ isEditing }) {
+export default function Education({ isEditing, validateForm }) {
   const [educationData, setEducationData] = useState({
     ...initialEducationsState,
   });
@@ -63,7 +63,7 @@ export default function Education({ isEditing }) {
         <h2>Education</h2>
         {isEditing ? (
           <>
-            <form>
+            <form noValidate={true} onSubmit={validateForm(() => addEducationHandler())}>
               <ul>
                 <FormItem
                   id="education_degree"
@@ -109,9 +109,7 @@ export default function Education({ isEditing }) {
                   }}
                 />
 
-                <button type="button" onClick={addEducationHandler}>
-                  Add
-                </button>
+                <button type="submit">Add</button>
 
                 <button type="button" onClick={resetEducationHandler}>
                   Reset

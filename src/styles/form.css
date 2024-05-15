@@ -8,3 +8,7 @@
   position: absolute;
   width: 1px;
 }
+
+.error-message {
+  color: #ff0000;
+}

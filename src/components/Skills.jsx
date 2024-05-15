@@ -55,7 +55,7 @@ export default function Skills({ isEditing, validateForm }) {
         <h2>Skills</h2>
         {isEditing ? (
           <>
-            <form noValidate={true} onSubmit={validateForm(() => console.log('callback firing'))}>
+            <form noValidate={true} onSubmit={validateForm(() => addSkillHandler())}>
               <ul>
                 <FormItem
                   id="skill"
@@ -66,7 +66,6 @@ export default function Skills({ isEditing, validateForm }) {
                   placeholder="ex. 'Critical Thinking'"
                   props={{ minLength: 3, required: true }}
                 />
-                {/* <Button type="submit" text="Add" onClick={addSkillHandler}></Button> */}
                 <Button type="submit" text="Add"></Button>
               </ul>
             </form>

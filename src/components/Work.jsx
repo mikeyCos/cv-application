@@ -6,18 +6,28 @@ import parseDate from '../utilities/parseDate';
 import '../styles/work.css';
 
 let nextId = 1;
-export default function Work({ isEditing }) {
+export default function Work({ isEditing, validateForm, validateInput }) {
   const [workData, setWorkData] = useState({ ...initialWorkState });
   const onChangeHandler = (e) => {
     const input = e.currentTarget;
     const value = input.value;
-    const { id, key, prop } = { prop: input.name, ...input.dataset };
+    const { id, key, subKey, prop } = { prop: input.name, ...input.dataset };
     const data = workData[key];
+    console.log(data);
     const newData = Array.isArray(data)
       ? data.map((item) => {
-          return item.id === +id ? { ...item, [prop]: value } : item;
+          console.log(item[prop]);
+          return item.id === +id
+            ? {
+                ...item,
+                [prop]: typeof item[prop] === 'object' ? { ...item[prop], [subKey]: value } : value,
+              }
+            : item;
         })
-      : { ...data, [prop]: value };
+      : {
+          ...data,
+          [prop]: typeof data[prop] === 'object' ? { ...data[prop], [subKey]: value } : value,
+        };
     setWorkData({
       ...workData,
       [key]: newData,
@@ -94,30 +104,34 @@ export default function Work({ isEditing }) {
   const addDescriptionHandler = (e) => {
     const btn = e.currentTarget;
     const { workId, rootKey, key } = btn.dataset;
+    const input = e.currentTarget.parentElement.querySelector('input');
     const data = workData[rootKey];
+    const isDescriptionValid = validateInput(input);
+    console.log(isDescriptionValid);
 
-    setWorkData({
-      ...workData,
-      [rootKey]: Array.isArray(data)
-        ? data.map((work) => {
-            if (work.id === +workId) {
-              return {
-                ...work,
-                nextId: ++work.nextId,
-                description: '',
-                descriptions: [...work.descriptions, { id: work.nextId, text: work.description }],
-              };
-            } else {
-              return work;
-            }
-          })
-        : {
-            ...data,
-            nextId: ++data.nextId,
-            description: '',
-            descriptions: [...data.descriptions, { id: data.nextId, text: data.description }],
-          },
-    });
+    if (isDescriptionValid)
+      setWorkData({
+        ...workData,
+        [rootKey]: Array.isArray(data)
+          ? data.map((work) => {
+              if (work.id === +workId) {
+                return {
+                  ...work,
+                  nextId: ++work.nextId,
+                  description: '',
+                  descriptions: [...work.descriptions, { id: work.nextId, text: work.description }],
+                };
+              } else {
+                return work;
+              }
+            })
+          : {
+              ...data,
+              nextId: ++data.nextId,
+              description: '',
+              descriptions: [...data.descriptions, { id: data.nextId, text: data.description }],
+            },
+      });
   };
 
   const deleteDescriptionHandler = (e) => {
@@ -150,7 +164,7 @@ export default function Work({ isEditing }) {
         <div>
           {isEditing ? (
             <>
-              <form>
+              <form noValidate={true} onSubmit={validateForm(() => addWorkHandler())}>
                 <ul>
                   <FormItem
                     id="work_jobTitle"
@@ -171,22 +185,40 @@ export default function Work({ isEditing }) {
                     placeholder="Company name"
                   />
                   <FormItem
-                    id="work_dateFrom"
-                    value={workData.work.dateFrom}
+                    defaultTag={false}
+                    id="work_dateFrom_month"
+                    value={workData.work.dateFrom.month}
                     name="dateFrom"
                     onChange={onChangeHandler}
-                    type="month"
-                    dataAttributes={{ 'data-key': 'work' }}
-                    label={{ text: '(MMM YYYY)' }}
+                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
                   />
                   <FormItem
-                    id="work_dateTo"
-                    value={workData.work.dateFrom}
+                    id="work_dateFrom_year"
+                    value={workData.work.dateFrom.year}
+                    name="dateFrom"
+                    onChange={onChangeHandler}
+                    type="number"
+                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
+                    placeholder="Year"
+                    label={{ className: 'visibility-hidden' }}
+                  />
+                  <FormItem
+                    defaultTag={false}
+                    id="work_dateTo_month"
+                    value={workData.work.dateTo.month}
                     name="dateTo"
                     onChange={onChangeHandler}
-                    type="month"
-                    dataAttributes={{ 'data-key': 'work' }}
-                    label={{ text: '(MMM YYYY)' }}
+                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
+                  />
+                  <FormItem
+                    id="work_dateTo_year"
+                    value={workData.work.dateTo.year}
+                    name="dateTo"
+                    onChange={onChangeHandler}
+                    type="number"
+                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
+                    placeholder="Year"
+                    label={{ className: 'visibility-hidden' }}
                   />
                   <FormItem
                     id="work_description"
@@ -198,6 +230,7 @@ export default function Work({ isEditing }) {
                   >
                     <Button
                       text="Add description"
+                      // type='submit'
                       onClick={addDescriptionHandler}
                       dataAttributes={{ 'data-key': 'descriptions', 'data-root-key': 'work' }}
                     ></Button>
@@ -234,7 +267,7 @@ export default function Work({ isEditing }) {
                       </ul>
                     )}
                   </FormItem>
-                  <Button text="Add" onClick={addWorkHandler}></Button>
+                  <Button text="Add" type="submit"></Button>
                   <Button text="Reset" onClick={resetWorkHandler}></Button>
                 </ul>
               </form>
@@ -265,28 +298,57 @@ export default function Work({ isEditing }) {
                         }}
                         placeholder="Company name"
                       />
-
                       <FormItem
-                        id={`work_dateFrom_${work.id}`}
-                        value={work.dateFrom}
+                        defaultTag={false}
+                        id={`work_dateFrom_month_${work.id}`}
+                        value={work.dateFrom.month}
                         name="dateFrom"
                         onChange={onChangeHandler}
-                        type="month"
                         dataAttributes={{
                           'data-id': work.id,
                           'data-key': 'works',
+                          'data-sub-key': 'month',
                         }}
                       />
                       <FormItem
-                        id={`work_dateTo_${work.id}`}
-                        value={work.dateTo}
-                        name="dateTo"
+                        id={`work_dateFrom_year_${work.id}`}
+                        value={work.dateFrom.year}
+                        name="dateFrom"
                         onChange={onChangeHandler}
-                        type="month"
+                        type="number"
                         dataAttributes={{
                           'data-id': work.id,
                           'data-key': 'works',
+                          'data-sub-key': 'year',
                         }}
+                        placeholder="Year"
+                        label={{ className: 'visibility-hidden' }}
+                      />
+                      <FormItem
+                        defaultTag={false}
+                        id={`work_dateTo_month_${work.id}`}
+                        value={work.dateTo.month}
+                        name="dateTo"
+                        onChange={onChangeHandler}
+                        dataAttributes={{
+                          'data-id': work.id,
+                          'data-key': 'works',
+                          'data-sub-key': 'month',
+                        }}
+                      />
+                      <FormItem
+                        id={`work_dateTo_year_${work.id}`}
+                        value={work.dateTo.year}
+                        name="dateTo"
+                        onChange={onChangeHandler}
+                        type="number"
+                        dataAttributes={{
+                          'data-id': work.id,
+                          'data-key': 'works',
+                          'data-sub-key': 'year',
+                        }}
+                        placeholder="Year"
+                        label={{ className: 'visibility-hidden' }}
                       />
                       <FormItem
                         id={`work_description_${work.id}`}
@@ -363,12 +425,10 @@ export default function Work({ isEditing }) {
                   <article key={work.id}>
                     <h3>{work.jobTitle}</h3>
                     <h3>{work.companyName}</h3>
-                    <p>
-                      {parseDate(work.dateFrom)} - {parseDate(work.dateTo)}
-                    </p>
+                    <p>{/* {parseDate(work.dateFrom)} - {parseDate(work.dateTo)} */}loading...</p>
                     <ul>
                       {work.descriptions.map((description) => {
-                        <li key={description.id}>{description.text}</li>;
+                        return <li key={description.id}>{description.text}</li>;
                       })}
                     </ul>
                   </article>
