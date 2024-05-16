@@ -3,10 +3,11 @@ import { education as initialEducationsState } from '../data/data.initialStates'
 import FormItem from './FormItem';
 import Button from './Button';
 import parseDate from '../utilities/parseDate';
+import { validateForm } from '../utilities/formValidation';
 import '../styles/education.css';
 
 let nextId = 1;
-export default function Education({ isEditing, validateForm }) {
+export default function Education({ isEditing, setModal, deleteRef }) {
   const [educationData, setEducationData] = useState({
     ...initialEducationsState,
   });
@@ -14,13 +15,21 @@ export default function Education({ isEditing, validateForm }) {
   const onChangeHandler = (e) => {
     const input = e.currentTarget;
     const value = input.value;
-    const { id, key, prop } = { prop: input.name, ...input.dataset };
+    const { id, key, subKey, prop } = { prop: input.name, ...input.dataset };
     const data = educationData[key];
     const newData = Array.isArray(data)
       ? data.map((item) => {
-          return item.id === +id ? { ...item, [prop]: value } : item;
+          return item.id === +id
+            ? {
+                ...item,
+                [prop]: typeof item[prop] === 'object' ? { ...item[prop], [subKey]: value } : value,
+              }
+            : item;
         })
-      : { ...data, [prop]: value };
+      : {
+          ...data,
+          [prop]: typeof data[prop] === 'object' ? { ...data[prop], [subKey]: value } : value,
+        };
     setEducationData({
       ...educationData,
       [key]: newData,
@@ -29,6 +38,7 @@ export default function Education({ isEditing, validateForm }) {
 
   const addEducationHandler = () => {
     const newSchool = { ...educationData.school, id: ++nextId };
+    console.log(newSchool);
     setEducationData({
       school: {
         ...initialEducationsState.school,
@@ -37,8 +47,7 @@ export default function Education({ isEditing, validateForm }) {
     });
   };
 
-  const deleteEducationHandler = (e) => {
-    const btn = e.currentTarget;
+  const deleteEducationHandler = (btn) => {
     const { id } = btn.dataset;
     setEducationData({
       ...educationData,
@@ -48,7 +57,8 @@ export default function Education({ isEditing, validateForm }) {
     });
   };
 
-  const resetEducationHandler = () => {
+  const resetEducationHandler = (e) => {
+    console.log(e.currentTarget.closest('form'));
     setEducationData({
       school: {
         ...initialEducationsState.school,
@@ -63,7 +73,11 @@ export default function Education({ isEditing, validateForm }) {
         <h2>Education</h2>
         {isEditing ? (
           <>
-            <form noValidate={true} onSubmit={validateForm(() => addEducationHandler())}>
+            <form
+              className="no-validate-all"
+              noValidate={true}
+              onSubmit={(e) => validateForm(e, addEducationHandler)}
+            >
               <ul>
                 <FormItem
                   id="education_degree"
@@ -88,25 +102,43 @@ export default function Education({ isEditing, validateForm }) {
                 />
 
                 <FormItem
-                  id="education_dateFrom"
-                  value={educationData.school.dateFrom}
+                  defaultTag={false}
+                  id="education_dateFrom_month"
+                  value={educationData.school.dateFrom.month}
                   name="dateFrom"
                   onChange={onChangeHandler}
-                  type="month"
-                  dataAttributes={{
-                    'data-key': 'school',
-                  }}
+                  dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'month' }}
                 />
 
                 <FormItem
-                  id="education_dateTo"
-                  value={educationData.school.dateTo}
+                  id="education_dateFrom_year"
+                  value={educationData.school.dateFrom.year}
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  type="number"
+                  dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'year' }}
+                  placeholder="Year"
+                  label={{ className: 'visibility-hidden' }}
+                />
+
+                <FormItem
+                  defaultTag={false}
+                  id="education_dateTo_month"
+                  value={educationData.school.dateTo.month}
                   name="dateTo"
                   onChange={onChangeHandler}
-                  type="month"
-                  dataAttributes={{
-                    'data-key': 'school',
-                  }}
+                  dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'month' }}
+                />
+
+                <FormItem
+                  id="education_dateTo_year"
+                  value={educationData.school.dateTo.year}
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  type="number"
+                  dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'year' }}
+                  placeholder="Year"
+                  label={{ className: 'visibility-hidden' }}
                 />
 
                 <button type="submit">Add</button>
@@ -116,7 +148,7 @@ export default function Education({ isEditing, validateForm }) {
                 </button>
               </ul>
             </form>
-            <form>
+            <form noValidate={true} onSubmit={(e) => validateForm(e)}>
               {educationData.schools.map((school) => {
                 return (
                   <ul key={school.id}>
@@ -134,7 +166,7 @@ export default function Education({ isEditing, validateForm }) {
 
                     <FormItem
                       id={`education_schoolName_${school.id}`}
-                      value={school.name}
+                      value={school.schoolName}
                       name="schoolName"
                       onChange={onChangeHandler}
                       dataAttributes={{
@@ -145,34 +177,70 @@ export default function Education({ isEditing, validateForm }) {
                     />
 
                     <FormItem
-                      id={`education_dateFrom_${school.id}`}
-                      value={school.dateFrom}
-                      type="month"
+                      defaultTag={false}
+                      id={`education_dateFrom_month_${school.id}`}
+                      value={school.dateFrom.month}
                       name="dateFrom"
                       onChange={onChangeHandler}
                       dataAttributes={{
                         'data-id': school.id,
                         'data-key': 'schools',
+                        'data-sub-key': 'month',
                       }}
-                      label={{ text: '(MMM YYYY)' }}
                     />
 
                     <FormItem
-                      id={`education_dateTo_${school.id}`}
-                      value={school.dateTo}
-                      type="month"
+                      id={`education_dateFrom_year_${school.id}`}
+                      value={school.dateFrom.year}
+                      name="dateFrom"
+                      onChange={onChangeHandler}
+                      type="number"
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                        'data-sub-key': 'year',
+                      }}
+                      placeholder="Year"
+                      label={{ className: 'visibility-hidden' }}
+                    />
+
+                    <FormItem
+                      defaultTag={false}
+                      id={`education_dateTo_month_${school.id}`}
+                      value={school.dateTo.month}
                       name="dateTo"
                       onChange={onChangeHandler}
                       dataAttributes={{
                         'data-id': school.id,
                         'data-key': 'schools',
+                        'data-sub-key': 'month',
                       }}
-                      label={{ text: '(MMM YYYY)' }}
+                    />
+
+                    <FormItem
+                      id={`education_dateTo_year_${school.id}`}
+                      value={school.dateTo.year}
+                      name="dateTo"
+                      onChange={onChangeHandler}
+                      type="number"
+                      dataAttributes={{
+                        'data-id': school.id,
+                        'data-key': 'schools',
+                        'data-sub-key': 'year',
+                      }}
+                      placeholder="Year"
+                      label={{ className: 'visibility-hidden' }}
                     />
 
                     <Button
                       text="Delete"
-                      onClick={deleteEducationHandler}
+                      onClick={(e) => {
+                        deleteRef.current = {
+                          callback: deleteEducationHandler,
+                          btn: e.currentTarget,
+                        };
+                        setModal(true);
+                      }}
                       dataAttributes={{ 'data-id': school.id }}
                     ></Button>
                   </ul>
@@ -187,8 +255,8 @@ export default function Education({ isEditing, validateForm }) {
                 <ul key={school.id}>
                   <li>{school.degree}</li>
                   <li>{school.schoolName}</li>
-                  <li>From: {parseDate(school.dateFrom)}</li>
-                  <li>To: {parseDate(school.dateTo)}</li>
+                  <li>From: loading...</li>
+                  <li>To: loading...</li>
                 </ul>
               );
             })}

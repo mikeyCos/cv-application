@@ -3,9 +3,10 @@ import { header as initialHeaderState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
+import { validateForm } from '../utilities/formValidation';
 import '../styles/header.css';
 
-export default function Header({ isEditing, validateForm }) {
+export default function Header({ isEditing }) {
   const [headerData, setHeaderData] = useState({
     ...initialHeaderState,
   });
@@ -31,7 +32,7 @@ export default function Header({ isEditing, validateForm }) {
   return (
     <header>
       {isEditing ? (
-        <form onSubmit={validateForm}>
+        <form noValidate={true} onSubmit={(e) => validateForm(e)}>
           <ul>
             <FormItem
               id="header_firstName"

@@ -3,9 +3,10 @@ import { references as initialReferencesState } from '../data/data.initialStates
 import FormItem from './FormItem';
 import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
+import { validateForm } from '../utilities/formValidation';
 import '../styles/references.css';
 let nextId = 0;
-export default function References({ isEditing, validateForm }) {
+export default function References({ isEditing, setModal, deleteRef }) {
   const [referencesData, setReferencesData] = useState({
     ...initialReferencesState,
   });
@@ -36,8 +37,7 @@ export default function References({ isEditing, validateForm }) {
     });
   };
 
-  const deleteReferenceHandler = (e) => {
-    const btn = e.currentTarget;
+  const deleteReferenceHandler = (btn) => {
     const { id } = btn.dataset;
     setReferencesData({
       ...referencesData,
@@ -62,7 +62,11 @@ export default function References({ isEditing, validateForm }) {
         <h2>References</h2>
         {isEditing ? (
           <>
-            <form noValidate={true} onSubmit={validateForm(() => addReferenceHandler())}>
+            <form
+              className="no-validate-all"
+              noValidate={true}
+              onSubmit={(e) => validateForm(e, addReferenceHandler)}
+            >
               <ul>
                 <FormItem
                   id="references_firstName"
@@ -123,7 +127,7 @@ export default function References({ isEditing, validateForm }) {
                 <Button text="Reset" onClick={resetReferenceHandler}></Button>
               </ul>
             </form>
-            <form>
+            <form noValidate={true} onSubmit={(e) => validateForm(e)}>
               {referencesData.references.map((reference) => {
                 return (
                   <ul key={reference.id}>
@@ -185,7 +189,13 @@ export default function References({ isEditing, validateForm }) {
 
                     <Button
                       text="Delete"
-                      onClick={deleteReferenceHandler}
+                      onClick={(e) => {
+                        deleteRef.current = {
+                          callback: deleteReferenceHandler,
+                          btn: e.currentTarget,
+                        };
+                        setModal(true);
+                      }}
                       dataAttributes={{ 'data-id': reference.id, 'data-root-key': 'work' }}
                     ></Button>
                   </ul>

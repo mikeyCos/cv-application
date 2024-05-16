@@ -14,23 +14,41 @@ const education = {
   school: {
     degree: '',
     schoolName: '',
-    dateFrom: '',
-    dateTo: '',
+    dateFrom: {
+      month: '',
+      year: '',
+    },
+    dateTo: {
+      month: '',
+      year: '',
+    },
   },
   schools: [
     {
       id: 0,
       degree: 'major placeholder 0',
       schoolName: 'Hogwards',
-      dateFrom: '1990-03',
-      dateTo: '1999-09',
+      dateFrom: {
+        month: '3',
+        year: '1990',
+      },
+      dateTo: {
+        month: '9',
+        year: '1999',
+      },
     },
     {
       id: 1,
       degree: 'major placeholder 1',
       schoolName: 'Helms Deep',
-      dateFrom: '2000-01',
-      dateTo: '2020-05',
+      dateFrom: {
+        month: '1',
+        year: '2000',
+      },
+      dateTo: {
+        month: '5',
+        year: '2020',
+      },
     },
   ],
 };

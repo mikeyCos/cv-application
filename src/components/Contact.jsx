@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { contact as initialContactState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
+import { validateForm } from '../utilities/formValidation';
 import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
@@ -25,7 +26,7 @@ export default function Contact({ isEditing }) {
       <div>
         <h2>Contact</h2>
         {isEditing ? (
-          <form>
+          <form noValidate={true} onSubmit={(e) => validateForm(e)}>
             <ul>
               <FormItem
                 id="contact_email"
@@ -50,7 +51,7 @@ export default function Contact({ isEditing }) {
                 type="text"
                 name="address"
                 onChange={onChangeHandler}
-                placeholder="Address"
+                placeholder="ex. 999 Anywhere St., Apt 555, Medford MA 02155"
               />
             </ul>
           </form>

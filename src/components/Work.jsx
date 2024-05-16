@@ -2,21 +2,20 @@ import { useState } from 'react';
 import { work as initialWorkState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
+import { validateForm, validateInput } from '../utilities/formValidation';
 import parseDate from '../utilities/parseDate';
 import '../styles/work.css';
 
 let nextId = 1;
-export default function Work({ isEditing, validateForm, validateInput }) {
+export default function Work({ isEditing, setModal, deleteRef }) {
   const [workData, setWorkData] = useState({ ...initialWorkState });
   const onChangeHandler = (e) => {
     const input = e.currentTarget;
     const value = input.value;
     const { id, key, subKey, prop } = { prop: input.name, ...input.dataset };
     const data = workData[key];
-    console.log(data);
     const newData = Array.isArray(data)
       ? data.map((item) => {
-          console.log(item[prop]);
           return item.id === +id
             ? {
                 ...item,
@@ -44,8 +43,7 @@ export default function Work({ isEditing, validateForm, validateInput }) {
     });
   };
 
-  const deleteWorkHandler = (e) => {
-    const btn = e.currentTarget;
+  const deleteWorkHandler = (btn) => {
     const { id } = btn.dataset;
     setWorkData({
       ...workData,
@@ -107,7 +105,6 @@ export default function Work({ isEditing, validateForm, validateInput }) {
     const input = e.currentTarget.parentElement.querySelector('input');
     const data = workData[rootKey];
     const isDescriptionValid = validateInput(input);
-    console.log(isDescriptionValid);
 
     if (isDescriptionValid)
       setWorkData({
@@ -134,8 +131,8 @@ export default function Work({ isEditing, validateForm, validateInput }) {
       });
   };
 
-  const deleteDescriptionHandler = (e) => {
-    const btn = e.currentTarget;
+  const deleteDescriptionHandler = (btn) => {
+    // const btn = e.currentTarget;
     const { rootId, id, rootKey } = btn.dataset;
     const data = workData[rootKey];
 
@@ -164,7 +161,11 @@ export default function Work({ isEditing, validateForm, validateInput }) {
         <div>
           {isEditing ? (
             <>
-              <form noValidate={true} onSubmit={validateForm(() => addWorkHandler())}>
+              <form
+                className="no-validate-all"
+                noValidate={true}
+                onSubmit={(e) => validateForm(e, addWorkHandler)}
+              >
                 <ul>
                   <FormItem
                     id="work_jobTitle"
@@ -254,7 +255,13 @@ export default function Work({ isEditing, validateForm, validateInput }) {
                             >
                               <Button
                                 text="Delete description"
-                                onClick={deleteDescriptionHandler}
+                                onClick={(e) => {
+                                  deleteRef.current = {
+                                    callback: deleteDescriptionHandler,
+                                    btn: e.currentTarget,
+                                  };
+                                  setModal(true);
+                                }}
                                 dataAttributes={{
                                   'data-id': description.id,
                                   'data-root-key': 'work',
@@ -271,7 +278,7 @@ export default function Work({ isEditing, validateForm, validateInput }) {
                   <Button text="Reset" onClick={resetWorkHandler}></Button>
                 </ul>
               </form>
-              <form>
+              <form noValidate={true} onSubmit={(e) => validateForm(e)}>
                 {workData.works.map((work) => {
                   return (
                     <ul key={work.id}>
@@ -393,7 +400,13 @@ export default function Work({ isEditing, validateForm, validateInput }) {
                                 >
                                   <Button
                                     text="Delete description"
-                                    onClick={deleteDescriptionHandler}
+                                    onClick={(e) => {
+                                      deleteRef.current = {
+                                        callback: deleteDescriptionHandler,
+                                        btn: e.currentTarget,
+                                      };
+                                      setModal(true);
+                                    }}
                                     dataAttributes={{
                                       'data-root-id': work.id,
                                       'data-id': description.id,
@@ -408,7 +421,13 @@ export default function Work({ isEditing, validateForm, validateInput }) {
                       </FormItem>
                       <Button
                         text="Delete"
-                        onClick={deleteWorkHandler}
+                        onClick={(e) => {
+                          deleteRef.current = {
+                            callback: deleteWorkHandler,
+                            btn: e.currentTarget,
+                          };
+                          setModal(true);
+                        }}
                         dataAttributes={{
                           'data-id': work.id,
                         }}

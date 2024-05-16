@@ -24,6 +24,7 @@ export default function FormItem({
           type={type}
           name={name}
           onChange={onChange}
+          onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
           placeholder={placeholder}
           {...props}
           {...dataAttributes}

@@ -1,10 +1,23 @@
 # Changelog
 ---
-### 15 MAY 2024
+### 16 MAY 2024
 - 
 ---
+### 15 MAY 2024
+- Currently, the `header`/`contact` and 'existing forms' will need to pass form/input validation; 'existing forms' are forms or form items that were added during `isEditing` is true state.
+- Forms with the class `no-validate-all` will be ignored during `validateForms`.
+The `form` parameter will always need to be a form element instead of an event.
+- Delete handlers no longer depend on a the `Event` interface, instead the handler is called as a callback in the `Modal` component, and a `btn` element is passed in.
+- Created a `Modal` component for item delete confirmation; currently, only renders two buttons, 'cancel' and 'confirm'.
+- Deleted `setInputEventHandler` utility module.
+- Created `data.inputPatternErrors` and imported it in `formValidation` module.
+- Rewrote month input into two elements for education section.
+- Added `degree` and `schoolName` to `inputs` objects in `formValidation` module.
+- Temporarily removed default export from `formValidation` module.
+- No longer passing `validateForm` as a prop in `app` module; importing `validateForm` directly into modules.
+---
 ### 14 MAY 2024
-- Added `month`,`year`, and `description` to `inputs` objects in `formValidation` module.
+- Added `month`/`year`/`description` to `inputs` objects in `formValidation` module.
 - Changed `dateFrom` and `dateTo` string properties into object properties with `month` and `year` as their properties.
 - Split the input of type month into select and input elements; the select element is for months and input is for the year.
 ---
