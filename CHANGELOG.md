@@ -1,7 +1,14 @@
 # Changelog
 ---
-### 16 MAY 2024
+### 17 MAY 2024
 - 
+---
+### 16 MAY 2024
+- Created `footer` module, `help` and `textarea` stylesheets.
+- Updated `stringToSentenceCase` utility module; returns a string with the first letter capitalized and the rest of the characters/words are lowercase.
+- Split `FormItem` component module into separate component modules, `Input`/`Select`/`Textarea`.
+- Implemented a 'show help'/'hide help' button that will toggle help content.
+- Fixed state issue for skills due to an incorrect `dataAttributes` property; changed `'data-key': 'skill'` to `'data-key': 'skills'`
 ---
 ### 15 MAY 2024
 - Currently, the `header`/`contact` and 'existing forms' will need to pass form/input validation; 'existing forms' are forms or form items that were added during `isEditing` is true state.

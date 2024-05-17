@@ -1,4 +1,9 @@
 .education {
-  grid-area: education;
   background-color: lightgoldenrodyellow;
+}
+
+@media screen and (min-width: 768px) {
+  .education {
+    grid-area: education;
+  }
 }

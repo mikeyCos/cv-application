@@ -1,13 +1,13 @@
 const header = {
-  firstName: '',
-  lastName: '',
-  jobTitle: '',
+  firstName: 'Woody',
+  lastName: 'Joe',
+  jobTitle: 'Clown',
 };
 
 const contact = {
-  email: '',
+  email: 'an_email@gmail.com',
   phone: '',
-  address: '',
+  address: '1234 NW Bobcat Lane, St. Robert, MO 65584',
 };
 
 const education = {

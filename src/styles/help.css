@@ -1,0 +1,10 @@
+.help {
+  position: absolute;
+  max-width: 400px;
+  right: 0;
+  top: 2%;
+  /* Temporary? */
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}

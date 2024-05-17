@@ -8,7 +8,8 @@ import References from './References';
 import Button from './Button';
 import validateForms from '../utilities/formValidation';
 import Modal from './Modal';
-import Instructions from './Instructions';
+import Help from './Help';
+import Footer from './Footer';
 import '../styles/app.css';
 import '../styles/form.css';
 
@@ -46,7 +47,7 @@ export default function App() {
       <References isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
       {isEditing && (
         <>
-          <Instructions></Instructions>
+          <Help></Help>
           <Modal
             openModal={modal}
             closeModal={() => setModal(false)}
@@ -54,6 +55,7 @@ export default function App() {
           ></Modal>
         </>
       )}
+      <Footer />
     </div>
   );
 }

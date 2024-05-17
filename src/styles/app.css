@@ -2,13 +2,11 @@
   position: relative;
   min-height: 100svh;
   display: grid;
-  grid-template-areas:
-    'header header header'
-    'contact work work'
-    'education work work'
-    'skills references references';
-  grid-template-columns: 1fr 2fr;
-  /* grid-template-rows: 1fr min-content; */
+}
+
+header,
+section {
+  padding: 1rem;
 }
 
 ul {
@@ -21,4 +19,18 @@ ul {
 .cv-submit {
   position: absolute;
   right: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .app {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    grid-template-areas:
+      'header header header'
+      'contact work work'
+      'education work work'
+      'skills references references';
+    grid-template-columns: 1fr 2fr;
+  }
 }

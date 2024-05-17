@@ -1,3 +1,35 @@
+/* General form styling */
+form > ul {
+  margin-top: 0.5rem;
+}
+
+/* Excludes the first form-item
+ * Excludes a form-item with an input with the attribute data-sub-key='year'
+ */
+.form-item:not(:first-of-type, :has([data-sub-key='year'])) {
+  margin-top: 0.5rem;
+  background-color: #fef881;
+}
+
+.form-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item > input {
+  width: 100%;
+}
+
+.form-item > input,
+.form-item > select,
+.form-item > textarea {
+  height: 32px;
+}
+
+button {
+  width: max-content;
+}
+
 .visibility-hidden {
   border: 0;
   clip: rect(0 0 0 0);
@@ -11,4 +43,16 @@
 
 .error-message {
   color: #ff0000;
+}
+
+@media screen and (min-width: 768px) {
+  .form-item > input,
+  .form-item > select,
+  .form-item > textarea {
+    width: max-content;
+  }
+
+  .form-item:has(input[data-sub-key='year']) {
+    background-color: red;
+  }
 }

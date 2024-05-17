@@ -88,6 +88,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                     'data-key': 'school',
                   }}
                   placeholder="Degree"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -99,15 +100,17 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                     'data-key': 'school',
                   }}
                   placeholder="School name"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
-                  defaultTag={false}
+                  tag={'select'}
                   id="education_dateFrom_month"
                   value={educationData.school.dateFrom.month}
                   name="dateFrom"
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'month' }}
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -118,16 +121,17 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   type="number"
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'year' }}
                   placeholder="Year"
-                  label={{ className: 'visibility-hidden' }}
+                  label={{ text: '*', className: 'visibility-hidden' }}
                 />
 
                 <FormItem
-                  defaultTag={false}
+                  tag={'select'}
                   id="education_dateTo_month"
                   value={educationData.school.dateTo.month}
                   name="dateTo"
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'month' }}
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -138,7 +142,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   type="number"
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'year' }}
                   placeholder="Year"
-                  label={{ className: 'visibility-hidden' }}
+                  label={{ text: '*', className: 'visibility-hidden' }}
                 />
 
                 <button type="submit">Add</button>
@@ -177,7 +181,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                     />
 
                     <FormItem
-                      defaultTag={false}
+                      tag={'select'}
                       id={`education_dateFrom_month_${school.id}`}
                       value={school.dateFrom.month}
                       name="dateFrom"
@@ -205,7 +209,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                     />
 
                     <FormItem
-                      defaultTag={false}
+                      tag={'select'}
                       id={`education_dateTo_month_${school.id}`}
                       value={school.dateTo.month}
                       name="dateTo"

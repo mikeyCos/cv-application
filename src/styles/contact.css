@@ -1,4 +1,9 @@
 .contact {
-  grid-area: contact;
   background-color: lightcyan;
+}
+
+@media screen and (min-width: 768px) {
+  .contact {
+    grid-area: contact;
+  }
 }

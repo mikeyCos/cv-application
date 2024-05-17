@@ -69,7 +69,7 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'skill' }}
                   placeholder="ex. 'Critical Thinking'"
-                  props={{ minLength: 3, required: true }}
+                  label={{ text: '*' }}
                 />
                 <Button type="submit" text="Add"></Button>
               </ul>
@@ -85,7 +85,7 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
                       type="text"
                       name="skill"
                       onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': skill.id, 'data-key': 'skill' }}
+                      dataAttributes={{ 'data-id': skill.id, 'data-key': 'skills' }}
                       placeholder="Edit or delete skills"
                       label={{ className: 'visibility-hidden' }}
                     >

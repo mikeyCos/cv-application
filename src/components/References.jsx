@@ -75,6 +75,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="First name"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -84,6 +85,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="Last name"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -93,6 +95,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="Job title"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -102,6 +105,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="Company name"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -111,6 +115,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="ex. 123-456-7777"
+                  label={{ text: '*' }}
                 />
 
                 <FormItem
@@ -120,6 +125,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="ex. some@email.com"
+                  label={{ text: '*' }}
                 />
 
                 {/* <Button text="Add" onClick={addReferenceHandler}></Button> */}

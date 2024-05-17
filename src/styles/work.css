@@ -1,4 +1,9 @@
 .work {
-  grid-area: work;
   background-color: lightsalmon;
+}
+
+@media screen and (min-width: 768px) {
+  .work {
+    grid-area: work;
+  }
 }

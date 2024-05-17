@@ -157,9 +157,16 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Roadmap
 
 - [x] Initiate a skeleton
-- [ ] Allow users to add and remove items in education, skills, work, and references sections.
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [x] Allow users to add and remove items in education, skills, work, and references sections.
+- [ ] Change work description inputs into `textarea` elements.
+    - [ ] Ensure state is updated.
+- [ ] Split `FormItem` component module into separate component modules, i.e., `input`/`select`/`textarea`.
+- [ ] Implement basic form validation.
+    - [ ] If an input fails validation, attach an event listener to check if the input pass or fails validation while a user types.
+- [ ] Implement a delete-confirm modal, when a user clicks delete a modal appears to confirm or cancel the delete action.
+    - [ ] Render the corresponding content in the modal, so the user is reminded what content is going to be deleted.
+- [ ] Implement an instructions modal; a user can toggle the modal to show or hide it's content.
+- [ ] Make use of map while rendering similar components.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

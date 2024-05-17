@@ -35,6 +35,7 @@ export default function Contact({ isEditing }) {
                 name="email"
                 onChange={onChangeHandler}
                 placeholder="some@email.com"
+                label={{ text: '**' }}
               />
 
               <FormItem
@@ -44,6 +45,7 @@ export default function Contact({ isEditing }) {
                 name="phone"
                 onChange={onChangeHandler}
                 placeholder="ex. 123-456-7777"
+                label={{ text: '**' }}
               />
               <FormItem
                 id="contact_address"
@@ -52,6 +54,7 @@ export default function Contact({ isEditing }) {
                 name="address"
                 onChange={onChangeHandler}
                 placeholder="ex. 999 Anywhere St., Apt 555, Medford MA 02155"
+                label={{ text: '**' }}
               />
             </ul>
           </form>

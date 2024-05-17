@@ -31,6 +31,7 @@ export default function Header({ isEditing }) {
 
   return (
     <header>
+      <h2>Header</h2>
       {isEditing ? (
         <form noValidate={true} onSubmit={(e) => validateForm(e)}>
           <ul>
@@ -41,6 +42,7 @@ export default function Header({ isEditing }) {
               name="firstName"
               onChange={onChangeHandler}
               placeholder="First name"
+              label={{ text: '**' }}
             />
 
             <FormItem
@@ -50,6 +52,7 @@ export default function Header({ isEditing }) {
               name="lastName"
               onChange={onChangeHandler}
               placeholder="Last name"
+              label={{ text: '**' }}
             />
 
             <FormItem
@@ -59,6 +62,7 @@ export default function Header({ isEditing }) {
               name="jobTitle"
               onChange={onChangeHandler}
               placeholder="Job title"
+              label={{ text: '**' }}
             />
             <Button text="Reset" onClick={resetHandler}></Button>
           </ul>

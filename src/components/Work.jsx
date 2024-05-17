@@ -102,7 +102,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
   const addDescriptionHandler = (e) => {
     const btn = e.currentTarget;
     const { workId, rootKey, key } = btn.dataset;
-    const input = e.currentTarget.parentElement.querySelector('input');
+    const input = e.currentTarget.parentElement.querySelector('.form-control');
     const data = workData[rootKey];
     const isDescriptionValid = validateInput(input);
 
@@ -176,6 +176,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                       'data-key': 'work',
                     }}
                     placeholder="Job title"
+                    label={{ text: '*' }}
                   />
                   <FormItem
                     id="work_companyName"
@@ -184,14 +185,16 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                     onChange={onChangeHandler}
                     dataAttributes={{ 'data-key': 'work' }}
                     placeholder="Company name"
+                    label={{ text: '*' }}
                   />
                   <FormItem
-                    defaultTag={false}
+                    tag={'select'}
                     id="work_dateFrom_month"
                     value={workData.work.dateFrom.month}
                     name="dateFrom"
                     onChange={onChangeHandler}
                     dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
+                    label={{ text: '*' }}
                   />
                   <FormItem
                     id="work_dateFrom_year"
@@ -201,15 +204,16 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                     type="number"
                     dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
                     placeholder="Year"
-                    label={{ className: 'visibility-hidden' }}
+                    label={{ text: '*', className: 'visibility-hidden' }}
                   />
                   <FormItem
-                    defaultTag={false}
+                    tag={'select'}
                     id="work_dateTo_month"
                     value={workData.work.dateTo.month}
                     name="dateTo"
                     onChange={onChangeHandler}
                     dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
+                    label={{ text: '*' }}
                   />
                   <FormItem
                     id="work_dateTo_year"
@@ -219,19 +223,21 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                     type="number"
                     dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
                     placeholder="Year"
-                    label={{ className: 'visibility-hidden' }}
+                    label={{ text: '*', className: 'visibility-hidden' }}
                   />
                   <FormItem
+                    tag={'textarea'}
                     id="work_description"
                     value={workData.work.description}
                     name="description"
                     onChange={onChangeHandlerDescription}
                     dataAttributes={{ 'data-key': 'description', 'data-root-key': 'work' }}
-                    placeholder="Job description"
+                    placeholder="Min 3 characters, and max 100 characters."
+                    label={{ text: '*' }}
+                    props={{ maxLength: 100 }}
                   >
                     <Button
                       text="Add description"
-                      // type='submit'
                       onClick={addDescriptionHandler}
                       dataAttributes={{ 'data-key': 'descriptions', 'data-root-key': 'work' }}
                     ></Button>
@@ -240,6 +246,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         {workData.work.descriptions.map((description) => {
                           return (
                             <FormItem
+                              tag={'textarea'}
                               key={description.id}
                               id={`work_description_${description.id}`}
                               value={description.text}
@@ -251,7 +258,8 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                 'data-key': 'descriptions',
                               }}
                               label={{ className: 'visibility-hidden' }}
-                              placeholder="Edit or delete job description"
+                              placeholder="Min 3 characters, and max 100 characters."
+                              props={{ maxLength: 100 }}
                             >
                               <Button
                                 text="Delete description"
@@ -306,7 +314,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         placeholder="Company name"
                       />
                       <FormItem
-                        defaultTag={false}
+                        tag={'select'}
                         id={`work_dateFrom_month_${work.id}`}
                         value={work.dateFrom.month}
                         name="dateFrom"
@@ -332,7 +340,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         label={{ className: 'visibility-hidden' }}
                       />
                       <FormItem
-                        defaultTag={false}
+                        tag={'select'}
                         id={`work_dateTo_month_${work.id}`}
                         value={work.dateTo.month}
                         name="dateTo"
@@ -358,6 +366,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         label={{ className: 'visibility-hidden' }}
                       />
                       <FormItem
+                        tag={'textarea'}
                         id={`work_description_${work.id}`}
                         value={work.description}
                         name="description"
@@ -367,7 +376,8 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                           'data-root-key': 'works',
                           'data-key': 'description',
                         }}
-                        placeholder="Job description"
+                        placeholder="Min 3 characters, and max 100 characters."
+                        props={{ maxLength: 100 }}
                       >
                         <Button
                           text="Add description"
@@ -384,6 +394,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                             {work.descriptions.map((description) => {
                               return (
                                 <FormItem
+                                  tag={'textarea'}
                                   key={description.id}
                                   id={`work_description_${work.id}_${description.id}`}
                                   value={description.text}
@@ -395,8 +406,9 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                     'data-root-key': 'works',
                                     'data-key': 'descriptions',
                                   }}
-                                  placeholder="Edit or delete job description"
                                   label={{ className: 'visibility-hidden' }}
+                                  placeholder="Min 3 characters, and max 100 characters."
+                                  props={{ maxLength: 100 }}
                                 >
                                   <Button
                                     text="Delete description"
