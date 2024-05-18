@@ -1,9 +1,42 @@
 .work {
-  background-color: lightsalmon;
+  /* background-color: lightsalmon; */
+}
+
+.descriptions-list {
+  list-style: disc;
+  padding-left: 2rem;
+}
+
+.form-item > .descriptions > * {
+  margin-top: 0.5rem;
 }
 
 @media screen and (min-width: 768px) {
   .work {
     grid-area: work;
+  }
+
+  .work[data-is-editing='true'] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work[data-is-editing='true'] > div {
+    /* flex: 1; */
+    /* display: grid; */
+    /* grid-auto-rows: min-content 1fr; */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work[data-is-editing='true'] > div > div {
+    /* display: flex; */
+    /* flex-direction: column; */
+    flex: 1;
+    display: grid;
+  }
+
+  .work[data-is-editing='true'] > div > div {
   }
 }

@@ -1,9 +1,36 @@
 .education {
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
+}
+
+.education-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 @media screen and (min-width: 768px) {
   .education {
     grid-area: education;
+  }
+
+  .education[data-is-editing='true'] {
+    display: flex;
+  }
+
+  .education[data-is-editing='true'] > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .education[data-is-editing='true'] > div > div {
+    flex: 1;
+    display: grid;
+    /* grid-auto-rows: min-content 1fr; */
+  }
+
+  .education[data-is-editing='true'] > div > div > form {
+    /* display: flex; */
+    /* flex: 1; */
   }
 }

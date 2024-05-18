@@ -21,40 +21,40 @@ export default function App() {
     setIsEditing(!isEditing);
   };
 
-  // if (isEditing) validateForms(setIsEditing);
-
   const buttonProps = isEditing
     ? { type: 'submit', className: 'cv-submit', text: 'Submit CV' }
     : { className: 'cv-edit', text: 'Edit CV' };
 
   return (
-    <div className="app">
-      <Button
-        {...buttonProps}
-        onClick={
-          !isEditing
-            ? editHandler
-            : () => {
-                validateForms(setIsEditing);
-              }
-        }
-      />
-      <Header isEditing={isEditing} />
-      <Contact isEditing={isEditing} />
-      <Education isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-      <Skills isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-      <Work isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-      <References isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-      {isEditing && (
-        <>
-          <Help></Help>
-          <Modal
-            openModal={modal}
-            closeModal={() => setModal(false)}
-            {...deleteRef.current}
-          ></Modal>
-        </>
-      )}
+    <div className="app" data-is-editing={isEditing}>
+      <div className="content">
+        <Button
+          {...buttonProps}
+          onClick={
+            !isEditing
+              ? editHandler
+              : () => {
+                  validateForms(setIsEditing);
+                }
+          }
+        />
+        <Header isEditing={isEditing} />
+        <Contact isEditing={isEditing} />
+        <Education isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
+        <Skills isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
+        <Work isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
+        <References isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
+        {isEditing && (
+          <>
+            <Help></Help>
+            <Modal
+              openModal={modal}
+              closeModal={() => setModal(false)}
+              {...deleteRef.current}
+            ></Modal>
+          </>
+        )}
+      </div>
       <Footer />
     </div>
   );

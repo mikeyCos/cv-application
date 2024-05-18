@@ -1,3 +1,23 @@
+@font-face {
+  font-family: Oswald;
+  font-weight: 200 700;
+  src: url(../assets/fonts/Oswald/Oswald-VariableFont_wght.ttf);
+}
+
+@font-face {
+  font-family: Rubik;
+  font-weight: 300 900;
+  src: url(../assets/fonts/Rubik/Rubik-VariableFont_wght.ttf);
+}
+
+:root {
+  --background-color-primary: #f9fbf2;
+  --background-color-secondary: #ffede1;
+  --background-color-form: #d7f9ff;
+  --accent-color: #0e1c36;
+  --font-family-primary: Rubik, Arial, Helvetica, sans-serif;
+}
+
 *,
 *::before,
 *::after {
@@ -8,7 +28,5 @@
 
 body {
   min-height: 100svh;
-}
-
-#root {
+  font-family: var(--font-family-primary);
 }

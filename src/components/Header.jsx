@@ -30,49 +30,55 @@ export default function Header({ isEditing }) {
   const fullName = concatenateNames(headerData.firstName, headerData.lastName);
 
   return (
-    <header>
-      <h2>Header</h2>
-      {isEditing ? (
-        <form noValidate={true} onSubmit={(e) => validateForm(e)}>
-          <ul>
-            <FormItem
-              id="header_firstName"
-              value={headerData.firstName}
-              type="text"
-              name="firstName"
-              onChange={onChangeHandler}
-              placeholder="First name"
-              label={{ text: '**' }}
-            />
+    <header data-is-editing={isEditing}>
+      <div>
+        {isEditing ? (
+          <>
+            <h2 className="content-heading">Header</h2>
+            <form noValidate={true} onSubmit={(e) => validateForm(e)}>
+              <ul>
+                <FormItem
+                  id="header_firstName"
+                  value={headerData.firstName}
+                  type="text"
+                  name="firstName"
+                  onChange={onChangeHandler}
+                  placeholder="First name"
+                  label={{ text: '**' }}
+                />
 
-            <FormItem
-              id="header_lastName"
-              value={headerData.lastName}
-              type="text"
-              name="lastName"
-              onChange={onChangeHandler}
-              placeholder="Last name"
-              label={{ text: '**' }}
-            />
+                <FormItem
+                  id="header_lastName"
+                  value={headerData.lastName}
+                  type="text"
+                  name="lastName"
+                  onChange={onChangeHandler}
+                  placeholder="Last name"
+                  label={{ text: '**' }}
+                />
 
-            <FormItem
-              id="header_jobTitle"
-              value={headerData.jobTitle}
-              type="text"
-              name="jobTitle"
-              onChange={onChangeHandler}
-              placeholder="Job title"
-              label={{ text: '**' }}
-            />
-            <Button text="Reset" onClick={resetHandler}></Button>
-          </ul>
-        </form>
-      ) : (
-        <div>
-          <h1>{fullName}</h1>
-          <h2>{headerData.jobTitle}</h2>
-        </div>
-      )}
+                <FormItem
+                  id="header_jobTitle"
+                  value={headerData.jobTitle}
+                  type="text"
+                  name="jobTitle"
+                  onChange={onChangeHandler}
+                  placeholder="Job title"
+                  label={{ text: '**' }}
+                />
+                <div className="btn-container">
+                  <Button className="btn-form btn-reset" text="Reset" onClick={resetHandler} />
+                </div>
+              </ul>
+            </form>
+          </>
+        ) : (
+          <>
+            <h1>{fullName}</h1>
+            <h2>{headerData.jobTitle}</h2>
+          </>
+        )}
+      </div>
     </header>
   );
 }

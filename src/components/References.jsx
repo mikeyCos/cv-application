@@ -57,9 +57,9 @@ export default function References({ isEditing, setModal, deleteRef }) {
   };
 
   return (
-    <section className="references">
+    <section className="references" data-is-editing={isEditing}>
       <div>
-        <h2>References</h2>
+        <h2 className="content-heading">References</h2>
         {isEditing ? (
           <>
             <form
@@ -128,86 +128,96 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   label={{ text: '*' }}
                 />
 
-                {/* <Button text="Add" onClick={addReferenceHandler}></Button> */}
-                <Button type="submit" text="Add"></Button>
-                <Button text="Reset" onClick={resetReferenceHandler}></Button>
+                <div className="btn-container">
+                  <Button className="btn-form btn-add" type="submit" text="Add" />
+                  <Button
+                    className="btn-form btn-reset"
+                    text="Reset"
+                    onClick={resetReferenceHandler}
+                  />
+                </div>
               </ul>
             </form>
-            <form noValidate={true} onSubmit={(e) => validateForm(e)}>
-              {referencesData.references.map((reference) => {
-                return (
-                  <ul key={reference.id}>
-                    <FormItem
-                      id={`references_firstName_${reference.id}`}
-                      value={reference.firstName}
-                      name="firstName"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
-                      placeholder="First name"
-                    />
+            {referencesData.references.length > 0 && (
+              <form noValidate={true} onSubmit={(e) => validateForm(e)}>
+                {referencesData.references.map((reference) => {
+                  return (
+                    <ul key={reference.id}>
+                      <FormItem
+                        id={`references_firstName_${reference.id}`}
+                        value={reference.firstName}
+                        name="firstName"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                        placeholder="First name"
+                      />
 
-                    <FormItem
-                      id={`references_lastName_${reference.id}`}
-                      value={reference.lastName}
-                      name="lastName"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
-                      placeholder="Last name"
-                    />
+                      <FormItem
+                        id={`references_lastName_${reference.id}`}
+                        value={reference.lastName}
+                        name="lastName"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                        placeholder="Last name"
+                      />
 
-                    <FormItem
-                      id={`references_jobTitle_${reference.id}`}
-                      value={reference.jobTitle}
-                      name="jobTitle"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
-                      placeholder="Job title"
-                    />
+                      <FormItem
+                        id={`references_jobTitle_${reference.id}`}
+                        value={reference.jobTitle}
+                        name="jobTitle"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                        placeholder="Job title"
+                      />
 
-                    <FormItem
-                      id={`references_companyName_${reference.id}`}
-                      value={reference.companyName}
-                      name="companyName"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
-                      placeholder="Company name"
-                    />
+                      <FormItem
+                        id={`references_companyName_${reference.id}`}
+                        value={reference.companyName}
+                        name="companyName"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                        placeholder="Company name"
+                      />
 
-                    <FormItem
-                      id={`references_phone_${reference.id}`}
-                      value={reference.phone}
-                      type="tel"
-                      name="phone"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
-                      placeholder="ex. 123-456-7777"
-                    />
+                      <FormItem
+                        id={`references_phone_${reference.id}`}
+                        value={reference.phone}
+                        type="tel"
+                        name="phone"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                        placeholder="ex. 123-456-7777"
+                      />
 
-                    <FormItem
-                      id={`references_email_${reference.id}`}
-                      value={reference.email}
-                      type="email"
-                      name="email"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
-                      placeholder="ex. some@email.com"
-                    />
+                      <FormItem
+                        id={`references_email_${reference.id}`}
+                        value={reference.email}
+                        type="email"
+                        name="email"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
+                        placeholder="ex. some@email.com"
+                      />
 
-                    <Button
-                      text="Delete"
-                      onClick={(e) => {
-                        deleteRef.current = {
-                          callback: deleteReferenceHandler,
-                          btn: e.currentTarget,
-                        };
-                        setModal(true);
-                      }}
-                      dataAttributes={{ 'data-id': reference.id, 'data-root-key': 'work' }}
-                    ></Button>
-                  </ul>
-                );
-              })}
-            </form>
+                      <div className="btn-container">
+                        <Button
+                          className="btn-form btn-delete"
+                          text="Delete"
+                          onClick={(e) => {
+                            deleteRef.current = {
+                              callback: deleteReferenceHandler,
+                              btn: e.currentTarget,
+                            };
+                            setModal(true);
+                          }}
+                          dataAttributes={{ 'data-id': reference.id, 'data-root-key': 'work' }}
+                        />
+                      </div>
+                    </ul>
+                  );
+                })}
+              </form>
+            )}
           </>
         ) : (
           <>

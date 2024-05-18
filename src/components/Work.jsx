@@ -101,8 +101,9 @@ export default function Work({ isEditing, setModal, deleteRef }) {
 
   const addDescriptionHandler = (e) => {
     const btn = e.currentTarget;
+    const btnContainer = e.currentTarget.parentElement;
     const { workId, rootKey, key } = btn.dataset;
-    const input = e.currentTarget.parentElement.querySelector('.form-control');
+    const input = btnContainer.parentElement.querySelector('.form-control');
     const data = workData[rootKey];
     const isDescriptionValid = validateInput(input);
 
@@ -155,113 +156,118 @@ export default function Work({ isEditing, setModal, deleteRef }) {
   };
 
   return (
-    <section className="work">
+    <section className="work" data-is-editing={isEditing}>
       <div>
-        <h2>Work Experience</h2>
-        <div>
-          {isEditing ? (
-            <>
-              <form
-                className="no-validate-all"
-                noValidate={true}
-                onSubmit={(e) => validateForm(e, addWorkHandler)}
-              >
-                <ul>
-                  <FormItem
-                    id="work_jobTitle"
-                    value={workData.work.jobTitle}
-                    name="jobTitle"
-                    onChange={onChangeHandler}
-                    dataAttributes={{
-                      'data-key': 'work',
-                    }}
-                    placeholder="Job title"
-                    label={{ text: '*' }}
-                  />
-                  <FormItem
-                    id="work_companyName"
-                    value={workData.work.companyName}
-                    name="companyName"
-                    onChange={onChangeHandler}
-                    dataAttributes={{ 'data-key': 'work' }}
-                    placeholder="Company name"
-                    label={{ text: '*' }}
-                  />
-                  <FormItem
-                    tag={'select'}
-                    id="work_dateFrom_month"
-                    value={workData.work.dateFrom.month}
-                    name="dateFrom"
-                    onChange={onChangeHandler}
-                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
-                    label={{ text: '*' }}
-                  />
-                  <FormItem
-                    id="work_dateFrom_year"
-                    value={workData.work.dateFrom.year}
-                    name="dateFrom"
-                    onChange={onChangeHandler}
-                    type="number"
-                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
-                    placeholder="Year"
-                    label={{ text: '*', className: 'visibility-hidden' }}
-                  />
-                  <FormItem
-                    tag={'select'}
-                    id="work_dateTo_month"
-                    value={workData.work.dateTo.month}
-                    name="dateTo"
-                    onChange={onChangeHandler}
-                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
-                    label={{ text: '*' }}
-                  />
-                  <FormItem
-                    id="work_dateTo_year"
-                    value={workData.work.dateTo.year}
-                    name="dateTo"
-                    onChange={onChangeHandler}
-                    type="number"
-                    dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
-                    placeholder="Year"
-                    label={{ text: '*', className: 'visibility-hidden' }}
-                  />
-                  <FormItem
-                    tag={'textarea'}
-                    id="work_description"
-                    value={workData.work.description}
-                    name="description"
-                    onChange={onChangeHandlerDescription}
-                    dataAttributes={{ 'data-key': 'description', 'data-root-key': 'work' }}
-                    placeholder="Min 3 characters, and max 100 characters."
-                    label={{ text: '*' }}
-                    props={{ maxLength: 100 }}
-                  >
+        <h2 className="content-heading">Work Experience</h2>
+        {isEditing ? (
+          <div>
+            <form
+              className="no-validate-all"
+              noValidate={true}
+              onSubmit={(e) => validateForm(e, addWorkHandler)}
+            >
+              <ul>
+                <FormItem
+                  id="work_jobTitle"
+                  value={workData.work.jobTitle}
+                  name="jobTitle"
+                  onChange={onChangeHandler}
+                  dataAttributes={{
+                    'data-key': 'work',
+                  }}
+                  placeholder="Job title"
+                  label={{ text: '*' }}
+                />
+                <FormItem
+                  id="work_companyName"
+                  value={workData.work.companyName}
+                  name="companyName"
+                  onChange={onChangeHandler}
+                  dataAttributes={{ 'data-key': 'work' }}
+                  placeholder="Company name"
+                  label={{ text: '*' }}
+                />
+                <FormItem
+                  tag={'select'}
+                  id="work_dateFrom_month"
+                  value={workData.work.dateFrom.month}
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
+                  label={{ text: '*' }}
+                />
+                <FormItem
+                  id="work_dateFrom_year"
+                  value={workData.work.dateFrom.year}
+                  name="dateFrom"
+                  onChange={onChangeHandler}
+                  type="number"
+                  dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
+                  placeholder="Year"
+                  label={{ text: '*', className: 'visibility-hidden' }}
+                />
+                <FormItem
+                  tag={'select'}
+                  id="work_dateTo_month"
+                  value={workData.work.dateTo.month}
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
+                  label={{ text: '*' }}
+                />
+                <FormItem
+                  id="work_dateTo_year"
+                  value={workData.work.dateTo.year}
+                  name="dateTo"
+                  onChange={onChangeHandler}
+                  type="number"
+                  dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
+                  placeholder="Year"
+                  label={{ text: '*', className: 'visibility-hidden' }}
+                />
+                <FormItem
+                  tag={'textarea'}
+                  id="work_description"
+                  value={workData.work.description}
+                  name="description"
+                  onChange={onChangeHandlerDescription}
+                  dataAttributes={{ 'data-key': 'description', 'data-root-key': 'work' }}
+                  placeholder="Min 3 characters, and max 100 characters."
+                  label={{ text: '*' }}
+                  props={{ maxLength: 100 }}
+                >
+                  <div className="btn-container">
                     <Button
+                      className="btn-form btn-add"
                       text="Add description"
                       onClick={addDescriptionHandler}
                       dataAttributes={{ 'data-key': 'descriptions', 'data-root-key': 'work' }}
-                    ></Button>
-                    {workData.work.descriptions.length > 0 && (
-                      <ul>
-                        {workData.work.descriptions.map((description) => {
-                          return (
-                            <FormItem
-                              tag={'textarea'}
-                              key={description.id}
-                              id={`work_description_${description.id}`}
-                              value={description.text}
-                              name="description"
-                              onChange={onChangeHandlerDescription}
-                              dataAttributes={{
-                                'data-id': description.id,
-                                'data-root-key': 'work',
-                                'data-key': 'descriptions',
-                              }}
-                              label={{ className: 'visibility-hidden' }}
-                              placeholder="Min 3 characters, and max 100 characters."
-                              props={{ maxLength: 100 }}
-                            >
+                    />
+                  </div>
+
+                  {workData.work.descriptions.length > 0 && (
+                    <ul className="descriptions">
+                      {workData.work.descriptions.map((description) => {
+                        return (
+                          <FormItem
+                            tag={'textarea'}
+                            key={description.id}
+                            id={`work_description_${description.id}`}
+                            value={description.text}
+                            name="description"
+                            onChange={onChangeHandlerDescription}
+                            dataAttributes={{
+                              'data-id': description.id,
+                              'data-root-key': 'work',
+                              'data-key': 'descriptions',
+                            }}
+                            label={{ className: 'visibility-hidden' }}
+                            placeholder="Min 3 characters, and max 100 characters."
+                            props={{ maxLength: 100 }}
+                          >
+                            <div className="btn-container">
                               <Button
+                                className="btn-form btn-delete"
                                 text="Delete description"
                                 onClick={(e) => {
                                   deleteRef.current = {
@@ -275,17 +281,21 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                   'data-root-key': 'work',
                                   'data-key': 'descriptions',
                                 }}
-                              ></Button>
-                            </FormItem>
-                          );
-                        })}
-                      </ul>
-                    )}
-                  </FormItem>
-                  <Button text="Add" type="submit"></Button>
-                  <Button text="Reset" onClick={resetWorkHandler}></Button>
-                </ul>
-              </form>
+                              />
+                            </div>
+                          </FormItem>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </FormItem>
+                <div className="btn-container">
+                  <Button className="btn-form btn-add" text="Add" type="submit" />
+                  <Button className="btn-form btn-reset" text="Reset" onClick={resetWorkHandler} />
+                </div>
+              </ul>
+            </form>
+            {workData.works.length > 0 && (
               <form noValidate={true} onSubmit={(e) => validateForm(e)}>
                 {workData.works.map((work) => {
                   return (
@@ -379,18 +389,21 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         placeholder="Min 3 characters, and max 100 characters."
                         props={{ maxLength: 100 }}
                       >
-                        <Button
-                          text="Add description"
-                          onClick={addDescriptionHandler}
-                          dataAttributes={{
-                            'data-key': 'descriptions',
-                            'data-root-key': 'works',
-                            'data-work-id': work.id,
-                          }}
-                        ></Button>
+                        <div className="btn-container">
+                          <Button
+                            className="btn-form btn-add"
+                            text="Add description"
+                            onClick={addDescriptionHandler}
+                            dataAttributes={{
+                              'data-key': 'descriptions',
+                              'data-root-key': 'works',
+                              'data-work-id': work.id,
+                            }}
+                          />
+                        </div>
 
                         {work.descriptions.length > 0 && (
-                          <ul>
+                          <ul className="descriptions">
                             {work.descriptions.map((description) => {
                               return (
                                 <FormItem
@@ -410,64 +423,74 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                   placeholder="Min 3 characters, and max 100 characters."
                                   props={{ maxLength: 100 }}
                                 >
-                                  <Button
-                                    text="Delete description"
-                                    onClick={(e) => {
-                                      deleteRef.current = {
-                                        callback: deleteDescriptionHandler,
-                                        btn: e.currentTarget,
-                                      };
-                                      setModal(true);
-                                    }}
-                                    dataAttributes={{
-                                      'data-root-id': work.id,
-                                      'data-id': description.id,
-                                      'data-root-key': 'works',
-                                    }}
-                                  ></Button>
+                                  <div className="btn-container">
+                                    <Button
+                                      className="btn-form btn-delete"
+                                      text="Delete description"
+                                      onClick={(e) => {
+                                        deleteRef.current = {
+                                          callback: deleteDescriptionHandler,
+                                          btn: e.currentTarget,
+                                        };
+                                        setModal(true);
+                                      }}
+                                      dataAttributes={{
+                                        'data-root-id': work.id,
+                                        'data-id': description.id,
+                                        'data-root-key': 'works',
+                                      }}
+                                    />
+                                  </div>
                                 </FormItem>
                               );
                             })}
                           </ul>
                         )}
                       </FormItem>
-                      <Button
-                        text="Delete"
-                        onClick={(e) => {
-                          deleteRef.current = {
-                            callback: deleteWorkHandler,
-                            btn: e.currentTarget,
-                          };
-                          setModal(true);
-                        }}
-                        dataAttributes={{
-                          'data-id': work.id,
-                        }}
-                      ></Button>
+                      <div className="btn-container">
+                        <Button
+                          className="btn-form btn-delete"
+                          text="Delete"
+                          onClick={(e) => {
+                            deleteRef.current = {
+                              callback: deleteWorkHandler,
+                              btn: e.currentTarget,
+                            };
+                            setModal(true);
+                          }}
+                          dataAttributes={{
+                            'data-id': work.id,
+                          }}
+                        />
+                      </div>
                     </ul>
                   );
                 })}
               </form>
-            </>
-          ) : (
-            <>
+            )}
+          </div>
+        ) : (
+          workData.works.length > 0 && (
+            <div className="work-container">
               {workData.works.map((work) => {
                 return (
-                  <article key={work.id}>
+                  <article className="work-item" key={work.id}>
                     <h3>{work.jobTitle}</h3>
-                    <h3>{work.companyName}</h3>
+                    <h4>{work.companyName}</h4>
                     <p>{/* {parseDate(work.dateFrom)} - {parseDate(work.dateTo)} */}loading...</p>
-                    <ul>
-                      {work.descriptions.map((description) => {
-                        return <li key={description.id}>{description.text}</li>;
-                      })}
-                    </ul>
+                    {work.descriptions.length > 0 && (
+                      <ul className="descriptions-list">
+                        {work.descriptions.map((description) => {
+                          return <li key={description.id}>{description.text}</li>;
+                        })}
+                      </ul>
+                    )}
                   </article>
                 );
               })}
-            </>
-          )}
-        </div>
+            </div>
+          )
+        )}
       </div>
     </section>
   );

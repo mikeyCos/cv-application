@@ -1,7 +1,17 @@
 # Changelog
 ---
-### 17 MAY 2024
+### 18 MAY 2024
 - 
+---
+### 17 MAY 2024
+- Each section that may have a second form will only render that second form if the state's arrays' length is greater than zero. 
+- Applied CSS properties for mobile and desktop screens.
+- Each section will have a data attribute `data-is-editing` set to `true`/`false`.
+- Saved and created `font-face` for `Oswald` and `Rubik` fonts.
+- Created `footer` stylesheet.
+- Created `fonts` subdirectory.
+- Deleted `form-validation` and `form-input` branches.
+- Merged `form-validation` branch into `main` branch.
 ---
 ### 16 MAY 2024
 - Created `footer` module, `help` and `textarea` stylesheets.

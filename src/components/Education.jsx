@@ -68,11 +68,11 @@ export default function Education({ isEditing, setModal, deleteRef }) {
   };
 
   return (
-    <section className="education">
+    <section className="education" data-is-editing={isEditing}>
       <div>
-        <h2>Education</h2>
+        <h2 className="content-heading">Education</h2>
         {isEditing ? (
-          <>
+          <div>
             <form
               className="no-validate-all"
               noValidate={true}
@@ -145,126 +145,150 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   label={{ text: '*', className: 'visibility-hidden' }}
                 />
 
-                <button type="submit">Add</button>
-
-                <button type="button" onClick={resetEducationHandler}>
-                  Reset
-                </button>
+                <div className="btn-container">
+                  <button className="btn-form btn-add" type="submit">
+                    Add
+                  </button>
+                  <button
+                    className="btn-form btn-reset"
+                    type="button"
+                    onClick={resetEducationHandler}
+                  >
+                    Reset
+                  </button>
+                </div>
               </ul>
             </form>
-            <form noValidate={true} onSubmit={(e) => validateForm(e)}>
+            {educationData.schools.length > 0 && (
+              <form noValidate={true} onSubmit={(e) => validateForm(e)}>
+                {educationData.schools.map((school) => {
+                  return (
+                    <ul key={school.id}>
+                      <FormItem
+                        id={`education_degree_${school.id}`}
+                        value={school.degree}
+                        name="degree"
+                        onChange={onChangeHandler}
+                        dataAttributes={{
+                          'data-id': school.id,
+                          'data-key': 'schools',
+                        }}
+                        placeholder="Degree"
+                      />
+
+                      <FormItem
+                        id={`education_schoolName_${school.id}`}
+                        value={school.schoolName}
+                        name="schoolName"
+                        onChange={onChangeHandler}
+                        dataAttributes={{
+                          'data-id': school.id,
+                          'data-key': 'schools',
+                        }}
+                        placeholder="School name"
+                      />
+
+                      <FormItem
+                        tag={'select'}
+                        id={`education_dateFrom_month_${school.id}`}
+                        value={school.dateFrom.month}
+                        name="dateFrom"
+                        onChange={onChangeHandler}
+                        dataAttributes={{
+                          'data-id': school.id,
+                          'data-key': 'schools',
+                          'data-sub-key': 'month',
+                        }}
+                      />
+
+                      <FormItem
+                        id={`education_dateFrom_year_${school.id}`}
+                        value={school.dateFrom.year}
+                        name="dateFrom"
+                        onChange={onChangeHandler}
+                        type="number"
+                        dataAttributes={{
+                          'data-id': school.id,
+                          'data-key': 'schools',
+                          'data-sub-key': 'year',
+                        }}
+                        placeholder="Year"
+                        label={{ className: 'visibility-hidden' }}
+                      />
+
+                      <FormItem
+                        tag={'select'}
+                        id={`education_dateTo_month_${school.id}`}
+                        value={school.dateTo.month}
+                        name="dateTo"
+                        onChange={onChangeHandler}
+                        dataAttributes={{
+                          'data-id': school.id,
+                          'data-key': 'schools',
+                          'data-sub-key': 'month',
+                        }}
+                      />
+
+                      <FormItem
+                        id={`education_dateTo_year_${school.id}`}
+                        value={school.dateTo.year}
+                        name="dateTo"
+                        onChange={onChangeHandler}
+                        type="number"
+                        dataAttributes={{
+                          'data-id': school.id,
+                          'data-key': 'schools',
+                          'data-sub-key': 'year',
+                        }}
+                        placeholder="Year"
+                        label={{ className: 'visibility-hidden' }}
+                      />
+
+                      <div className="btn-container">
+                        <Button
+                          className="btn-form btn-delete"
+                          text="Delete"
+                          onClick={(e) => {
+                            deleteRef.current = {
+                              callback: deleteEducationHandler,
+                              btn: e.currentTarget,
+                            };
+                            setModal(true);
+                          }}
+                          dataAttributes={{ 'data-id': school.id }}
+                        />
+                      </div>
+                    </ul>
+                  );
+                })}
+              </form>
+            )}
+          </div>
+        ) : (
+          educationData.schools.length > 0 && (
+            <div className="education-container">
               {educationData.schools.map((school) => {
                 return (
-                  <ul key={school.id}>
-                    <FormItem
-                      id={`education_degree_${school.id}`}
-                      value={school.degree}
-                      name="degree"
-                      onChange={onChangeHandler}
-                      dataAttributes={{
-                        'data-id': school.id,
-                        'data-key': 'schools',
-                      }}
-                      placeholder="Degree"
-                    />
-
-                    <FormItem
-                      id={`education_schoolName_${school.id}`}
-                      value={school.schoolName}
-                      name="schoolName"
-                      onChange={onChangeHandler}
-                      dataAttributes={{
-                        'data-id': school.id,
-                        'data-key': 'schools',
-                      }}
-                      placeholder="School name"
-                    />
-
-                    <FormItem
-                      tag={'select'}
-                      id={`education_dateFrom_month_${school.id}`}
-                      value={school.dateFrom.month}
-                      name="dateFrom"
-                      onChange={onChangeHandler}
-                      dataAttributes={{
-                        'data-id': school.id,
-                        'data-key': 'schools',
-                        'data-sub-key': 'month',
-                      }}
-                    />
-
-                    <FormItem
-                      id={`education_dateFrom_year_${school.id}`}
-                      value={school.dateFrom.year}
-                      name="dateFrom"
-                      onChange={onChangeHandler}
-                      type="number"
-                      dataAttributes={{
-                        'data-id': school.id,
-                        'data-key': 'schools',
-                        'data-sub-key': 'year',
-                      }}
-                      placeholder="Year"
-                      label={{ className: 'visibility-hidden' }}
-                    />
-
-                    <FormItem
-                      tag={'select'}
-                      id={`education_dateTo_month_${school.id}`}
-                      value={school.dateTo.month}
-                      name="dateTo"
-                      onChange={onChangeHandler}
-                      dataAttributes={{
-                        'data-id': school.id,
-                        'data-key': 'schools',
-                        'data-sub-key': 'month',
-                      }}
-                    />
-
-                    <FormItem
-                      id={`education_dateTo_year_${school.id}`}
-                      value={school.dateTo.year}
-                      name="dateTo"
-                      onChange={onChangeHandler}
-                      type="number"
-                      dataAttributes={{
-                        'data-id': school.id,
-                        'data-key': 'schools',
-                        'data-sub-key': 'year',
-                      }}
-                      placeholder="Year"
-                      label={{ className: 'visibility-hidden' }}
-                    />
-
-                    <Button
-                      text="Delete"
-                      onClick={(e) => {
-                        deleteRef.current = {
-                          callback: deleteEducationHandler,
-                          btn: e.currentTarget,
-                        };
-                        setModal(true);
-                      }}
-                      dataAttributes={{ 'data-id': school.id }}
-                    ></Button>
-                  </ul>
+                  <article className="education-item" key={school.id}>
+                    <ul>
+                      <li>{school.degree}</li>
+                      <li>{school.schoolName}</li>
+                      <li>
+                        <span>
+                          {/* parseDate(school.dateFrom) */}
+                          {school.dateFrom.month}/{school.dateFrom.year}
+                        </span>
+                        -
+                        <span>
+                          {school.dateTo.month}/{school.dateTo.year}
+                        </span>
+                      </li>
+                    </ul>
+                  </article>
                 );
               })}
-            </form>
-          </>
-        ) : (
-          <>
-            {educationData.schools.map((school) => {
-              return (
-                <ul key={school.id}>
-                  <li>{school.degree}</li>
-                  <li>{school.schoolName}</li>
-                  <li>From: loading...</li>
-                  <li>To: loading...</li>
-                </ul>
-              );
-            })}
-          </>
+            </div>
+          )
         )}
       </div>
     </section>

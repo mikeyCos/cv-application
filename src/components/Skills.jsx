@@ -51,11 +51,11 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
   };
 
   return (
-    <section className="skills">
+    <section className="skills" data-is-editing={isEditing}>
       <div>
-        <h2>Skills</h2>
+        <h2 className="content-heading">Skills</h2>
         {isEditing ? (
-          <>
+          <div>
             <form
               className="no-validate-all"
               noValidate={true}
@@ -70,48 +70,58 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
                   dataAttributes={{ 'data-key': 'skill' }}
                   placeholder="ex. 'Critical Thinking'"
                   label={{ text: '*' }}
-                />
-                <Button type="submit" text="Add"></Button>
+                >
+                  <div className="btn-container">
+                    <Button className="btn-form btn-add" type="submit" text="Add" />
+                  </div>
+                </FormItem>
               </ul>
             </form>
-            <form noValidate={true} onSubmit={(e) => validateForm(e)}>
-              <ul>
-                {skillsData.skills.map((skill) => {
-                  return (
-                    <FormItem
-                      key={skill.id}
-                      id={`skill_${skill.id}`}
-                      value={skill.value}
-                      type="text"
-                      name="skill"
-                      onChange={onChangeHandler}
-                      dataAttributes={{ 'data-id': skill.id, 'data-key': 'skills' }}
-                      placeholder="Edit or delete skills"
-                      label={{ className: 'visibility-hidden' }}
-                    >
-                      <Button
-                        text="Delete skill"
-                        onClick={(e) => {
-                          deleteRef.current = {
-                            callback: deleteSkillHandler,
-                            btn: e.currentTarget,
-                          };
-                          setModal(true);
-                        }}
-                        dataAttributes={{ 'data-id': skill.id }}
-                      ></Button>
-                    </FormItem>
-                  );
-                })}
-              </ul>
-            </form>
-          </>
+            {skillsData.skills.length > 0 && (
+              <form noValidate={true} onSubmit={(e) => validateForm(e)}>
+                <ul>
+                  {skillsData.skills.map((skill) => {
+                    return (
+                      <FormItem
+                        key={skill.id}
+                        id={`skill_${skill.id}`}
+                        value={skill.value}
+                        type="text"
+                        name="skill"
+                        onChange={onChangeHandler}
+                        dataAttributes={{ 'data-id': skill.id, 'data-key': 'skills' }}
+                        placeholder="Edit or delete skills"
+                        label={{ className: 'visibility-hidden' }}
+                      >
+                        <div className="btn-container">
+                          <Button
+                            className="btn-form btn-delete"
+                            text="Delete skill"
+                            onClick={(e) => {
+                              deleteRef.current = {
+                                callback: deleteSkillHandler,
+                                btn: e.currentTarget,
+                              };
+                              setModal(true);
+                            }}
+                            dataAttributes={{ 'data-id': skill.id }}
+                          />
+                        </div>
+                      </FormItem>
+                    );
+                  })}
+                </ul>
+              </form>
+            )}
+          </div>
         ) : (
-          <ul>
-            {skillsData.skills.map((skill) => {
-              return <li key={skill.id}>{skill.value}</li>;
-            })}
-          </ul>
+          skillsData.skills.length > 0 && (
+            <ul className="skills-container">
+              {skillsData.skills.map((skill) => {
+                return <li key={skill.id}>{skill.value}</li>;
+              })}
+            </ul>
+          )
         )}
       </div>
     </section>

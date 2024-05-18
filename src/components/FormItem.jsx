@@ -15,6 +15,7 @@ export default function FormItem({
   const { text: additionalText, className } = label ? label : {};
 
   let formControl;
+  // How can I refactor this?
   if (tag === 'select') {
     formControl = (
       <Select
@@ -61,8 +62,8 @@ export default function FormItem({
         {additionalText && <span>{additionalText}</span>}
       </label>
       {formControl}
-      <div className="error-message"></div>
       {children}
+      <div className="error-message"></div>
     </li>
   );
 }

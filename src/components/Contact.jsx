@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { contact as initialContactState } from '../data/data.initialStates';
 import FormItem from './FormItem';
-import Button from './Button';
 import { validateForm } from '../utilities/formValidation';
 import '../styles/contact.css';
 
@@ -22,9 +21,9 @@ export default function Contact({ isEditing }) {
   };
 
   return (
-    <section className="contact">
+    <section className="contact" data-is-editing={isEditing}>
       <div>
-        <h2>Contact</h2>
+        <h2 className="content-heading">Contact</h2>
         {isEditing ? (
           <form noValidate={true} onSubmit={(e) => validateForm(e)}>
             <ul>
@@ -59,10 +58,20 @@ export default function Contact({ isEditing }) {
             </ul>
           </form>
         ) : (
-          <ul>
-            <li>Email: {contactData.email}</li>
+          <ul className="contact-container">
+            {Object.entries(contactData).map(([key, value]) => {
+              return (
+                value && (
+                  <li key={key}>
+                    <span>{key}: </span>
+                    <span>{value}</span>
+                  </li>
+                )
+              );
+            })}
+            {/* {<li>Email: {contactData.email}</li>}
             <li>Phone: {contactData.phone}</li>
-            <li>Address: {contactData.address}</li>
+            <li>Address: {contactData.address}</li> */}
           </ul>
         )}
       </div>

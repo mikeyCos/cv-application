@@ -1,9 +1,23 @@
-.contact {
-  background-color: lightcyan;
+.contact[data-is-editing='true'] {
+  /* background-color: red; */
 }
 
 @media screen and (min-width: 768px) {
   .contact {
     grid-area: contact;
+  }
+
+  .contact[data-is-editing='true'] {
+    display: flex;
+  }
+
+  .contact[data-is-editing='true'] > div {
+    flex: 1;
+    display: grid;
+    grid-auto-rows: min-content 1fr;
+  }
+
+  .contact[data-is-editing='true'] > div > form {
+    /* display: flex; */
   }
 }

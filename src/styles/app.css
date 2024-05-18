@@ -1,16 +1,57 @@
-.app {
+.app > .content {
   position: relative;
   min-height: 100svh;
   display: grid;
+  grid-template-rows: max-content repeat(5, 1fr);
+}
+
+.app[data-is-editing='true'] > .content {
+  grid-template-rows: auto;
+}
+
+.app > .content > *[data-is-editing='true'] > div {
+  padding: 0.5rem;
+  border: 2px dashed;
+  border-radius: 0.25rem;
+  background-color: var(--background-color-primary);
 }
 
 header,
 section {
-  padding: 1rem;
+  padding: 1rem 0.5rem;
+}
+
+button {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #afcbff;
+}
+
+button:hover {
+  background-color: #ffffff;
+}
+
+button:active {
+  box-shadow: 0px 1px 3px 0px black;
+}
+
+.btn-text {
+  color: #0e1c36;
 }
 
 ul {
   list-style: none;
+}
+
+ul > .btn-container {
+  margin-top: 0.5rem;
+}
+
+.content-heading {
+  color: var(--accent-color);
+  /* font-size: clamp(2rem, 5vw, 2.5rem); */
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
 }
 
 /* Miscellaneous */
@@ -19,18 +60,41 @@ ul {
 .cv-submit {
   position: absolute;
   right: 0;
+  margin: 0.5rem;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: end;
+  gap: 0.25rem;
 }
 
 @media screen and (min-width: 768px) {
-  .app {
-    position: relative;
-    min-height: 100svh;
-    display: grid;
+  .app > .content {
     grid-template-areas:
       'header header header'
       'contact work work'
       'education work work'
-      'skills references references';
+      'skills references references'
+      'footer footer footer';
     grid-template-columns: 1fr 2fr;
+    grid-template-rows: max-content repeat(3, 1fr);
+  }
+
+  .app[data-is-editing='true'] > .content {
+    grid-template-rows: auto;
+    margin: 0 clamp(0%, 10vw, 50%);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  /* .app[data-is-editing='true'] > .content {
+    margin: 0 clamp(0%, 15vw, 50%);
+  } */
+}
+
+@media screen and (min-width: 1200px) {
+  .app[data-is-editing='true'] > .content {
+    margin: 0 clamp(0%, 25vw, 70%);
   }
 }
