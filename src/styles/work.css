@@ -37,6 +37,7 @@
     display: grid;
   }
 
-  .work[data-is-editing='true'] > div > div {
+  .work[data-is-editing='true'] .error-message {
+    grid-column: 1 / 4;
   }
 }

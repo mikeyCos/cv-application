@@ -24,11 +24,24 @@ export const validateForm = (e, callback) => {
 };
 
 export const validateInput = (input) => {
+  console.log(input);
   const inputValue = input.value;
   const { key, subKey } = { ...input.dataset };
   const errorContainer = input.parentElement.querySelector('.error-message');
   const { pattern, error } = inputPatternErrors[subKey ? subKey : input.name];
   const isInputValid = pattern.test(inputValue);
   errorContainer.textContent = isInputValid ? '' : error;
+  if (!isInputValid) {
+    input.addEventListener('input', onInputValidate);
+  } else {
+    input.removeEventListener('input', onInputValidate);
+  }
+
+  input.classList.toggle('error-input', !isInputValid);
+  input.classList.toggle('valid-input', isInputValid);
   return isInputValid;
+};
+
+const onInputValidate = (e) => {
+  validateInput(e.currentTarget);
 };

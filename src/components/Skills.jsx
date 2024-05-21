@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { skills as initialSkillsState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
-import { validateForm } from '../utilities/formValidation';
+import { validateForm, validateInput } from '../utilities/formValidation';
+import DeleteMessageBox from './DeleteMessageBox';
 import '../styles/skills.css';
 // https://codesandbox.io/p/sandbox/react-dev-64n8l5?file=%2Fsrc%2FTaskList.js&utm_medium=sandpack
 // https://www.w3.org/WAI/tutorials/forms/labels/
 // https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
 let nextId = 1;
 
-export default function Skills({ isEditing, setModal, deleteRef }) {
+export default function Skills({ isEditing, setModal, deleteRef, btnRef }) {
   const [skillsData, setSkillsData] = useState({
     ...initialSkillsState,
   });
@@ -66,6 +67,7 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
                   id="skill"
                   value={skillsData.skill}
                   name="skill"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'skill' }}
                   placeholder="ex. 'Critical Thinking'"
@@ -88,6 +90,7 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
                         value={skill.value}
                         type="text"
                         name="skill"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': skill.id, 'data-key': 'skills' }}
                         placeholder="Edit or delete skills"
@@ -98,9 +101,21 @@ export default function Skills({ isEditing, setModal, deleteRef }) {
                             className="btn-form btn-delete"
                             text="Delete skill"
                             onClick={(e) => {
+                              const btn = e.currentTarget;
+                              btnRef.current = btn;
                               deleteRef.current = {
                                 callback: deleteSkillHandler,
-                                btn: e.currentTarget,
+                                btn: btn,
+                                message: (
+                                  <DeleteMessageBox
+                                    btn={btn}
+                                    arr={skillsData.skills}
+                                    options={{
+                                      section: 'skill',
+                                      keys: ['value'],
+                                    }}
+                                  />
+                                ),
                               };
                               setModal(true);
                             }}

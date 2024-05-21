@@ -3,11 +3,12 @@ import { education as initialEducationsState } from '../data/data.initialStates'
 import FormItem from './FormItem';
 import Button from './Button';
 import parseDate from '../utilities/parseDate';
-import { validateForm } from '../utilities/formValidation';
+import { validateForm, validateInput } from '../utilities/formValidation';
+import DeleteMessageBox from './DeleteMessageBox';
 import '../styles/education.css';
 
 let nextId = 1;
-export default function Education({ isEditing, setModal, deleteRef }) {
+export default function Education({ isEditing, setModal, deleteRef, btnRef }) {
   const [educationData, setEducationData] = useState({
     ...initialEducationsState,
   });
@@ -83,6 +84,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   id="education_degree"
                   value={educationData.school.degree}
                   name="degree"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{
                     'data-key': 'school',
@@ -95,6 +97,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   id="education_schoolName"
                   value={educationData.school.schoolName}
                   name="schoolName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{
                     'data-key': 'school',
@@ -108,6 +111,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   id="education_dateFrom_month"
                   value={educationData.school.dateFrom.month}
                   name="dateFrom"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'month' }}
                   label={{ text: '*' }}
@@ -117,6 +121,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   id="education_dateFrom_year"
                   value={educationData.school.dateFrom.year}
                   name="dateFrom"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   type="number"
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'year' }}
@@ -129,6 +134,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   id="education_dateTo_month"
                   value={educationData.school.dateTo.month}
                   name="dateTo"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'month' }}
                   label={{ text: '*' }}
@@ -138,6 +144,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                   id="education_dateTo_year"
                   value={educationData.school.dateTo.year}
                   name="dateTo"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   type="number"
                   dataAttributes={{ 'data-key': 'school', 'data-sub-key': 'year' }}
@@ -168,6 +175,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                         id={`education_degree_${school.id}`}
                         value={school.degree}
                         name="degree"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': school.id,
@@ -180,6 +188,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                         id={`education_schoolName_${school.id}`}
                         value={school.schoolName}
                         name="schoolName"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': school.id,
@@ -193,6 +202,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                         id={`education_dateFrom_month_${school.id}`}
                         value={school.dateFrom.month}
                         name="dateFrom"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': school.id,
@@ -205,6 +215,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                         id={`education_dateFrom_year_${school.id}`}
                         value={school.dateFrom.year}
                         name="dateFrom"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         type="number"
                         dataAttributes={{
@@ -221,6 +232,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                         id={`education_dateTo_month_${school.id}`}
                         value={school.dateTo.month}
                         name="dateTo"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': school.id,
@@ -233,6 +245,7 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                         id={`education_dateTo_year_${school.id}`}
                         value={school.dateTo.year}
                         name="dateTo"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         type="number"
                         dataAttributes={{
@@ -249,9 +262,21 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                           className="btn-form btn-delete"
                           text="Delete"
                           onClick={(e) => {
+                            const btn = e.currentTarget;
+                            btnRef.current = btn;
                             deleteRef.current = {
                               callback: deleteEducationHandler,
-                              btn: e.currentTarget,
+                              btn: btn,
+                              message: (
+                                <DeleteMessageBox
+                                  btn={btn}
+                                  arr={educationData.schools}
+                                  options={{
+                                    section: 'education',
+                                    keys: ['degree'],
+                                  }}
+                                />
+                              ),
                             };
                             setModal(true);
                           }}
@@ -274,14 +299,8 @@ export default function Education({ isEditing, setModal, deleteRef }) {
                       <li>{school.degree}</li>
                       <li>{school.schoolName}</li>
                       <li>
-                        <span>
-                          {/* parseDate(school.dateFrom) */}
-                          {school.dateFrom.month}/{school.dateFrom.year}
-                        </span>
-                        -
-                        <span>
-                          {school.dateTo.month}/{school.dateTo.year}
-                        </span>
+                        <span>{parseDate(school.dateFrom)}</span>-
+                        <span>{parseDate(school.dateTo)}</span>
                       </li>
                     </ul>
                   </article>

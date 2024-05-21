@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import Controls from './Controls';
 import Header from './Header';
 import Contact from './Contact';
 import Education from './Education';
@@ -9,14 +10,18 @@ import Button from './Button';
 import validateForms from '../utilities/formValidation';
 import Modal from './Modal';
 import Help from './Help';
+import Delete from './Delete';
 import Footer from './Footer';
 import '../styles/app.css';
 import '../styles/form.css';
+import '../styles/icons.css';
 
 export default function App() {
   const [isEditing, setIsEditing] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+  const [modalHelp, setModalHelp] = useState(false);
   const deleteRef = useRef();
+  const btnRef = useRef();
   const editHandler = () => {
     setIsEditing(!isEditing);
   };
@@ -27,7 +32,7 @@ export default function App() {
 
   return (
     <div className="app" data-is-editing={isEditing}>
-      <div className="content">
+      <Controls openModal={modalHelp} setModal={setModalHelp} btnRef={btnRef}>
         <Button
           {...buttonProps}
           onClick={
@@ -38,22 +43,56 @@ export default function App() {
                 }
           }
         />
+      </Controls>
+      <div className="content">
         <Header isEditing={isEditing} />
         <Contact isEditing={isEditing} />
-        <Education isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-        <Skills isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-        <Work isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
-        <References isEditing={isEditing} setModal={setModal} deleteRef={deleteRef} />
+        <Education
+          isEditing={isEditing}
+          setModal={setModalDelete}
+          deleteRef={deleteRef}
+          btnRef={btnRef}
+        />
+        <Skills
+          isEditing={isEditing}
+          setModal={setModalDelete}
+          deleteRef={deleteRef}
+          btnRef={btnRef}
+        />
+        <Work
+          isEditing={isEditing}
+          setModal={setModalDelete}
+          deleteRef={deleteRef}
+          btnRef={btnRef}
+        />
+        <References
+          isEditing={isEditing}
+          setModal={setModalDelete}
+          deleteRef={deleteRef}
+          btnRef={btnRef}
+        />
         {isEditing && (
-          <>
-            <Help></Help>
-            <Modal
-              openModal={modal}
-              closeModal={() => setModal(false)}
+          <Modal
+            btnRef={btnRef}
+            className="modal-delete"
+            openModal={modalDelete}
+            closeModal={() => setModalDelete(false)}
+          >
+            <Delete
+              btnRef={btnRef}
+              closeModal={() => setModalDelete(false)}
               {...deleteRef.current}
-            ></Modal>
-          </>
+            />
+          </Modal>
         )}
+        <Modal
+          btnRef={btnRef}
+          className="modal-help"
+          openModal={modalHelp}
+          closeModal={() => setModalHelp(false)}
+        >
+          <Help closeModal={() => setModalHelp(false)} />
+        </Modal>
       </div>
       <Footer />
     </div>

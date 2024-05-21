@@ -4,10 +4,11 @@ import FormItem from './FormItem';
 import Button from './Button';
 import { validateForm, validateInput } from '../utilities/formValidation';
 import parseDate from '../utilities/parseDate';
+import DeleteMessageBox from './DeleteMessageBox';
 import '../styles/work.css';
 
 let nextId = 1;
-export default function Work({ isEditing, setModal, deleteRef }) {
+export default function Work({ isEditing, setModal, deleteRef, btnRef }) {
   const [workData, setWorkData] = useState({ ...initialWorkState });
   const onChangeHandler = (e) => {
     const input = e.currentTarget;
@@ -77,7 +78,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
             // Duplicate code
             [key]: Array.isArray(work[key])
               ? work[key].map((description) => {
-                  return description.id === +id ? { ...description, text: value } : description;
+                  return description.id === +id ? { ...description, value: value } : description;
                 })
               : value,
           };
@@ -91,7 +92,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
         // Duplicate code
         [key]: Array.isArray(data[key])
           ? data[key].map((description) => {
-              return description.id === +id ? { ...description, text: value } : description;
+              return description.id === +id ? { ...description, value: value } : description;
             })
           : value,
       };
@@ -117,7 +118,10 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   ...work,
                   nextId: ++work.nextId,
                   description: '',
-                  descriptions: [...work.descriptions, { id: work.nextId, text: work.description }],
+                  descriptions: [
+                    ...work.descriptions,
+                    { id: work.nextId, value: work.description },
+                  ],
                 };
               } else {
                 return work;
@@ -127,13 +131,12 @@ export default function Work({ isEditing, setModal, deleteRef }) {
               ...data,
               nextId: ++data.nextId,
               description: '',
-              descriptions: [...data.descriptions, { id: data.nextId, text: data.description }],
+              descriptions: [...data.descriptions, { id: data.nextId, value: data.description }],
             },
       });
   };
 
   const deleteDescriptionHandler = (btn) => {
-    // const btn = e.currentTarget;
     const { rootId, id, rootKey } = btn.dataset;
     const data = workData[rootKey];
 
@@ -171,6 +174,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_jobTitle"
                   value={workData.work.jobTitle}
                   name="jobTitle"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{
                     'data-key': 'work',
@@ -182,6 +186,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_companyName"
                   value={workData.work.companyName}
                   name="companyName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'work' }}
                   placeholder="Company name"
@@ -192,6 +197,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_dateFrom_month"
                   value={workData.work.dateFrom.month}
                   name="dateFrom"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
                   label={{ text: '*' }}
@@ -200,6 +206,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_dateFrom_year"
                   value={workData.work.dateFrom.year}
                   name="dateFrom"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   type="number"
                   dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
@@ -211,6 +218,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_dateTo_month"
                   value={workData.work.dateTo.month}
                   name="dateTo"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'month' }}
                   label={{ text: '*' }}
@@ -219,6 +227,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_dateTo_year"
                   value={workData.work.dateTo.year}
                   name="dateTo"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   type="number"
                   dataAttributes={{ 'data-key': 'work', 'data-sub-key': 'year' }}
@@ -230,6 +239,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   id="work_description"
                   value={workData.work.description}
                   name="description"
+                  onBlur={validateInput}
                   onChange={onChangeHandlerDescription}
                   dataAttributes={{ 'data-key': 'description', 'data-root-key': 'work' }}
                   placeholder="Min 3 characters, and max 100 characters."
@@ -253,8 +263,9 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                             tag={'textarea'}
                             key={description.id}
                             id={`work_description_${description.id}`}
-                            value={description.text}
+                            value={description.value}
                             name="description"
+                            onBlur={validateInput}
                             onChange={onChangeHandlerDescription}
                             dataAttributes={{
                               'data-id': description.id,
@@ -270,9 +281,21 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                 className="btn-form btn-delete"
                                 text="Delete description"
                                 onClick={(e) => {
+                                  const btn = e.currentTarget;
+                                  btnRef.current = btn;
                                   deleteRef.current = {
                                     callback: deleteDescriptionHandler,
-                                    btn: e.currentTarget,
+                                    btn: btn,
+                                    message: (
+                                      <DeleteMessageBox
+                                        btn={btn}
+                                        arr={workData.work.descriptions}
+                                        options={{
+                                          section: 'description',
+                                          keys: ['value'],
+                                        }}
+                                      />
+                                    ),
                                   };
                                   setModal(true);
                                 }}
@@ -304,6 +327,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_jobTitle_${work.id}`}
                         value={work.jobTitle}
                         name="jobTitle"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': work.id,
@@ -316,6 +340,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_companyName_${work.id}`}
                         value={work.companyName}
                         name="companyName"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': work.id,
@@ -328,6 +353,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_dateFrom_month_${work.id}`}
                         value={work.dateFrom.month}
                         name="dateFrom"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': work.id,
@@ -339,6 +365,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_dateFrom_year_${work.id}`}
                         value={work.dateFrom.year}
                         name="dateFrom"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         type="number"
                         dataAttributes={{
@@ -354,6 +381,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_dateTo_month_${work.id}`}
                         value={work.dateTo.month}
                         name="dateTo"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{
                           'data-id': work.id,
@@ -365,6 +393,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_dateTo_year_${work.id}`}
                         value={work.dateTo.year}
                         name="dateTo"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         type="number"
                         dataAttributes={{
@@ -380,6 +409,7 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                         id={`work_description_${work.id}`}
                         value={work.description}
                         name="description"
+                        onBlur={validateInput}
                         onChange={onChangeHandlerDescription}
                         dataAttributes={{
                           'data-root-id': work.id,
@@ -410,8 +440,9 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                   tag={'textarea'}
                                   key={description.id}
                                   id={`work_description_${work.id}_${description.id}`}
-                                  value={description.text}
+                                  value={description.value}
                                   name="description"
+                                  onBlur={validateInput}
                                   onChange={onChangeHandlerDescription}
                                   dataAttributes={{
                                     'data-root-id': work.id,
@@ -428,9 +459,25 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                                       className="btn-form btn-delete"
                                       text="Delete description"
                                       onClick={(e) => {
+                                        const btn = e.currentTarget;
+                                        btnRef.current = btn;
                                         deleteRef.current = {
                                           callback: deleteDescriptionHandler,
-                                          btn: e.currentTarget,
+                                          btn: btn,
+                                          message: (
+                                            <DeleteMessageBox
+                                              btn={btn}
+                                              arr={
+                                                workData.works.find(
+                                                  (work) => work.id === +btn.dataset.rootId,
+                                                ).descriptions
+                                              }
+                                              options={{
+                                                section: 'description',
+                                                keys: ['value'],
+                                              }}
+                                            />
+                                          ),
                                         };
                                         setModal(true);
                                       }}
@@ -452,9 +499,21 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                           className="btn-form btn-delete"
                           text="Delete"
                           onClick={(e) => {
+                            const btn = e.currentTarget;
+                            btnRef.current = btn;
                             deleteRef.current = {
                               callback: deleteWorkHandler,
                               btn: e.currentTarget,
+                              message: (
+                                <DeleteMessageBox
+                                  btn={btn}
+                                  arr={workData.works}
+                                  options={{
+                                    section: 'work',
+                                    keys: ['jobTitle'],
+                                  }}
+                                />
+                              ),
                             };
                             setModal(true);
                           }}
@@ -477,11 +536,13 @@ export default function Work({ isEditing, setModal, deleteRef }) {
                   <article className="work-item" key={work.id}>
                     <h3>{work.jobTitle}</h3>
                     <h4>{work.companyName}</h4>
-                    <p>{/* {parseDate(work.dateFrom)} - {parseDate(work.dateTo)} */}loading...</p>
+                    <p>
+                      {parseDate(work.dateFrom)} - {parseDate(work.dateTo)}
+                    </p>
                     {work.descriptions.length > 0 && (
                       <ul className="descriptions-list">
                         {work.descriptions.map((description) => {
-                          return <li key={description.id}>{description.text}</li>;
+                          return <li key={description.id}>{description.value}</li>;
                         })}
                       </ul>
                     )}

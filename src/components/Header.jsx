@@ -3,7 +3,7 @@ import { header as initialHeaderState } from '../data/data.initialStates';
 import FormItem from './FormItem';
 import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
-import { validateForm } from '../utilities/formValidation';
+import { validateForm, validateInput } from '../utilities/formValidation';
 import '../styles/header.css';
 
 export default function Header({ isEditing }) {
@@ -33,7 +33,7 @@ export default function Header({ isEditing }) {
     <header data-is-editing={isEditing}>
       <div>
         {isEditing ? (
-          <>
+          <div>
             <h2 className="content-heading">Header</h2>
             <form noValidate={true} onSubmit={(e) => validateForm(e)}>
               <ul>
@@ -42,6 +42,7 @@ export default function Header({ isEditing }) {
                   value={headerData.firstName}
                   type="text"
                   name="firstName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   placeholder="First name"
                   label={{ text: '**' }}
@@ -52,6 +53,7 @@ export default function Header({ isEditing }) {
                   value={headerData.lastName}
                   type="text"
                   name="lastName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   placeholder="Last name"
                   label={{ text: '**' }}
@@ -62,6 +64,7 @@ export default function Header({ isEditing }) {
                   value={headerData.jobTitle}
                   type="text"
                   name="jobTitle"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   placeholder="Job title"
                   label={{ text: '**' }}
@@ -71,7 +74,7 @@ export default function Header({ isEditing }) {
                 </div>
               </ul>
             </form>
-          </>
+          </div>
         ) : (
           <>
             <h1>{fullName}</h1>

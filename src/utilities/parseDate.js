@@ -1,7 +1,5 @@
-export default (date) => {
+export default ({ month, year }) => {
   // Parses date, YYYY-MM, to MMM YYYY
-  // What if date is the current date?
-  //  Return 'Present'?
   const months = [
     'Jan',
     'Feb',
@@ -17,10 +15,7 @@ export default (date) => {
     'Dec',
   ];
 
-  const splitDate = date.split('-').reduce((accumulator, currentValue) => {
-    return { ...accumulator, [currentValue.length === 4 ? 'year' : 'month']: currentValue };
-  }, {});
-  const newDate = `${months[splitDate.month - 1]} ${splitDate.year}`;
-
-  return newDate;
+  if (month === 'Present') return month;
+  const index = month - 1;
+  return `${months[index]}/${year}`;
 };

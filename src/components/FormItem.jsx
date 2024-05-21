@@ -2,6 +2,7 @@ import Input from './Input';
 import Select from './Select';
 import Textarea from './Textarea';
 import stringToSentenceCase from '../utilities/stringToSentenceCase';
+import { validateInput } from '../utilities/formValidation';
 
 export default function FormItem({
   tag = false,
@@ -11,9 +12,9 @@ export default function FormItem({
   props,
   ...rest
 }) {
-  const { id, value, name, onChange, placeholder, children } = rest;
+  const { id, value, name, onBlur, onChange, placeholder, children } = rest;
   const { text: additionalText, className } = label ? label : {};
-
+  // const [button, list] = children;
   let formControl;
   // How can I refactor this?
   if (tag === 'select') {
@@ -33,6 +34,7 @@ export default function FormItem({
         value={value}
         type={type}
         name={name}
+        onBlur={validateInput}
         onChange={onChange}
         onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
         placeholder={placeholder}
@@ -47,6 +49,7 @@ export default function FormItem({
         value={value}
         type={type}
         name={name}
+        onBlur={validateInput}
         onChange={onChange}
         onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
         placeholder={placeholder}
@@ -62,8 +65,9 @@ export default function FormItem({
         {additionalText && <span>{additionalText}</span>}
       </label>
       {formControl}
-      {children}
+      {children && children.length > 0 ? children[0] : children}
       <div className="error-message"></div>
+      {children && children.length > 0 && children[1]}
     </li>
   );
 }

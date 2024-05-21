@@ -1,4 +1,13 @@
-export default function Input({ id, value, type, name, onChange, placeholder, dataAttributes }) {
+export default function Input({
+  id,
+  value,
+  type,
+  name,
+  onBlur,
+  onChange,
+  placeholder,
+  dataAttributes,
+}) {
   return (
     <input
       className="form-control"
@@ -6,6 +15,7 @@ export default function Input({ id, value, type, name, onChange, placeholder, da
       value={value}
       type={type}
       name={name}
+      onBlur={(e) => onBlur(e.currentTarget)}
       onChange={onChange}
       onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
       placeholder={placeholder}

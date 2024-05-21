@@ -24,4 +24,8 @@
     flex: 1;
     display: grid;
   }
+
+  .skills[data-is-editing='true'] .error-message {
+    grid-column: 1/ 4;
+  }
 }

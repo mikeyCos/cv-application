@@ -94,8 +94,8 @@ const work = {
       },
       description: '',
       descriptions: [
-        { id: 0, text: 'Staring at walls.' },
-        { id: 1, text: 'Sleeping' },
+        { id: 0, value: 'Staring at walls.' },
+        { id: 1, value: 'Sleeping' },
       ],
       nextId: 1,
     },
@@ -113,8 +113,8 @@ const work = {
       },
       description: '',
       descriptions: [
-        { id: 0, text: 'Swimming' },
-        { id: 1, text: 'Monitors swimmers' },
+        { id: 0, value: 'Swimming' },
+        { id: 1, value: 'Monitors swimmers' },
       ],
       nextId: 1,
     },

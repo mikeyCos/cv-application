@@ -1,7 +1,20 @@
 # Changelog
 ---
+### 20 MAY 2024
+- GitHub link included in `.app-controls` container.
+- Inputs now have an `onBlur` event to validate their value; should work as intended.
+- Reworked `parseDate` utility module; deconstructs object argument into `month` and `year` parameters. If `month === 'Present'` return `month`, otherwise return the date in MMM/YYYY format. 
+- Moved `.app-controls` container from `.content` container to `.app` container.
+- Attempted to position modal's next to it's `btnRef` using transform and margin properties.
+- Created a `DeleteMessageBox` component module; returns a paragraph element with a message corresponding to the clicked button.
+- Created a `getData` utility module.
+- Changed work description property `text` to `value`. 
+---
 ### 18 MAY 2024
-- 
+- Modals can be closed if a user clicks outside a dialog's content or by a 'close' or 'cancel' button.
+- The `Controls` component accepts/deconstructs an `openModal`/`setModal`/`children`. 
+- Created a `controls` stylesheet.
+- Created `Controls`/`Delete` component modules.
 ---
 ### 17 MAY 2024
 - Each section that may have a second form will only render that second form if the state's arrays' length is greater than zero. 

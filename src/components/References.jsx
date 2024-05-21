@@ -3,10 +3,11 @@ import { references as initialReferencesState } from '../data/data.initialStates
 import FormItem from './FormItem';
 import Button from './Button';
 import concatenateNames from '../utilities/concatenateNames';
-import { validateForm } from '../utilities/formValidation';
+import { validateForm, validateInput } from '../utilities/formValidation';
+import DeleteMessageBox from './DeleteMessageBox';
 import '../styles/references.css';
 let nextId = 0;
-export default function References({ isEditing, setModal, deleteRef }) {
+export default function References({ isEditing, setModal, deleteRef, btnRef }) {
   const [referencesData, setReferencesData] = useState({
     ...initialReferencesState,
   });
@@ -61,7 +62,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
       <div>
         <h2 className="content-heading">References</h2>
         {isEditing ? (
-          <>
+          <div>
             <form
               className="no-validate-all"
               noValidate={true}
@@ -72,6 +73,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   id="references_firstName"
                   value={referencesData.reference.firstName}
                   name="firstName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="First name"
@@ -82,6 +84,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   id="references_lastName"
                   value={referencesData.reference.lastName}
                   name="lastName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="Last name"
@@ -92,6 +95,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   id="references_jobTitle"
                   value={referencesData.reference.jobTitle}
                   name="jobTitle"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="Job title"
@@ -102,6 +106,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   id="references_companyName"
                   value={referencesData.reference.companyName}
                   name="companyName"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="Company name"
@@ -112,6 +117,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   id="references_phone"
                   value={referencesData.reference.phone}
                   name="phone"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="ex. 123-456-7777"
@@ -122,6 +128,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                   id="references_email"
                   value={referencesData.reference.email}
                   name="email"
+                  onBlur={validateInput}
                   onChange={onChangeHandler}
                   dataAttributes={{ 'data-key': 'reference' }}
                   placeholder="ex. some@email.com"
@@ -147,6 +154,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                         id={`references_firstName_${reference.id}`}
                         value={reference.firstName}
                         name="firstName"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
                         placeholder="First name"
@@ -156,6 +164,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                         id={`references_lastName_${reference.id}`}
                         value={reference.lastName}
                         name="lastName"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
                         placeholder="Last name"
@@ -165,6 +174,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                         id={`references_jobTitle_${reference.id}`}
                         value={reference.jobTitle}
                         name="jobTitle"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
                         placeholder="Job title"
@@ -174,6 +184,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                         id={`references_companyName_${reference.id}`}
                         value={reference.companyName}
                         name="companyName"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
                         placeholder="Company name"
@@ -184,6 +195,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                         value={reference.phone}
                         type="tel"
                         name="phone"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
                         placeholder="ex. 123-456-7777"
@@ -194,6 +206,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                         value={reference.email}
                         type="email"
                         name="email"
+                        onBlur={validateInput}
                         onChange={onChangeHandler}
                         dataAttributes={{ 'data-id': reference.id, 'data-key': 'references' }}
                         placeholder="ex. some@email.com"
@@ -204,9 +217,21 @@ export default function References({ isEditing, setModal, deleteRef }) {
                           className="btn-form btn-delete"
                           text="Delete"
                           onClick={(e) => {
+                            const btn = e.currentTarget;
+                            btnRef.current = btn;
                             deleteRef.current = {
                               callback: deleteReferenceHandler,
-                              btn: e.currentTarget,
+                              btn: btn,
+                              message: (
+                                <DeleteMessageBox
+                                  btn={btn}
+                                  arr={referencesData.references}
+                                  options={{
+                                    section: 'reference',
+                                    keys: ['firstName', 'lastName'],
+                                  }}
+                                />
+                              ),
                             };
                             setModal(true);
                           }}
@@ -218,7 +243,7 @@ export default function References({ isEditing, setModal, deleteRef }) {
                 })}
               </form>
             )}
-          </>
+          </div>
         ) : (
           <>
             {referencesData.references.map((reference) => {

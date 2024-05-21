@@ -1,8 +1,15 @@
-.app > .content {
+.app {
   position: relative;
-  min-height: 100svh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app > .content {
+  /* min-height: 100svh; */
+  flex: 1;
   display: grid;
-  grid-template-rows: max-content repeat(5, 1fr);
+  /* grid-template-rows: max-content repeat(5, 1fr); */
 }
 
 .app[data-is-editing='true'] > .content {
@@ -22,13 +29,14 @@ section {
 }
 
 button {
-  padding: 0.25rem;
+  padding: 0.5rem;
   border-radius: 0.25rem;
   border: none;
   background-color: #afcbff;
 }
 
 button:hover {
+  cursor: pointer;
   background-color: #ffffff;
 }
 
@@ -58,8 +66,8 @@ ul > .btn-container {
 /* Create separate style sheet as needed  */
 .cv-edit,
 .cv-submit {
-  position: absolute;
-  right: 0;
+  /* position: absolute;
+  right: 0; */
   margin: 0.5rem;
 }
 
@@ -81,9 +89,13 @@ ul > .btn-container {
     grid-template-rows: max-content repeat(3, 1fr);
   }
 
-  .app[data-is-editing='true'] > .content {
+  .app > .content {
     grid-template-rows: auto;
     margin: 0 clamp(0%, 10vw, 50%);
+  }
+
+  .content > *:not(button) > div > div > form > ul > .btn-container > button {
+    padding: 0.5rem clamp(0.5rem, 3vw, 2rem);
   }
 }
 
@@ -94,7 +106,7 @@ ul > .btn-container {
 }
 
 @media screen and (min-width: 1200px) {
-  .app[data-is-editing='true'] > .content {
+  .app > .content {
     margin: 0 clamp(0%, 25vw, 70%);
   }
 }

@@ -37,20 +37,3 @@ const options = {
     { value: 12, text: 'December' },
   ],
 };
-
-// const selectOptions = [
-//   '',
-//   'Present',
-//   'January',
-//   'February',
-//   'March',
-//   'April',
-//   'May',
-//   'June',
-//   'July',
-//   'August',
-//   'September',
-//   'October',
-//   'November',
-//   'December',
-// ];

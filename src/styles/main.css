@@ -30,3 +30,7 @@ body {
   min-height: 100svh;
   font-family: var(--font-family-primary);
 }
+
+#root {
+  height: 100svh;
+}

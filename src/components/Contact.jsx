@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { contact as initialContactState } from '../data/data.initialStates';
 import FormItem from './FormItem';
-import { validateForm } from '../utilities/formValidation';
+import { validateForm, validateInput } from '../utilities/formValidation';
 import '../styles/contact.css';
 
 export default function Contact({ isEditing }) {
@@ -32,6 +32,7 @@ export default function Contact({ isEditing }) {
                 value={contactData.email}
                 type="email"
                 name="email"
+                onBlur={validateInput}
                 onChange={onChangeHandler}
                 placeholder="some@email.com"
                 label={{ text: '**' }}
@@ -42,6 +43,7 @@ export default function Contact({ isEditing }) {
                 value={contactData.phone}
                 type="tel"
                 name="phone"
+                onBlur={validateInput}
                 onChange={onChangeHandler}
                 placeholder="ex. 123-456-7777"
                 label={{ text: '**' }}
@@ -51,6 +53,7 @@ export default function Contact({ isEditing }) {
                 value={contactData.address}
                 type="text"
                 name="address"
+                onBlur={validateInput}
                 onChange={onChangeHandler}
                 placeholder="ex. 999 Anywhere St., Apt 555, Medford MA 02155"
                 label={{ text: '**' }}

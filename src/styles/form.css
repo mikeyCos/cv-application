@@ -32,6 +32,14 @@ form {
   color: grey;
 }
 
+.form-item > .form-control.error-input {
+  border-color: red;
+}
+
+.form-item > .form-control.valid-input {
+  border-color: green;
+}
+
 .form-item > label {
   font-size: clamp(1rem, 5vw, 1.25rem);
 }
@@ -61,11 +69,46 @@ form {
 }
 
 @media screen and (min-width: 768px) {
+  .form-item > .btn-container > button {
+    width: 100%;
+  }
+
+  .form-item:has(.btn-container) {
+    column-gap: 0.5rem;
+  }
+
+  .form-item:has(.btn-container) > .form-control {
+    grid-column: 1 / 3;
+  }
+
+  .form-item:has(.btn-container) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) max-content;
+  }
+
+  .form-item:has(.btn-container):not(:has([name='skill'])) {
+    /* grid-template-columns: repeat(2, 1fr) max-content; */
+    grid-template-columns: repeat(2, 1fr) minmax(50px, 122.7px);
+  }
+
+  .form-item:has(.btn-container) > label {
+    grid-column: 1 / 4;
+  }
+
+  .form-item:has(.btn-container) > ul {
+    grid-column: 1 / 4;
+  }
+
+  .form-item:has(.btn-container) > ul > .form-item {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) max-content;
+  }
+
   .form-item > .form-control {
     /* width: max-content; */
   }
 
   .form-item:has(input[data-sub-key='year']) {
-    background-color: red;
+    /* background-color: red; */
   }
 }

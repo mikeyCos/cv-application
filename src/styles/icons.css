@@ -1,0 +1,20 @@
+.icon.github {
+  width: clamp(1.5rem, 5vw, 2rem);
+  height: auto;
+  color: var(--accent-color);
+}
+
+.icon.github:hover {
+  animation: rotate 1500ms infinite linear;
+  color: rgb(128, 0, 128);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

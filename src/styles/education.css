@@ -26,10 +26,10 @@
   .education[data-is-editing='true'] > div > div {
     flex: 1;
     display: grid;
-    /* grid-auto-rows: min-content 1fr; */
   }
 
-  .education[data-is-editing='true'] > div > div > form {
+  .education[data-is-editing='true'] > div > div > form > ul > .btn-container > button {
+    /* padding: 0.5rem clamp(0.5rem, 3vw, 2rem); */
     /* display: flex; */
     /* flex: 1; */
   }
