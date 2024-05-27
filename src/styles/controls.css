@@ -1,14 +1,30 @@
 .app-controls {
   min-width: 100%;
-  position: absolute;
+  /* position: absolute; */
   display: flex;
   align-items: center;
   justify-content: end;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  transition: background-color 200ms ease-in 50ms;
+}
+
+.app-controls.sticky {
+  position: fixed;
+  background-color: var(--accent-color);
+  box-shadow: 0px 0px 2px 1px #000000;
+  color: #ffffff;
+  z-index: 999;
+}
+
+.app-controls button {
+  font-weight: 500;
 }
 
 .app-controls > :first-child {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 /* Targets div wrapping anchor to Github */
@@ -23,7 +39,7 @@
 
 @media screen and (min-width: 768px) {
   .app-controls {
-    padding: 0 clamp(0%, 10vw, 50%);
+    padding: 0.5rem clamp(0%, 10vw, 50%);
   }
 
   .app-controls > .anchor-wrapper {
@@ -33,6 +49,6 @@
 
 @media screen and (min-width: 1200px) {
   .app-controls {
-    padding: 0 clamp(0%, 25vw, 70%);
+    padding: 0.5rem clamp(0%, 25vw, 70%);
   }
 }

@@ -1,21 +1,33 @@
+import { useEffect, useRef } from 'react';
+import Button from './Button';
 import GithubIcon from '../assets/icons/github-mark/github-mark.svg?react';
 import '../styles/controls.css';
 /* App button controls
  * Renders help and submit buttons
  */
 export default function Controls({ btnRef, openModal, setModal, children }) {
+  const controls = useRef(null);
+  useEffect(() => {
+    const onScroll = (e) => callback(controls.current);
+    window.addEventListener('scroll', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  });
+
   return (
-    <div className="app-controls">
+    <div ref={controls} className="app-controls">
       <div className="btn-wrapper">
         <p>Need help?</p>
-        <button
+        <Button
+          type="button"
+          text={openModal ? 'Hide help' : 'Show help'}
           onClick={(e) => {
             btnRef.current = e.currentTarget;
             setModal(true);
           }}
-        >
-          {openModal ? 'Hide help' : 'Show help'}
-        </button>
+        />
       </div>
       <div className="btn-wrapper">{children}</div>
       <div className="anchor-wrapper">
@@ -26,3 +38,7 @@ export default function Controls({ btnRef, openModal, setModal, children }) {
     </div>
   );
 }
+
+const callback = (controls) => {
+  controls.classList.toggle('sticky', window.scrollY > controls.offsetTop);
+};

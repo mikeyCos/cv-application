@@ -13,6 +13,11 @@ form {
   margin-top: 0.5rem;
 }
 
+.form-item:has(input[data-sub-key='year']) > input {
+  /* background-color: red; */
+  transform: translateY(-2px);
+}
+
 .form-item {
   display: flex;
   flex-direction: column;
@@ -54,6 +59,7 @@ form {
 }
 
 .btn-form {
+  font-family: var(--font-family-primary);
   width: max-content;
 }
 
@@ -88,7 +94,7 @@ form {
 
   .form-item:has(.btn-container):not(:has([name='skill'])) {
     /* grid-template-columns: repeat(2, 1fr) max-content; */
-    grid-template-columns: repeat(2, 1fr) minmax(50px, 122.7px);
+    grid-template-columns: repeat(2, 1fr) minmax(50px, 129.14px);
   }
 
   .form-item:has(.btn-container) > label {
@@ -106,9 +112,5 @@ form {
 
   .form-item > .form-control {
     /* width: max-content; */
-  }
-
-  .form-item:has(input[data-sub-key='year']) {
-    /* background-color: red; */
   }
 }

@@ -1,5 +1,18 @@
 # Changelog
 ---
+### 27 MAY 2024
+- Added `@media (hover: none)` for the GitHub icon.
+- Added `css` options to `vite.config.js` with `autoprefixer` included in `plugins` array.
+```js
+css: {
+    postcss: {
+      plugins: [autoprefixer({})],
+    },
+  },
+```
+- Created `postcss.config.js`.
+- Added `scroll` event to window to set the position for `.app-controls` container to `fixed`.
+---
 ### 20 MAY 2024
 - GitHub link included in `.app-controls` container.
 - Inputs now have an `onBlur` event to validate their value; should work as intended.

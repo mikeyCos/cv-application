@@ -56,13 +56,19 @@ const callback = (entries, dialog, btnRef) => {
         const targetBounds = entry.target.getBoundingClientRect();
         const btnBounds = btnRef.getBoundingClientRect();
         const dialogBounds = dialog.getBoundingClientRect();
-        console.log(`content container bounds:`);
-        console.log(targetBounds);
-        console.log(`dialog container bounds:`);
-        console.log(dialogBounds);
-        console.log(`btn container bounds:`);
-        console.log(btnBounds);
-        dialog.style.transform = `translateY(${btnBounds.bottom + 8}px)`;
+        // console.log(`window.innerHeight:`);
+        // console.log(window.innerHeight);
+        // console.log(`content container bounds:`);
+        // console.log(targetBounds);
+        // console.log(`dialog container bounds:`);
+        // console.log(dialogBounds);
+        // console.log(`btn container bounds:`);
+        // console.log(btnBounds);
+        const newPosition =
+          btnBounds.bottom + dialogBounds.height > window.innerHeight
+            ? btnBounds.top - dialogBounds.height - 8
+            : btnBounds.bottom + 8;
+        dialog.style.transform = `translateY(${newPosition}px)`;
       }
     }
   }
