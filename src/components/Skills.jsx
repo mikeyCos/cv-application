@@ -8,7 +8,7 @@ import '../styles/skills.css';
 // https://codesandbox.io/p/sandbox/react-dev-64n8l5?file=%2Fsrc%2FTaskList.js&utm_medium=sandpack
 // https://www.w3.org/WAI/tutorials/forms/labels/
 // https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
-let nextId = 1;
+let nextId = 0;
 
 export default function Skills({ isEditing, setModal, deleteRef, btnRef }) {
   const [skillsData, setSkillsData] = useState({
@@ -34,7 +34,7 @@ export default function Skills({ isEditing, setModal, deleteRef, btnRef }) {
   };
 
   const addSkillHandler = () => {
-    const newSkill = { id: ++nextId, value: skillsData.skill };
+    const newSkill = { id: nextId++, value: skillsData.skill };
     setSkillsData({
       skill: '',
       skills: [...skillsData.skills, newSkill],

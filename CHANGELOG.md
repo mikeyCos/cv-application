@@ -1,5 +1,13 @@
 # Changelog
 ---
+### 28 MAY 2024
+- Updated README.md.
+- Created `.github/ISSUE_TEMPLATE` sub-directory; contains `bug-report---.md` and `feature-request---.md`.
+- Removed `.icon.github` selector in media query `@media (hover: none)`.
+- Zero-indexed ids for state objects.
+- Created `data.initialStates.prepopulated.js` module.
+- Emptied initial object property values in `data.initialStates.js` module.
+---
 ### 27 MAY 2024
 - Added `@media (hover: none)` for the GitHub icon.
 - Added `css` options to `vite.config.js` with `autoprefixer` included in `plugins` array.

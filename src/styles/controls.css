@@ -1,10 +1,5 @@
 .app-controls {
   min-width: 100%;
-  /* position: absolute; */
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  gap: 0.5rem;
   padding: 0.5rem;
   transition: background-color 200ms ease-in 50ms;
 }
@@ -15,6 +10,14 @@
   box-shadow: 0px 0px 2px 1px #000000;
   color: #ffffff;
   z-index: 999;
+}
+
+.app-controls {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.5rem;
 }
 
 .app-controls button {
@@ -43,7 +46,7 @@
   }
 
   .app-controls > .anchor-wrapper {
-    margin-right: 0;
+    /* margin-right: 0; */
   }
 }
 

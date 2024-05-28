@@ -28,10 +28,6 @@
 }
 
 @media (hover: none) {
-  .icon.github {
-    color: rgb(128, 0, 128);
-  }
-
   .sticky .icon.github {
     color: var(--background-color-form);
   }

@@ -29,7 +29,7 @@ export default function References({ isEditing, setModal, deleteRef, btnRef }) {
   };
 
   const addReferenceHandler = () => {
-    const newReference = { ...referencesData.reference, id: ++nextId };
+    const newReference = { ...referencesData.reference, id: nextId++ };
     setReferencesData({
       reference: {
         ...initialReferencesState.reference,

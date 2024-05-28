@@ -7,7 +7,7 @@ import parseDate from '../utilities/parseDate';
 import DeleteMessageBox from './DeleteMessageBox';
 import '../styles/work.css';
 
-let nextId = 1;
+let nextId = 0;
 export default function Work({ isEditing, setModal, deleteRef, btnRef }) {
   const [workData, setWorkData] = useState({ ...initialWorkState });
   const onChangeHandler = (e) => {
@@ -35,7 +35,7 @@ export default function Work({ isEditing, setModal, deleteRef, btnRef }) {
   };
 
   const addWorkHandler = () => {
-    const newWork = { ...workData.work, id: ++nextId };
+    const newWork = { ...workData.work, id: nextId++ };
     setWorkData({
       work: {
         ...initialWorkState.work,
@@ -103,25 +103,25 @@ export default function Work({ isEditing, setModal, deleteRef, btnRef }) {
   const addDescriptionHandler = (e) => {
     const btn = e.currentTarget;
     const btnContainer = e.currentTarget.parentElement;
-    const { workId, rootKey, key } = btn.dataset;
+    const { workId, rootKey } = btn.dataset;
     const input = btnContainer.parentElement.querySelector('.form-control');
     const data = workData[rootKey];
     const isDescriptionValid = validateInput(input);
 
-    if (isDescriptionValid)
-      setWorkData({
+    if (isDescriptionValid) {
+      const newDescription = {
         ...workData,
         [rootKey]: Array.isArray(data)
           ? data.map((work) => {
               if (work.id === +workId) {
                 return {
                   ...work,
-                  nextId: ++work.nextId,
                   description: '',
                   descriptions: [
                     ...work.descriptions,
-                    { id: work.nextId, value: work.description },
+                    { id: work.nextId++, value: work.description },
                   ],
+                  nextId: work.nextId,
                 };
               } else {
                 return work;
@@ -129,11 +129,13 @@ export default function Work({ isEditing, setModal, deleteRef, btnRef }) {
             })
           : {
               ...data,
-              nextId: ++data.nextId,
               description: '',
-              descriptions: [...data.descriptions, { id: data.nextId, value: data.description }],
+              descriptions: [...data.descriptions, { id: data.nextId++, value: data.description }],
+              nextId: data.nextId,
             },
-      });
+      };
+      setWorkData(newDescription);
+    }
   };
 
   const deleteDescriptionHandler = (btn) => {

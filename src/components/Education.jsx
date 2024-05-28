@@ -7,7 +7,7 @@ import { validateForm, validateInput } from '../utilities/formValidation';
 import DeleteMessageBox from './DeleteMessageBox';
 import '../styles/education.css';
 
-let nextId = 1;
+let nextId = 0;
 export default function Education({ isEditing, setModal, deleteRef, btnRef }) {
   const [educationData, setEducationData] = useState({
     ...initialEducationsState,
@@ -38,8 +38,7 @@ export default function Education({ isEditing, setModal, deleteRef, btnRef }) {
   };
 
   const addEducationHandler = () => {
-    const newSchool = { ...educationData.school, id: ++nextId };
-    console.log(newSchool);
+    const newSchool = { ...educationData.school, id: nextId++ };
     setEducationData({
       school: {
         ...initialEducationsState.school,
@@ -59,7 +58,6 @@ export default function Education({ isEditing, setModal, deleteRef, btnRef }) {
   };
 
   const resetEducationHandler = (e) => {
-    console.log(e.currentTarget.closest('form'));
     setEducationData({
       school: {
         ...initialEducationsState.school,

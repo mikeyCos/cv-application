@@ -16,15 +16,14 @@ export const validateForm = (e, callback) => {
   const formInputs = [...form.querySelectorAll('.form-control:not([data-key="description"])')];
   // If form is valid, trigger callback
   const isFormValid = formInputs.reduce((accumulator, currentInput) => {
-    const isInputValid = validateInput(currentInput);
+    const isInputValid = validateInput(currentInput, false);
     return accumulator && isInputValid;
   }, true);
 
   return isFormValid && callback ? callback() : isFormValid;
 };
 
-export const validateInput = (input) => {
-  console.log(input);
+export const validateInput = (input, onBlur = true) => {
   const inputValue = input.value;
   const { key, subKey } = { ...input.dataset };
   const errorContainer = input.parentElement.querySelector('.error-message');
@@ -37,8 +36,8 @@ export const validateInput = (input) => {
     input.removeEventListener('input', onInputValidate);
   }
 
-  input.classList.toggle('error-input', !isInputValid);
-  input.classList.toggle('valid-input', isInputValid);
+  input.classList.toggle('error-input', !isInputValid && onBlur);
+  input.classList.toggle('valid-input', isInputValid && onBlur);
   return isInputValid;
 };
 

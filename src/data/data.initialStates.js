@@ -1,13 +1,13 @@
 const header = {
-  firstName: 'Woody',
-  lastName: 'Joe',
-  jobTitle: 'Clown',
+  firstName: '',
+  lastName: '',
+  jobTitle: '',
 };
 
 const contact = {
-  email: 'an_email@gmail.com',
+  email: '',
   phone: '',
-  address: '1234 NW Bobcat Lane, St. Robert, MO 65584',
+  address: '',
 };
 
 const education = {
@@ -23,49 +23,18 @@ const education = {
       year: '',
     },
   },
-  schools: [
-    {
-      id: 0,
-      degree: 'major placeholder 0',
-      schoolName: 'Hogwards',
-      dateFrom: {
-        month: '3',
-        year: '1990',
-      },
-      dateTo: {
-        month: '9',
-        year: '1999',
-      },
-    },
-    {
-      id: 1,
-      degree: 'major placeholder 1',
-      schoolName: 'Helms Deep',
-      dateFrom: {
-        month: '1',
-        year: '2000',
-      },
-      dateTo: {
-        month: '5',
-        year: '2020',
-      },
-    },
-  ],
+  schools: [],
 };
 
 const skills = {
   skill: '',
-  skills: [
-    { id: 0, value: 'test' },
-    { id: 1, value: 'test again' },
-  ],
+  skills: [],
 };
 
 const work = {
   work: {
     jobTitle: '',
     companyName: '',
-    // dateFrom: '',
     dateFrom: {
       month: '',
       year: '',
@@ -75,50 +44,10 @@ const work = {
       year: '',
     },
     description: '',
-    // descriptions: [{ id: 0, text: 'TESTING' }],
     descriptions: [],
     nextId: 0,
   },
-  works: [
-    {
-      id: 0,
-      jobTitle: 'Unemployed',
-      companyName: 'Unemployment Inc.',
-      dateFrom: {
-        month: '1',
-        year: '1999',
-      },
-      dateTo: {
-        month: '8',
-        year: '2000',
-      },
-      description: '',
-      descriptions: [
-        { id: 0, value: 'Staring at walls.' },
-        { id: 1, value: 'Sleeping' },
-      ],
-      nextId: 1,
-    },
-    {
-      id: 1,
-      jobTitle: 'Lifeguard',
-      companyName: 'Lifeguard Inc.',
-      dateFrom: {
-        month: '1',
-        year: '2003',
-      },
-      dateTo: {
-        month: '5',
-        year: '2006',
-      },
-      description: '',
-      descriptions: [
-        { id: 0, value: 'Swimming' },
-        { id: 1, value: 'Monitors swimmers' },
-      ],
-      nextId: 1,
-    },
-  ],
+  works: [],
 };
 
 const references = {
@@ -130,17 +59,7 @@ const references = {
     phone: '',
     email: '',
   },
-  references: [
-    {
-      id: 0,
-      firstName: 'Woody',
-      lastName: 'Joe',
-      jobTitle: 'Clown',
-      companyName: 'Clown Co.',
-      phone: '000-123-4567',
-      email: 'email@gmail.com',
-    },
-  ],
+  references: [],
 };
 
 export { header, contact, education, skills, work, references };
