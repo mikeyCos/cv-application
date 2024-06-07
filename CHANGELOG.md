@@ -1,5 +1,13 @@
 # Changelog
 ---
+### 06 JUN 2024
+- Updated README.md
+- Created `demo` and `media` directories.
+---
+### 29 MAY 2024
+- Fixed regular expression for testing year inputs.
+- Job title error message simplified to "Job title must be at least 3 characters long. Exclude special characters, and spaces."
+---
 ### 28 MAY 2024
 - Updated README.md.
 - Created `.github/ISSUE_TEMPLATE` sub-directory; contains `bug-report---.md` and `feature-request---.md`.

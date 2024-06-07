@@ -29,6 +29,7 @@ export const validateInput = (input, onBlur = true) => {
   const errorContainer = input.parentElement.querySelector('.error-message');
   const { pattern, error } = inputPatternErrors[subKey ? subKey : input.name];
   const isInputValid = pattern.test(inputValue);
+
   errorContainer.textContent = isInputValid ? '' : error;
   if (!isInputValid) {
     input.addEventListener('input', onInputValidate);

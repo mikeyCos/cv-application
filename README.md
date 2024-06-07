@@ -30,25 +30,22 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/mikeyCos/cv-application">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://cvapplication-mikeycos.netlify.app/">
+    <img src="./src/assets/media/project_screenshot_00.png" alt="Logo" width="125" height="auto">
   </a>
 
 <h3 align="center">CV Application</h3>
 
   <p align="center">
-    project_description
+    CV Application with simple form validation.
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">Live Preview</a>
-    ·
+    <a href="https://cvapplication-mikeycos.netlify.app/">Live Preview</a>
+    <!-- ·
     <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a> -->
     ·
-    <a href="https://github.com/mikeyCos/cv-application/blob/main/CHANGELOG.md">Changelog</a>
+    <a href="./CHANGELOG.md">Changelog</a>
   </p>
 </div>
 
@@ -73,8 +70,8 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <!-- <li><a href="#contributing">Contributing</a></li> -->
+    <!-- <li><a href="#contact">Contact</a></li> -->
     <li><a href="#acknowledgments">Acknowledgments</a></li>
     <li><a href="#questions">Questions</a></li>
   </ol>
@@ -93,7 +90,37 @@ Hello world,
 
 This is exciting, my very first React project! Until now, I have been coding in vanilla JavaScript, and it feels like I have advanced into the Feudal Age or something alike.
 
-Pellentesque tincidunt vel ante lobortis vehicula. Donec ex justo, volutpat nec ultricies non, elementum nec nibh. Maecenas porttitor est ac nibh congue, sed placerat lorem bibendum. Duis non ante in ex sollicitudin pulvinar nec sit amet turpis. Pellentesque ac elit sed libero vehicula convallis. Pellentesque tincidunt tellus nec lacus mollis pellentesque. Integer tempus sit amet nunc a auctor. Morbi at ullamcorper dolor, non placerat orci. Ut ut efficitur metus. In efficitur enim id sodales porta. Phasellus scelerisque, augue sit amet semper suscipit, lacus nunc laoreet lorem, sit amet elementum orci justo in risus. Ut diam est, egestas sed ligula ut, cursus dignissim nibh. Mauris in est dui. Pellentesque in sem ut dolor laoreet porta. Etiam vitae accumsan tortor. Vestibulum magna mi, sagittis eget consequat a, tincidunt in ligula.
+I took some time thinking about how I wanted to approach this project using minimal repeatable code. I divided the project into five sections and into two states. The application can either be in a `true`/`false` `isEditing` state. If a user clicks on the "Edit CV" button, then the `isEditing` state will be `true`, otherwise, `isEditing` state will be `false`.
+
+As much as I wanted to minimize repeatable code and maximized reusable code, I was not able to create a way for each section's state to update or set themselves the same way when `isEditing` is true. Some sections like "Work" updates it's state differently from other sections like "Header" or "Skills". For example, the `addSkillHandler` and `addWorkHandler` both add a skill/work object into their component's state. However, skills only have two object properties, `id` and `value`. The `value` property is what the user entered in the corresponding skill input. 
+
+```js
+const addSkillHandler = () => {
+  const newSkill = { id: nextId++, value: skillsData.skill };
+  setSkillsData({
+    skill: '',
+    skills: [...skillsData.skills, newSkill],
+  });
+};
+```
+versus
+```js
+const addWorkHandler = () => {
+  const newWork = { ...workData.work, id: nextId++ };
+  setWorkData({
+    work: {
+      ...initialWorkState.work,
+    },
+    works: [...workData.works, newWork],
+  });
+};
+```
+
+Notice, the `skill` property is not an object property while the `work` property is an object property. Small details like these can be seen in each section's defined event handlers that will impact their state. There is probably a solution to have flexible handlers in the parent component containing all sections, but I was not able to come up with a solution.
+
+I attempted rendering delete pop ups near their button. At first, I tried using the `ResizeObserver` interface to make sure the pop up 'stays' near the button that triggered the pop up but with no avail, I was not able to resolve this issue. The pop up will 'stick' if the user vertically scrolls the window. 
+
+Working with the `useState` React hook for the first time has been quite the endeavor, which made the project feel complex. There are few problems how and what happens during form validation. For example, the "header" section's inputs are small with no values, but if they fail validation, the inputs grow in width. Despite the pitfalls, I am satisfied with how the project turned out and I am looking forward to learning more about React.
 
 To failing forward, cheers!
 
@@ -113,7 +140,6 @@ To failing forward, cheers!
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
@@ -126,19 +152,16 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+1. Clone repository
+      1. Clone [cv-application repository](https://github.com/mikeyCos/cv-application) using HTTPS/SSH/GitHub CLI; [more on cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+      2. Navigate to cloned repository.
+      3. Remove `.git` folder.
+      4. Run `git init`.
+      5. Run `git branch -M main`.
+      6. Create a new repository on GitHub.
+      7. Run `git remote add origin REPLACE_WITH_SSH_OR_HTTPS`.
+      8. Run `git add . && git commit`.
+2. Navigate to local repository and install NPM packages with `npm install`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -147,9 +170,17 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Start by clicking on either "Show help" or "Edit CV" buttons. The "Show help" button will reveal a pop up with some instructions and placeholder text. Clicking the "Edit CV" button will render multiple forms, and the "Edit CV" button is now a "Submit CV" button. Fill out required inputs marked with two asterisks (**). Clicking the "Submit CV" button without filling out required inputs will reveal error messages below their respective inputs.
+<div align="center">
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+  <!-- [![CV Application Gif][demo-overview-gif]](./demo/demo_overview.gif#center) -->
+
+  <a href="./demo/demo_overview.gif">
+    <img src="./demo/demo_overview.gif" alt="Demo overview">
+  </a>
+
+  _For more examples, please refer to the [Demo](./demo/DEMO.md)_
+</div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -165,22 +196,27 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [x] Split `FormItem` component module into separate component modules, i.e., `input`/`select`/`textarea`.
 - [x] Implement basic form validation.
     - [x] If an input fails validation, attach an event listener to check if the input pass or fails validation while a user types.
+    - [ ] Add an icon corresponding to an input's validity state.
+    - [ ] Prevent user from entering the same values in "Date from" and "Date to" inputs.
 - [x] Implement a delete-confirm modal, when a user clicks delete a modal appears to confirm or cancel the delete action.
     - [ ] Render the corresponding content in the modal, so the user is reminded what content is going to be deleted.
+    - [ ] The pop ups need to stay near it's button that triggered it.
 - [x] Implement an instructions modal; a user can toggle the modal to show or hide it's content.
 - [ ] Make use of map while rendering similar components.
 - [ ] Reset button should clear form error messages.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
 <!-- CONTACT -->
-## Contact
+<!-- ## Contact
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
 Project Link: [https://github.com/mikeyCos/cv-application](https://github.com/mikeyCos/cv-application)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
@@ -281,7 +317,7 @@ const propsForInputs =
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: ./src/assets/media/project_screenshot_01.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
@@ -297,4 +333,5 @@ const propsForInputs =
 [Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[JQuery-url]: https://jquery.com
+[demo-overview-gif]: ./demo/demo_overview.gif

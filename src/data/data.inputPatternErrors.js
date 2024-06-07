@@ -16,8 +16,7 @@ export default {
   },
   jobTitle: {
     pattern: /^[A-Za-z]{3,}(?: [A-Za-z]{3,})*/,
-    error:
-      'Job title must be at least 3 characters long. Exclude special characters, leading and trailing spaces.',
+    error: 'Job title must be at least 3 characters long. Exclude special characters, and spaces.',
   },
   companyName: {
     pattern: /^[a-zA-Z0-9-@.#&!()]+(\s[a-zA-Z0-9-@.#&!()]+)?(\s[a-zA-Z-@.#&!()]+)?$/,
@@ -37,7 +36,7 @@ export default {
     error: 'You must pick a selection.',
   },
   year: {
-    pattern: /^(\d){4}/,
+    pattern: /^(\d){4}$/,
     error: 'Year must be only 4 digits long. For example, 1941.',
   },
   description: {

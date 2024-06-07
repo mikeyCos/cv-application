@@ -28,6 +28,7 @@
 }
 
 @media (hover: none) {
+
   .sticky .icon.github {
     color: var(--background-color-form);
   }
